@@ -1,6 +1,6 @@
 {
   "name": "zjzs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -13,7 +13,9 @@
     "serve-favicon": "~2.1.3",
     "debug": "~2.0.0",
     "ejs": "~0.8.5",
-    "express-session": "*"
+    "express-session": "~1.9.1",
+    "xml2js": "~0.4.4",
+    "multer": "~0.1.6"
   },
   "db": "mongodb://localhost/popush"
 }

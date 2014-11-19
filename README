@@ -1,0 +1,17 @@
+way to deployment:
+    cd into the dir
+    run in terminal:
+        sudo npm install
+        nmp start
+    use your nginx to listen 80 and forward it to 4600 port
+
+file struct:
+
+    bin:            used to setup the server.
+    node_modules:   essential decpendency accesories.
+    public:         static folders.
+    routes:         used for floor-1 routers.
+    views:          http templates.
+    webentity:      website generator.
+    weixin_basic:   wechat basic accessories. (API, etc.)
+    weixin_handler: the handler for wechat official server.

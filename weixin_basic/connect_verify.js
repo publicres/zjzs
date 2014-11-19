@@ -1,6 +1,5 @@
 var crypto = require('crypto');
 var settings = require('./settings');
-var sha1Hasher = crypto.createHash('sha1');
 
 exports.check_weixin_signature=
 function(signature, timestamp, nonce)
@@ -8,11 +7,8 @@ function(signature, timestamp, nonce)
     if (signature==null || timestamp==null || nonce==null)
         return false;
 
+    var sha1Hasher = crypto.createHash('sha1');
     var sortArray=[settings.WEIXIN_TOKEN,timestamp,nonce];
-
-    console.log(signature);
-    console.log(timestamp);
-    console.log(nonce);
 
     sortArray.sort();
     sha1Hasher.update(sortArray[0]+sortArray[1]+sortArray[2]);

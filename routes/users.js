@@ -4,10 +4,8 @@ var router = express.Router();
 /* GET users listing. */
 
 router.get('/', function(req, res) {
+    req.session.huahua="baomihua!";
     res.send('respond with a resource');
-});
-router.get('/', function(req, res) {
-    console.log('huahua');
 });
 
 module.exports = router;
