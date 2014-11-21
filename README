@@ -1,4 +1,5 @@
 way to deployment:
+
     cd into the dir
     run in terminal:
         sudo npm install

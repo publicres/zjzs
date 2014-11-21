@@ -15,7 +15,7 @@
     "ejs": "~0.8.5",
     "express-session": "~1.9.1",
     "xml2js": "~0.4.4",
-    "multer": "~0.1.6"
-  },
-  "db": "mongodb://localhost/popush"
+    "multer": "~0.1.6",
+    "mongojs": "~0.17.0"
+  }
 }

@@ -26,9 +26,9 @@ app.use(cookieParser());
 app.use(session({secret: 'Bingo Lingo!', saveUninitialized: false, resave: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/weixin', weixin);
 app.use('/', routes);
 app.use('/users', users);
-app.use('/weixin', weixin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

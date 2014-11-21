@@ -15,6 +15,7 @@ function(signature, timestamp, nonce)
     var cout=sha1Hasher.digest('hex');
     return (signature==cout);
 }
+
 exports.echo_back_weixin=
 function(req,res)
 {
