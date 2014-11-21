@@ -1,6 +1,6 @@
 
 exports.WEIXIN_TOKEN = 'F8ZFW1Cyzr5z6nNoJ5uZhA8iXEbe1hvX'
 
-exports.WEIXIN_APPID = 'wxb2545ef150be8096'
+exports.WEIXIN_APPID = 'wxba2385bd8746d139'
 
-exports.WEIXIN_SECRET = '8416b20564e9430bfe5a7c3fd88016f2'
+exports.WEIXIN_SECRET = 'e6f9aea61c5511cb2adb0543e1f2f206'

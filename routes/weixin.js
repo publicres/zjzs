@@ -29,7 +29,6 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
     wxhandler(req, res);
-    res.send('');
 });
 
 module.exports = router;
