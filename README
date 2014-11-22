@@ -16,3 +16,10 @@ file struct:
     webentity:      website generator.
     weixin_basic:   wechat basic accessories. (API, etc.)
     weixin_handler: the handler for wechat official server.
+    models:         the interface of databases
+
+what to modify?
+
+    To modify host ip:      address_configure.js
+    To modify databases:    models/models.js
+    To modify weixin keys:  weixin_basic/settings.js
