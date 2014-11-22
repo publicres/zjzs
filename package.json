@@ -16,6 +16,8 @@
     "express-session": "~1.9.1",
     "xml2js": "~0.4.4",
     "multer": "~0.1.6",
-    "mongojs": "~0.17.0"
+    "mongojs": "~0.17.0",
+    "mongodb": "~1.4.19",
+    "thunky": "~0.1.0"
   }
 }
