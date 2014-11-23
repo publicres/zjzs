@@ -1,11 +1,12 @@
 var timer=new Date();
 var rich_elem_name_in_db=
-    {
-        title:          'title',
-        description:    'description',
-        url:            'url',
-        picture:        'picture'
-    }
+{
+    title:          'title',
+    description:    'description',
+    url:            'url',
+    picture:        'picture'
+}
+exports.rich_attr=rich_elem_name_in_db;
 
 function getCurrentTime()
 {
@@ -67,4 +68,9 @@ exports.getRichTextTemplate=function(oriMsg, itemArray)
         "</xml>";
 
     return res;
+}
+
+exports.getHyperLink=function(text,url)
+{
+    return "<a href=\""+url+"\">"+text+"</a>";
 }

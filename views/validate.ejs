@@ -11,7 +11,7 @@
       <script src="/javascripts/jquery/jquery-1.11.1.min.js"></script>
 	<script>
         function ajaxForm() {
-            submitValidation(<%= openid %>);
+            submitValidation("<%= openid %>");
         }
         window.addEventListener('load', function() {showValidation(<%= isValidated %>);}, false);
     </script>

@@ -13,35 +13,42 @@ var alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
 
 function verifyStudent(openID,ifFail,ifSucc)
 {
-    db[USER_DB].find({weixin_id:openID,status:1},function(err,docs)
+    lock.acquire(USER_DB,function()
     {
-        if (err || docs.length==0)
+        db[USER_DB].find({weixin_id:openID,status:1},function(err,docs)
         {
-            ifFail();
-            return;
-        }
-        ifSucc(docs[0].stu_id);
+            lock.release(USER_DB);
+            if (err || docs.length==0)
+            {
+                ifFail();
+                return;
+            }
+            ifSucc(docs[0].stu_id);
+        });
     });
 }
-exports.verifyStu=verifyStudent;
 function verifyActivities(actKey,ifFail,ifSucc)
 {
-    var current=timer.getTime();
-    db[ACTIVITY_DB].find(
+    lock.acquire(ACTIVITY_DB,function()
     {
-        key:actKey,
-        book_start:{$lt:current},
-        book_end:{$gt:current},
-        status:1
-    },function(err,docs)
-    {
-        if (err || docs.length==0)
+        var current=timer.getTime();
+        db[ACTIVITY_DB].find(
         {
-            ifFail();
-            return;
-        }
-        //Attentez: Avoid to change activities info when booking time.
-        ifSucc(docs[0]._id);
+            key:actKey,
+            book_start:{$lt:current},
+            book_end:{$gt:current},
+            status:1
+        },function(err,docs)
+        {
+            lock.release(ACTIVITY_DB);
+            if (err || docs.length==0)
+            {
+                ifFail();
+                return;
+            }
+            //Attentez: Avoid to change activities info when booking time.
+            ifSucc(docs[0]._id);
+        });
     });
 }
 function getRandomString()
@@ -286,23 +293,27 @@ exports.faire_list_ticket=function(msg,res)
         res.send(template.getPlainTextTemplate(msg,"请先绑定学号。"));
     },function(stuID)
     {
-        db[TICKET_DB].find(
+        lock.acquire(TICKET_DB,function()
         {
-            stu_id:stuID,
-            $or:[{status:1},{status:2}]
-        },function(err,docs)
-        {
-            if (err || docs.length==0)
+            db[TICKET_DB].find(
             {
-                res.send(template.getPlainTextTemplate(msg,"没有找到属于您的票哦，赶快去抢一张吧！"));
-                return;
-            }
-            var list2Render=[];
-            for (var i=0;i<docs.length;i++)
+                stu_id:stuID,
+                $or:[{status:1},{status:2}]
+            },function(err,docs)
             {
-                list2Render.push(renderTicketList(docs[i]));
-            }
-            res.send(template.getRichTextTemplate(msg,list2Render));
+                lock.release(TICKET_DB);
+                if (err || docs.length==0)
+                {
+                    res.send(template.getPlainTextTemplate(msg,"没有找到属于您的票哦，赶快去抢一张吧！"));
+                    return;
+                }
+                var list2Render=[];
+                for (var i=0;i<docs.length;i++)
+                {
+                    list2Render.push(renderTicketList(docs[i]));
+                }
+                res.send(template.getRichTextTemplate(msg,list2Render));
+            });
         });
     });
 }

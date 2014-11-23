@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var http = require('http');
-var RSA = require("../webentity/wechat_page/RSA");
 var querystring = require('querystring');
 var models = require('../models/models');
 var lock = require('../models/lock');
@@ -89,7 +88,7 @@ router.post('/', function(req, res) {
                             }
                         }
                     });
-                }); 
+                });
             }
             else {
                 res.send(stu.message);
