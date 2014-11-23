@@ -18,6 +18,9 @@
     "multer": "~0.1.6",
     "mongojs": "~0.17.0",
     "mongodb": "~1.4.19",
-    "thunky": "~0.1.0"
+    "thunky": "~0.1.0",
+    "http": "~0.0.0",
+    "querystring": "0.2.0",
+    "request": "2.48.0"
   }
 }

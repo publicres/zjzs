@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="/stylesheets/base.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/validation.css" rel="stylesheet" type="text/css" />
+    <title>绑定学号 - 清华紫荆之声</title>
+	<script src="/javascripts/validation.js"></script>
+	<script src="/javascripts/RSA.js"></script>
+      <script src="/javascripts/jquery/jquery-1.11.1.min.js"></script>
+	<script>
+        function ajaxForm() {
+            submitValidation(<%= openid %>);
+        }
+        window.addEventListener('load', function() {showValidation(<%= isValidated %>);}, false);
+    </script>
+</head>
+
+<body>
+<div id="wrap">
+    <header>
+        <img class="header-img" src="/img/newlogo.jpg" />
+    </header>
+
+    <div class="theme">用户认证</div>
+
+    <hr/>
+    <div id="mainbody">
+    	<div id="validationHolder">
+        	<form class="form-horizontal" role="form" action="/validate" method="post" id="validationForm" onsubmit="return false;">
+          		<div class="form-group" id="usernameGroup">
+            		<label for="inputUsername" class="col-xs-3 control-label">学号</label>
+            		<div class="col-xs-9">
+              			<input type="tel" class="form-control" id="inputUsername" placeholder="请输入您的学号" name="username" onblur="checkUsername();">
+              			<span class="help-block" id="helpUsername"></span>
+            		</div>
+          		</div>
+          		<div class="form-group" id="passwordGroup">
+            		<label for="inputPassword" class="col-xs-3 control-label">密码</label>
+            		<div class="col-xs-9">
+              			<input type="password" class="form-control" id="inputPassword" placeholder="使用info密码进行登录" name="password" onblur="checkPassword();">
+              			<span class="help-block" id="helpPassword"></span>
+            		</div>
+          		</div>
+          		<div class="form-group" id="submitGroup">
+            		<div class="col-xs-offset-3 col-xs-9">
+              			<button onclick="ajaxForm();" class="btn btn-default" id="submitBtn">认证</button>
+              			<p class="help-block" id="helpLoading" style="display: none"><img src="/img/loading.gif">正在认证，请稍候...</p>
+              			<p class="help-block" id="helpSubmit"></p>
+            		</div>
+          		</div>
+        	</form>
+    	</div>
+    	<div id="successHolder" style="display: none">
+        	<img src="/img/success.png" />
+        	<p>认证成功！</p>
+        	<p>您已经可以使用“紫荆之声”的全部功能了！</p>
+    	</div>
+    </div>
+
+</div>
+<footer id="footer">
+    <hr />
+    共青团清华大学委员会<br>
+    &copy; 2013
+</footer>
+
+</body>
+</html>
