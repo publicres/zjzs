@@ -14,7 +14,8 @@ var pattern =
     [exactHandler.check_get_ticket,         exactHandler.faire_get_ticket],
     [exactHandler.check_reinburse_ticket,   exactHandler.faire_reinburse_ticket],
     [exactHandler.check_list_ticket,        exactHandler.faire_list_ticket],
-    [usersHandler.check_bind_accout,        usersHandler.faire_bind_accout]
+    [usersHandler.check_bind_accout,        usersHandler.faire_bind_accout],
+    [usersHandler.check_unbind_accout,      usersHandler.faire_unbind_accout]
 ]
 
 module.exports = function(req, res)
