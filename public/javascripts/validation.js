@@ -206,8 +206,6 @@ function checkPassword() {
     return checkNotEmpty('passwordGroup', 'helpPassword', 'inputPassword', '密码');
 }
 
-window.setupWeixin({'optionMenu':false, 'toolbar':false});
-
 clearAllHelps();
 
 /*
