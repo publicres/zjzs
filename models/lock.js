@@ -16,7 +16,7 @@ exports.release = function(id){
             delete lockTable[id];
         }
         else{
-            LockTable[id].shift()();
+            lockTable[id].shift()();
         }
     }else{
         console.log("release unexisted lock: " + id);
@@ -26,4 +26,3 @@ exports.release = function(id){
 exports.test = function(id){
 	return lockTable[id] ? true : false;
 };
-

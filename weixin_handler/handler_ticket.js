@@ -174,7 +174,6 @@ exports.faire_get_ticket=function(msg,res)
                         {
                             if (docs[0].status==0)
                             {
-
                                 db[TICKET_DB].update({stu_id:stuID, activity: actID},
                                 {
                                     $set: {status:1}

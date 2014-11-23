@@ -4,6 +4,8 @@ var settings = require('./settings');
 exports.check_weixin_signature=
 function(signature, timestamp, nonce)
 {
+    //Attentez: used for jmeter
+    //return true;
     if (signature==null || timestamp==null || nonce==null)
         return false;
 
