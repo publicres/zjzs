@@ -10,6 +10,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var weixin = require('./routes/weixin');
 var validate = require('./routes/validate');
+var ticketsinfo = require('./routes/ticketsinfo');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/weixin', weixin);
 app.use('/', routes);
 app.use('/users', users);
 app.use('/validate', validate);
+app.use('/ticketsinfo', ticketsinfo);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
