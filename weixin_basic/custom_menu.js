@@ -1,98 +1,8 @@
 var https = require('https');
+var set = require('./settings')
 var at = require('./access_token')
-var mune = {
-    "button": [
-        {
-            "name": "资讯",
-            "sub_button": [
-                {
-                    "type": "click",
-                    "name": "文艺",
-                    "key": 'info_activity',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "讲座",
-                    "key": 'info_lecture',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "新闻",
-                    "key": 'info_news',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "人物",
-                    "key":'modern_figure',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "社团",
-                    "key": 'info_organization',
-                    "sub_button": []
-                }
-            ]
-        },
-        {
-            "name": "服务",
-            "sub_button": [
-                {
-                    "type": "click",
-                    "name": "抢啥",
-                    "key": 'ticket_book_what',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "查票",
-                    "key": 'ticket_get',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "绑定",
-                    "key": 'account_bind',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "帮助",
-                    "key": 'help',
-                    "sub_button": []
-                }
-            ]
-        },
-        {   
-            "name": "抢票",
-            "sub_button": [
-                {
-                    "type": "click",
-                    "name": "新年晚会",
-                    "key": 'bok_what',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "新年音乐会",
-                    "key": 'get',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "主题团日",
-                    "key": 'bind',
-                    "sub_button": []
-                }
-            ]
-        }
-    ]
-};
 
-var muneStr = JSON.stringify(mune);
+var muneStr = JSON.stringify(set.WEIXIN_COSTUM_MENU_TEMPLATE);
 
 var options = {
      hostname: 'api.weixin.qq.com',
@@ -105,7 +15,6 @@ var options = {
      }
 };
 
-var http = require("http");
 function createMenu(access_token){
     options.path = options.path + access_token;
 
@@ -120,4 +29,4 @@ function createMenu(access_token){
     post.end();
 }
 
-at.getAccessToken(createMenu);
+exports.createMenu = at.getAccessToken(createMenu);
