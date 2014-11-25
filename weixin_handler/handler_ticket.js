@@ -1,6 +1,7 @@
 var template = require('./reply_template');
 var model = require('../models/models');
 var lock = require('../models/lock');
+var urls = require("../address_configure");
 
 //Attentez: keep the activity::key unique globally.
 var TICKET_DB = model.tickets;
@@ -65,10 +66,10 @@ function generateUniqueCode(callback)
             generateUniqueCode(callback);
     })
 }
-function presentTicket(msg,res,tiCode)
+function presentTicket(msg,res,tick,act)
 {
-    //WARNING: to be changed future.
-    res.send(template.getPlainTextTemplate(msg,"succeed! the ticket is "+tiCode));
+    var tmp=[renderTicketList(tick,act,true)];
+    res.send(template.getRichTextTemplate(msg,tmp));
 }
 function getDoubleLock(callback)
 {
@@ -135,6 +136,7 @@ exports.faire_get_ticket=function(msg,res)
                         res.send(template.getPlainTextTemplate(msg,"对不起，票已抢完...(╯‵□′)╯︵┻━┻。如果你已经抢到票，请使用查票功能查看抢到票的信息。"));
                         return;
                     }
+                    var theACT=docs[0];
                     db[TICKET_DB].find({stu_id:stuID, activity: actID},function(err,docs)
                     {
                         if (docs.length==0)
@@ -157,7 +159,7 @@ exports.faire_get_ticket=function(msg,res)
                                     },{multi:false},function()
                                     {
                                         relDoubleLock();
-                                        presentTicket(msg,res,tiCode);
+                                        presentTicket(msg,res,{unique_id:tiCode},theACT);
                                         return;
                                     });
                                 });
@@ -178,7 +180,7 @@ exports.faire_get_ticket=function(msg,res)
                                     },{multi:false},function()
                                     {
                                         relDoubleLock();
-                                        presentTicket(msg,res,docs[0].unique_id);
+                                        presentTicket(msg,res,docs[0],theACT);
                                         return;
                                     });
                                 });
@@ -186,7 +188,7 @@ exports.faire_get_ticket=function(msg,res)
                             else
                             {
                                 relDoubleLock();
-                                presentTicket(msg,res,docs[0].unique_id);
+                                res.send(template.getPlainTextTemplate(msg,"你已经有票啦，请用查票功能查看抢到的票吧！"));
                                 return;
                             }
                         }
@@ -269,10 +271,21 @@ exports.check_list_ticket=function(msg)
             return true;
     return false;
 }
-function renderTicketList(oneTicket)
+function renderTicketList(oneTicket,oneActivity,isSingle)
 {
     var ret={};
-    ret[template.rich_attr.title]=oneTicket.unique_id;
+
+    if (isSingle)
+    {
+        //Attentez: notify the user to select seat.
+        ret[template.rich_attr.title]="抢票成功！";
+        ret[template.rich_attr.description]=oneActivity.name;
+    }
+    else
+        ret[template.rich_attr.title]=oneActivity.name;
+    ret[template.rich_attr.url]=urls.ticketInfo+"?ticketid="+oneTicket.unique_id;
+    ret[template.rich_attr.picture]=oneActivity.pic_url;
+
     return ret;
 }
 exports.faire_list_ticket=function(msg,res)
@@ -297,12 +310,34 @@ exports.faire_list_ticket=function(msg,res)
                 res.send(template.getPlainTextTemplate(msg,"没有找到属于您的票哦，赶快去抢一张吧！"));
                 return;
             }
+            var actList=[];
+            var actMap={};
             var list2Render=[];
             for (var i=0;i<docs.length;i++)
             {
-                list2Render.push(renderTicketList(docs[i]));
+                actList.push({_id:docs[i].activity});
             }
-            res.send(template.getRichTextTemplate(msg,list2Render));
+            db[ACTIVITY_DB].find(
+            {
+                $or: actList
+            },function(err1,docs1)
+            {
+                if (err1 || docs1.length==0)
+                {
+                    res.send(template.getPlainTextTemplate(msg,"出错了 T T，稍后再试。"));
+                    return;
+                }
+                //WARNING: what if tickets>=WEIXIN_LIMIT?
+                for (var i=0;i<docs1.length;i++)
+                {
+                    actMap[docs1[i]._id]=docs1[i];
+                }
+                for (var i=0;i<docs.length;i++)
+                {
+                    list2Render.push(renderTicketList(docs[i],actMap[docs[i].activity],false));
+                }
+                res.send(template.getRichTextTemplate(msg,list2Render));
+            });
         });
     });
 }

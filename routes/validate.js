@@ -10,17 +10,19 @@ var db = models.db;
 var students = models.students;
 
 router.get('/', function(req, res) {
-    if (req.query.openid == null)
+    if (req.query.openid == null) {
         res.send("不要捣乱，要有openid！！");
-    lock.acquire(students, function(){
-        db[students].find({weixin_id: req.query.openid, status: 1}, function(err, docs) {
-            var isValidated = 1;
-            if (docs.length == 0)
-                isValidated = 0;
-            lock.release(students);
-            res.render('validate', {openid: req.query.openid, isValidated: isValidated});
-        });
+        return;
+    }
+
+    db[students].find({weixin_id: req.query.openid, status: 1}, function(err, docs) {
+        var isValidated = 1;
+        if (docs.length == 0)
+            isValidated = 0;
+        res.render('validate', {openid: req.query.openid, isValidated: isValidated});
+        return;
     });
+
 });
 
 router.get('/time/', function(req, res) {
@@ -59,12 +61,14 @@ router.post('/', function(req, res) {
                                     db[students].insert({stu_id: stu.data.ID, weixin_id: openid, status: 1}, function(){
                                         lock.release(students);
                                         res.send('Accepted');
+                                        return;
                                     });
                                 }
                                 else{
                                     db[students].update({stu_id: stu.data.ID},  {$set : {status: 1, weixin_id: openid}}, function() {
                                         lock.release(students);
                                         res.send('Accepted');
+                                        return;
                                     });
                                 }
                             });
@@ -81,10 +85,12 @@ router.post('/', function(req, res) {
                             if (flag){
                                     lock.release(students);
                                     res.send('Accepted');
+                                    return;
                             }
                             else{
                                 lock.release(students);
                                 res.send('Binded');
+                                return;
                             }
                         }
                     });
@@ -92,6 +98,7 @@ router.post('/', function(req, res) {
             }
             else {
                 res.send(stu.message);
+                return;
             }
         });
         resp.on('end', function(){});
