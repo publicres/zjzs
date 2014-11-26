@@ -1,9 +1,9 @@
 
-exports.WEIXIN_TOKEN = 'F8ZFW1Cyzr5z6nNoJ5uZhA8iXEbe1hvX'
+exports.WEIXIN_TOKEN = 'F8ZFW1Cyzr5z6nNoJ5uZhA8iXEbe1hvX';
 
-exports.WEIXIN_APPID = 'wxba2385bd8746d139'
+exports.WEIXIN_APPID = 'wxba2385bd8746d139';
 
-exports.WEIXIN_SECRET = 'e6f9aea61c5511cb2adb0543e1f2f206'
+exports.WEIXIN_SECRET = 'e6f9aea61c5511cb2adb0543e1f2f206';
 
 
 var WEIXIN_EVENT_KEYS = {
@@ -18,8 +18,8 @@ var WEIXIN_EVENT_KEYS = {
     'ticket_no_book_recommand': 'TSINGHUA_NO_BOOK_ACTS',
     'ticket_book_header': 'TSINGHUA_BOOK_',
     'modern_figure': 'V1001_MODERN_FIGURE',
-}
-exports.WEIXIN_EVENT_KEYS = WEIXIN_EVENT_KEYS
+};
+exports.WEIXIN_EVENT_KEYS = WEIXIN_EVENT_KEYS;
 
 var WEIXIN_COSTUM_MENU_TEMPLATE = {
     "button": [
@@ -112,7 +112,7 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
         }
     ]
 };
-exports.WEIXIN_COSTUM_MENU_TEMPLATE = WEIXIN_COSTUM_MENU_TEMPLATE
+exports.WEIXIN_COSTUM_MENU_TEMPLATE = WEIXIN_COSTUM_MENU_TEMPLATE;
 
 exports.WEIXIN_BOOK_HEADER = 'TSINGHUA_BOOK_';
 
