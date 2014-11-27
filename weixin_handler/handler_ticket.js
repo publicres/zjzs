@@ -12,6 +12,9 @@ var db = model.db;
 var timer = new Date();
 var alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
 
+var stu_cache={};
+var act_cache={};
+
 function verifyStudent(openID,ifFail,ifSucc)
 {
     db[USER_DB].find({weixin_id:openID,status:1},function(err,docs)
@@ -28,6 +31,18 @@ exports.verifyStu=verifyStudent;
 function verifyActivities(actKey,ifFail,ifSucc)
 {
     var current=timer.getTime();
+    var theAct=act_cache[actKey];
+    if (theAct)
+    {
+        if (current>theAct.book_start && current<theAct.book_end)
+        {
+            ifSucc(theAct._id,theAct);
+            return;
+        }
+        act_cache[actKey]=null;
+        ifFail();
+        return;
+    }
     db[ACTIVITY_DB].find(
     {
         key:actKey,
@@ -41,8 +56,9 @@ function verifyActivities(actKey,ifFail,ifSucc)
             ifFail();
             return;
         }
+        act_cache[actKey]=docs[0];
         //Attentez: Avoid to change activities info when booking time.
-        ifSucc(docs[0]._id);
+        ifSucc(docs[0]._id,docs[0]);
     });
 }
 function getRandomString()
@@ -71,19 +87,6 @@ function presentTicket(msg,res,tick,act)
     var tmp=[renderTicketList(tick,act,true)];
     res.send(template.getRichTextTemplate(msg,tmp));
 }
-function getDoubleLock(callback)
-{
-    lock.acquire(ACTIVITY_DB,function()
-    {
-        lock.acquire(TICKET_DB, callback);
-    });
-}
-function relDoubleLock()
-{
-    lock.release(TICKET_DB);
-    lock.release(ACTIVITY_DB);
-}
-
 
 exports.check_get_ticket=function(msg)
 {
@@ -116,82 +119,47 @@ exports.faire_get_ticket=function(msg,res)
         verifyActivities(actName,function()
         {
             res.send(template.getPlainTextTemplate(msg,"目前没有符合要求的活动处于抢票期。"));
-        },function(actID)
+        },function(actID,staticACT)
         {
             //Attentez: unlike stuID which is THUid, act id is simply act._id
-
-            getDoubleLock(function()
+            db[TICKET_DB].find({stu_id:stuID, activity:actID, status:{$ne:0}},function(err,docs)
             {
-                db[ACTIVITY_DB].find({_id:actID},function(err,docs)
+                if (err || docs.length>0)
                 {
-                    if (err || docs.length==0)
+                    res.send(template.getPlainTextTemplate(msg,"你已经有票啦，请用查票功能查看抢到的票吧！"));
+                    return;
+                }
+
+                db[ACTIVITY_DB].update(
+                {
+                    _id:actID,
+                    remain_tickets:{$gt:0}
+                },
+                {
+                    $inc: {remain_tickets:-1}
+                },{multi:false},function(err,result)
+                {
+                    if (err || result.n==0)
                     {
-                        relDoubleLock();
-                        res.send(template.getPlainTextTemplate(msg,"后台繁忙。"));
-                        return;
-                    }
-                    if (docs[0].remain_tickets==0)
-                    {
-                        relDoubleLock();
                         res.send(template.getPlainTextTemplate(msg,"对不起，票已抢完...(╯‵□′)╯︵┻━┻。如果你已经抢到票，请使用查票功能查看抢到票的信息。"));
                         return;
                     }
-                    var theACT=docs[0];
-                    db[TICKET_DB].find({stu_id:stuID, activity: actID},function(err,docs)
+
+                    generateUniqueCode(function(tiCode)
                     {
-                        if (docs.length==0)
+                        db[TICKET_DB].insert(
                         {
-                            generateUniqueCode(function(tiCode)
-                            {
-                                db[TICKET_DB].insert(
-                                {
-                                    stu_id:     stuID,
-                                    unique_id:  tiCode,
-                                    activity:   actID,
-                                    status:     1,
-                                    seat:       "",
-                                    cost:       0
-                                }, function()
-                                {
-                                    db[ACTIVITY_DB].update({_id:actID},
-                                    {
-                                        $inc: {remain_tickets:-1}
-                                    },{multi:false},function()
-                                    {
-                                        relDoubleLock();
-                                        presentTicket(msg,res,{unique_id:tiCode},theACT);
-                                        return;
-                                    });
-                                });
-                            });
-                        }
-                        else
+                            stu_id:     stuID,
+                            unique_id:  tiCode,
+                            activity:   actID,
+                            status:     1,
+                            seat:       "",
+                            cost:       0
+                        }, function()
                         {
-                            if (docs[0].status==0)
-                            {
-                                db[TICKET_DB].update({stu_id:stuID, activity: actID},
-                                {
-                                    $set: {status:1}
-                                },{multi:false},function()
-                                {
-                                    db[ACTIVITY_DB].update({_id:actID},
-                                    {
-                                        $inc: {remain_tickets:-1}
-                                    },{multi:false},function()
-                                    {
-                                        relDoubleLock();
-                                        presentTicket(msg,res,docs[0],theACT);
-                                        return;
-                                    });
-                                });
-                            }
-                            else
-                            {
-                                relDoubleLock();
-                                res.send(template.getPlainTextTemplate(msg,"你已经有票啦，请用查票功能查看抢到的票吧！"));
-                                return;
-                            }
-                        }
+                            presentTicket(msg,res,{unique_id:tiCode},staticACT);
+                            return;
+                        });
                     });
                 });
             });
@@ -232,32 +200,30 @@ exports.faire_reinburse_ticket=function(msg,res)
             res.send(template.getPlainTextTemplate(msg,"目前没有符合要求的活动处于退票期。"));
         },function(actID)
         {
-            getDoubleLock(function()
+            db[TICKET_DB].update(
             {
-                db[TICKET_DB].find({stu_id:stuID, activity:actID, status:1},function(err,docs)
+                stu_id:stuID,
+                activity:actID,
+                status:1
+            },
+            {
+                $set: {status:0}
+            },{multi:false},function(err,result)
+            {
+                if (err || result.n==0)
                 {
-                    if (err || docs.length==0)
-                    {
-                        relDoubleLock();
-                        res.send(template.getPlainTextTemplate(msg,
-                            "未找到您的抢票记录或您的票已经支付，退票失败。如为已支付票，请联系售票机构退还钱款后退票。"));
-                        return;
-                    }
-                    db[TICKET_DB].update({_id:docs[0]._id},
-                    {
-                        $set: {status: 0}
-                    },{multi:false},function()
-                    {
-                        db[ACTIVITY_DB].update({_id:actID},
-                        {
-                            $inc: {remain_tickets:1}
-                        },{multi:false},function()
-                        {
-                            relDoubleLock();
-                            res.send(template.getPlainTextTemplate(msg,"退票成功。"));
-                            return;
-                        });
-                    });
+                    res.send(template.getPlainTextTemplate(msg,
+                        "未找到您的抢票记录或您的票已经支付，退票失败。如为已支付票，请联系售票机构退还钱款后退票。"));
+                    return;
+                }
+
+                db[ACTIVITY_DB].update({_id:actID},
+                {
+                    $inc: {remain_tickets:1}
+                },{multi:false},function()
+                {
+                    res.send(template.getPlainTextTemplate(msg,"退票成功。"));
+                    return;
                 });
             });
         });
