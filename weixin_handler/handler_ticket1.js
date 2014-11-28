@@ -14,7 +14,6 @@ var alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
 
 var stu_cache={};
 var act_cache={};
-var rem_cache={};
 
 function verifyStudent(openID,ifFail,ifSucc)
 {
@@ -88,39 +87,6 @@ function presentTicket(msg,res,tick,act)
     var tmp=[renderTicketList(tick,act,true)];
     res.send(template.getRichTextTemplate(msg,tmp));
 }
-function fetchRemainTicket(key,callback)
-{
-    if (rem_cache[key]!=null)
-    {
-        callback();
-        return;
-    }
-    lock.acquire("rem_tik_fetcher",function()
-    {
-        if (rem_cache[key]!=null)
-        {
-            lock.release("rem_tik_fetcher");
-            callback();
-            return;
-        }
-        db[ACTIVITY_DB].find(
-        {
-            key:key,
-            status:1
-        },function(err,docs)
-        {
-            if (err || docs.length==0)
-            {
-                lock.release("rem_tik_fetcher");
-                return;
-            }
-            rem_cache[key]=docs[0].remain_tickets;
-            lock.release("rem_tik_fetcher");
-            callback();
-            return;
-        });
-    });
-}
 
 exports.check_get_ticket=function(msg)
 {
@@ -164,42 +130,35 @@ exports.faire_get_ticket=function(msg,res)
                     return;
                 }
 
-                fetchRemainTicket(actName,function()
+                db[ACTIVITY_DB].update(
                 {
-                    if (rem_cache[actName]==0)
+                    _id:actID,
+                    remain_tickets:{$gt:0}
+                },
+                {
+                    $inc: {remain_tickets:-1}
+                },{multi:false},function(err,result)
+                {
+                    if (err || result.n==0)
                     {
                         res.send(template.getPlainTextTemplate(msg,"对不起，票已抢完...(╯‵□′)╯︵┻━┻。如果你已经抢到票，请使用查票功能查看抢到票的信息。"));
                         return;
                     }
-                    rem_cache[actName]--;
-                    db[ACTIVITY_DB].update(
+
+                    generateUniqueCode(function(tiCode)
                     {
-                        _id:actID
-                    },
-                    {
-                        $inc: {remain_tickets:-1}
-                    },{multi:false},function(err,result)
-                    {
-                        if (err || result.n==0)
+                        db[TICKET_DB].insert(
                         {
-                            res.send(template.getPlainTextTemplate(msg,"(╯‵□′)╯︵┻━┻"));
+                            stu_id:     stuID,
+                            unique_id:  tiCode,
+                            activity:   actID,
+                            status:     1,
+                            seat:       "",
+                            cost:       0
+                        }, function()
+                        {
+                            presentTicket(msg,res,{unique_id:tiCode},staticACT);
                             return;
-                        }
-                        generateUniqueCode(function(tiCode)
-                        {
-                            db[TICKET_DB].insert(
-                            {
-                                stu_id:     stuID,
-                                unique_id:  tiCode,
-                                activity:   actID,
-                                status:     1,
-                                seat:       "",
-                                cost:       0
-                            }, function()
-                            {
-                                presentTicket(msg,res,{unique_id:tiCode},staticACT);
-                                return;
-                            });
                         });
                     });
                 });
@@ -258,17 +217,13 @@ exports.faire_reinburse_ticket=function(msg,res)
                     return;
                 }
 
-                fetchRemainTicket(actName,function()
+                db[ACTIVITY_DB].update({_id:actID},
                 {
-                    db[ACTIVITY_DB].update({_id:actID},
-                    {
-                        $inc: {remain_tickets:1}
-                    },{multi:false},function()
-                    {
-                        rem_cache[actName]++;
-                        res.send(template.getPlainTextTemplate(msg,"退票成功。"));
-                        return;
-                    });
+                    $inc: {remain_tickets:1}
+                },{multi:false},function()
+                {
+                    res.send(template.getPlainTextTemplate(msg,"退票成功。"));
+                    return;
                 });
             });
         });
