@@ -15,6 +15,7 @@ var alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
 var stu_cache={};
 var act_cache={};
 var rem_cache={};
+var usr_lock={};
 
 function verifyStudent(openID,ifFail,ifSucc)
 {
@@ -150,6 +151,12 @@ exports.faire_get_ticket=function(msg,res)
         res.send(template.getPlainTextTemplate(msg,"请先绑定学号。"));
     },function(stuID)
     {
+        if (usr_lock[stuID]!=null)
+        {
+            res.send(template.getPlainTextTemplate(msg,"您的抢票请求正在处理中，请稍后通过查票功能查看抢票结果(/▽＼)"));
+            return;
+        }
+
         verifyActivities(actName,function()
         {
             res.send(template.getPlainTextTemplate(msg,"目前没有符合要求的活动处于抢票期。"));
@@ -163,11 +170,18 @@ exports.faire_get_ticket=function(msg,res)
                     res.send(template.getPlainTextTemplate(msg,"你已经有票啦，请用查票功能查看抢到的票吧！"));
                     return;
                 }
+                if (usr_lock[stuID]!=null)
+                {
+                    res.send(template.getPlainTextTemplate(msg,"您的抢票请求正在处理中，请稍后通过查票功能查看抢票结果(/▽＼)"));
+                    return;
+                }
+                usr_lock[stuID]="true";
 
                 fetchRemainTicket(actName,function()
                 {
                     if (rem_cache[actName]==0)
                     {
+                        usr_lock[stuID]=null;
                         res.send(template.getPlainTextTemplate(msg,"对不起，票已抢完...(╯‵□′)╯︵┻━┻。如果你已经抢到票，请使用查票功能查看抢到票的信息。"));
                         return;
                     }
@@ -182,6 +196,7 @@ exports.faire_get_ticket=function(msg,res)
                     {
                         if (err || result.n==0)
                         {
+                            usr_lock[stuID]=null;
                             res.send(template.getPlainTextTemplate(msg,"(╯‵□′)╯︵┻━┻"));
                             return;
                         }
@@ -197,6 +212,7 @@ exports.faire_get_ticket=function(msg,res)
                                 cost:       0
                             }, function()
                             {
+                                usr_lock[stuID]=null;
                                 presentTicket(msg,res,{unique_id:tiCode},staticACT);
                                 return;
                             });
