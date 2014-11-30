@@ -16,4 +16,33 @@ router.get("/", function(req, res, next)
         res.render("login", {});
 });
 
+router.post("/", function(req, res)
+{
+    var resData={};
+    db[ADMIN_DB].find({user:req.body.username},function(err,docs)
+    {
+        if (err || docs.length==0)
+        {
+            resData.message="failed";
+            resData.error="none";
+        }
+        else
+        {
+            if (docs[0].password===req.body.password)
+            {
+                resData.message="success";
+                resData.next=urls.userPage;
+                req.session.user=req.body.username;
+            }
+            else
+            {
+                resData.message="failed";
+                resData.error="wrong";
+            }
+        }
+        res.send(JSON.stringify(resData));
+        return;
+    });
+});
+
 module.exports = router;
