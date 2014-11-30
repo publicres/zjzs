@@ -11,6 +11,7 @@ var users = require('./routes/users');
 var weixin = require('./routes/weixin');
 var validate = require('./routes/validate');
 var ticketsinfo = require('./routes/ticketsinfo');
+var login = require('./routes/login');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/weixin', weixin);
 app.use('/', routes);
 app.use('/users', users);
+app.use('/login', login);
 app.use('/validate', validate);
 app.use('/ticketsinfo', ticketsinfo);
 
