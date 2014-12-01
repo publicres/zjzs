@@ -89,26 +89,7 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
         },
         {   
             "name": "抢票",
-            "sub_button": [
-                {
-                    "type": "click",
-                    "name": "新年晚会",
-                    "key": 'bok_what',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "新年音乐会",
-                    "key": 'get',
-                    "sub_button": []
-                },
-                {
-                    "type": "click",
-                    "name": "主题团日",
-                    "key": 'bind',
-                    "sub_button": []
-                }
-            ]
+            "sub_button": []
         }
     ]
 };
@@ -116,7 +97,7 @@ exports.WEIXIN_COSTUM_MENU_TEMPLATE = WEIXIN_COSTUM_MENU_TEMPLATE
 
 exports.WEIXIN_BOOK_HEADER = 'TSINGHUA_BOOK_';
 
-exports.get_custom_menu_with_book_acts = function(actsbtn){
+exports.getCustomMenuWithBookActs = function(actsbtn){
     var menuStr = JSON.stringify(WEIXIN_COSTUM_MENU_TEMPLATE);
     var tmpmenu = eval('(' + menuStr + ')');
     book_btn = tmpmenu['button'][2];
