@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="/stylesheets/base.css" rel="stylesheet" type="text/css">
+        <link href="/stylesheets/details.css" rel="stylesheet" type="text/css">
+
+        <title>
+            清华紫荆之声 - 活动详情
+        </title>
+    </head>
+    <body>
+        <div id="wrap">
+            <header>
+                <img class="header-img" src="/img/newlogo.jpg">
+            </header>
+
+            <div class="theme">
+                <%= act_name %>
+            </div>
+
+            <hr>
+            <div id="mainbody">
+                <div class="details-text">
+
+                    <div class="details-divider"></div>
+                    <div style="text-align: center;min-width: 300px">
+                        <div id="activitytimer"></div>
+                    </div>
+                    <div class="details-divider"></div>
+                    <div class="details-divider"></div>
+
+                    <div id="ticket-during-book">
+                        <div class="timer-wrapper">
+                            <h7>当前余票：(截至<%= cur_time %>)</h7>
+                        </div>
+                        <div class="details-divider"></div>
+                        <div style="text-align: center;">
+                            <span class="ticket"><%= rem_tik %></span>张
+                        </div>
+                    </div>
+                    <div class="details-divider"></div>
+
+                    <div class="timer-wrapper">
+                        <h7>抢票时间：</h7>
+                    </div>
+                    <div class="details-wrapper">
+                        <div class="text-inner">
+                            <div class="trigger">
+                                <h8><%= act_book_start %>&nbsp;&nbsp;至&nbsp;&nbsp;<%= act_book_end %></h8>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-divider"></div>
+
+
+                    <div class="timer-wrapper">
+                        <h7>活动时间：</h7>
+                    </div>
+                    <div class="details-wrapper">
+                        <div class="text-inner">
+                            <div class="trigger">
+                                <h7><%= act_start %>&nbsp;&nbsp;至&nbsp;&nbsp;<%= act_end %></h7>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-divider"></div>
+
+
+                    <div class="timer-wrapper">
+                        <h7>活动地点：</h7>
+                    </div>
+                    <div class="details-wrapper">
+                        <div class="text-inner">
+                            <div class="trigger">
+                                <h7><%= act_place %></h7>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-divider"></div>
+
+
+                    <div class="timer-wrapper">
+                        <h7>活动代称：</h7>
+                    </div>
+                    <div class="timer-wrapper">
+                        <h9>(回复“抢票/取票/退票/节目单 活动代称”可进行相应操作)</h9>
+                    </div>
+                    <div class="details-wrapper">
+                        <div class="text-inner">
+                            <div class="trigger">
+                                <h7 class="highlight"><%= act_key %></h7>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-divider"></div>
+
+
+                    <div class="timer-wrapper">
+                        <h7>活动详情：</h7>
+                    </div>
+                    <div class="details-wrapper" id="actabstract">
+                        <div class="text-inner">
+                            <div class="details-wrapper img-wrapper">
+                                <div class="img-inner">
+                                    <img class="details-img" src="<%= act_pic_url %>">
+                                </div>
+                            </div>
+                            <div class="details-divider"></div>
+                            <div class="trigger">
+                                <span>
+                                    <p><%= act_desc %></p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-wrapper" id="actdetails" style="display: none">
+                        <div class="text-inner">
+                            <div class="details-wrapper img-wrapper">
+                                <div class="img-inner">
+                                    <img class="details-img" src="<%= act_pic_url %>">
+                                </div>
+                            </div>
+
+                            <div class="details-divider"></div>
+                            <div class="trigger">
+                                <span>
+                                    <p><%= act_desc %></p>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="details-divider"></div>
+                </div>
+
+                <script>
+                    var totalseconds = <%= time_rem %>;
+                    var actstatus = <%= act_status %>;
+                    function CountDown()
+                    {
+                        var strtimer = '';
+                        if(totalseconds>0){
+                            var days = parseInt(totalseconds / 60 / 60 / 24, 10);
+                            var hours = parseInt(totalseconds  / 60 / 60 % 24, 10);
+                            var minutes = parseInt(totalseconds  / 60 % 60, 10);
+                            var seconds = parseInt(totalseconds  % 60, 10);
+                            days = checkFormat(days);
+                            hours = checkFormat(hours);
+                            minutes = checkFormat(minutes);
+                            seconds = checkFormat(seconds);
+                            var strtimer = '距抢票开始还有<span class="timer">'+days+'</span>天<span class="timer">'+hours+'</span>小时<span class=timer>'
+                                            +minutes+'</span>分<span class=timer>'+seconds+'</span>秒';
+                            --totalseconds;
+                        }
+                        else{
+                            clearInterval(timer);
+                            if(actstatus == 0){//from booktime to end
+                                strtimer = '<div class="invalid-time">抢票已结束，感谢您的关注！</div>';
+                                document.getElementById('ticket-during-book').style.display  ="none";
+                            }
+                            if(actstatus == 1){
+                                strtimer = '<div class="invalid-time">抢票已经开始!</div>';
+                            }
+                        }
+                        document.getElementById('activitytimer').innerHTML = strtimer;
+                    }
+                    //compensate '0' if minutes or seconds < 10
+                    function checkFormat(i){
+                           if (i < 10) {
+                              i= "0" + i;
+                            }
+                            return i;
+                    }
+                    timer = setInterval("CountDown()",1000);
+                </script>
+            </div>
+        </div>
+        <footer id="footer">
+            <hr>
+            共青团清华大学委员会<br>
+            © 2013
+        </footer>
+
+        <script src="/javascripts/weixin_lib.js"></script>
+        <script src="/javascripts/details.js"></script>
+    </body>
+</html>

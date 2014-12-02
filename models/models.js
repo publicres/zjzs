@@ -11,3 +11,9 @@ exports.students = students;
 exports.admins = admins;
 
 exports.db = mongojs('mongodb://localhost/test23', [tickets, activities, students, admins]);
+
+exports.getIDClass=function(idValue)
+{
+    idValue=""+idValue;
+    return mongojs.ObjectId(idValue);
+}

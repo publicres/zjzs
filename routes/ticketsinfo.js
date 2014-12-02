@@ -33,12 +33,12 @@ router.get('/', function(req, res) {
                     var activityPhoto = docs1[0].pic_url;
                     var activityPlace = docs1[0].place;
                     var tmp1 = new Date(docs1[0].start_time);
-                    var beginTime = tmp1.getFullYear() + "年" + tmp1.getMonth() + "月" + tmp1.getDate() + "日" + tmp1.getHours() + "时" + tmp1.getMinutes() + "分";
+                    var beginTime = tmp1.getFullYear() + "年" + (tmp1.getMonth()+1) + "月" + (tmp1.getDate()+1) + "日" + tmp1.getHours() + "时" + tmp1.getMinutes() + "分";
                     var tmp2 = new Date(docs1[0].end_time);
-                    var endTime = tmp2.getFullYear() + "年" + tmp2.getMonth() + "月" + tmp2.getDate() + "日" + tmp2.getHours() + "时" + tmp2.getMinutes() + "分";
+                    var endTime = tmp2.getFullYear() + "年" + (tmp1.getMonth()+1) + "月" + (tmp1.getDate()+1) + "日" + tmp2.getHours() + "时" + tmp2.getMinutes() + "分";
                     var activityKey = docs1[0].key;
                     res.render('ticketsinfo', {act_name: activityName, act_photo: activityPhoto, act_place: activityPlace, act_begintime: beginTime, act_endtime: endTime, act_key: activityKey, ticket_status:ticketstatus});
-                    
+
                     return;
                 }
             });
