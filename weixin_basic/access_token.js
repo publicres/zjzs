@@ -9,8 +9,10 @@ exports.getAccessToken = function getAccessToken(callback){
 
     if(AT_UPDATE_TIME != undefined && now.getYear() == AT_UPDATE_TIME.getYear() && now.getMonth() == AT_UPDATE_TIME.getMonth() && now.getDay() == AT_UPDATE_TIME.getDay() && (now.getHours() - AT_UPDATE_TIME.getHours()) <= 1){
         callback(ACCESS_TOKEN);
+        console.log("old");
     }
     else{
+      console.log("new");
     	var at_tmp = ACCESS_TOKEN;
     	https.get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+set.WEIXIN_APPID+"&secret="+set.WEIXIN_SECRET, function (response) {
             response.on('data', function(d) {
