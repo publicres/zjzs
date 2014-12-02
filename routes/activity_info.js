@@ -60,10 +60,10 @@ router.get("/", function(req, res, next)
             cur_time:           getTime(new Date(),true),
             rem_tik:            theAct.remain_tickets,
 
-            time_rem:           theAct.book_start-current,
+            time_rem:           Math.round((theAct.book_start-current)/1000),
             act_status:         nowStatus
         };
-        console.log(tmp);
+
         res.render("actinfo", tmp);
     });
 });
