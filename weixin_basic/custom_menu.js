@@ -26,7 +26,7 @@ var options_creatMenu = {
 
 function createMenu(access_token){
     options_creatMenu.path = options_creatMenu.path + access_token;
-    
+    console.log(menuStr);
     var post = https.request(options_creatMenu, function (response) {
         response.on('data', function(d) {
             process.stdout.write(d);
@@ -115,7 +115,7 @@ function autoClearOldMenus(activities){
             continue;
         }
         Obj["name"] = activities[i].key;
-        Obj["key"] = set.WEIXIN_BOOK_HEADER + activities[i].id;
+        Obj["key"] = set.WEIXIN_BOOK_HEADER + activities[i].key;
         Obj["sub_button"] = [];
 
         buttons.push(JSON.parse(JSON.stringify(Obj)));
