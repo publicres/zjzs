@@ -1,0 +1,48 @@
+var model = require('../models/models');
+
+var TICKET_DB = model.tickets;
+var ACTIVITY_DB = model.activities;
+var db = model.db;
+
+function wipeActivity(actID)
+{
+    db[ACTIVITY_DB].update({_id:actID},
+    {
+        $set: {status:99}
+    },{multi:false},function()
+    {
+        db[TICKET_DB].update(
+        {
+            activity:actID,
+            $or:[{status:1},{status:2}]
+        },
+        {
+            $set: {status:99}
+        },{multi:true},function()
+        {
+            console.log("+++++Wipe out one ACTIVITY SUCCESSFULLY+++++");
+        });
+    });
+}
+
+function genericWiper()
+{
+    var current=(new Date()).getTime();
+    db[ACTIVITY_DB].find(
+    {
+        status:1,
+        end_time:{$lt:current}
+    },function(err,docs)
+    {
+        if (err || docs.length==0)
+        {
+            return;
+        }
+        for (var i=0;i<docs.length;i++)
+        {
+            wipeActivity(docs[i]._id);
+        }
+    });
+}
+
+genericWiper();
