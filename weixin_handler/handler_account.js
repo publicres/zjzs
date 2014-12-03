@@ -3,6 +3,7 @@ var template = require('./reply_template');
 var urls = require("../address_configure");
 var model = require('../models/models');
 var lock = require('../models/lock');
+var act_infoer = require("../weixin_basic/activity_info");
 
 //Attentez: keep the activity::key unique globally.
 var TICKET_DB = model.tickets;
@@ -62,5 +63,36 @@ exports.faire_unbind_accout=function(msg,res)
                 res.send(template.getPlainTextTemplate(msg,"绑定已经解除。"));
             });
         });
+    });
+}
+//=============================================
+exports.check_bookable_activity=function(msg)
+{
+    if (msg.MsgType[0]==="text")
+        if (msg.Content[0]==="抢啥")
+            return true;
+    return false;
+}
+exports.faire_bookable_activity=function(msg,res)
+{
+    act_infoer.getCurrentActivity(function(docs)
+    {
+        if (docs.length===0)
+        {
+            res.send(template.getPlainTextTemplate(msg,"对不起，最近没有可以抢票的活动 orz..."));
+            return;
+        }
+        var showList=[];
+        var tmpEle;
+        for (var i=0;i<docs.length;i++)
+        {
+            tmpEle={};
+            tmpEle[template.rich_attr.title]=docs[i].name;
+            tmpEle[template.rich_attr.description]=docs[i].description;
+            tmpEle[template.rich_attr.url]=urls.activityInfo+"?actid="+docs[i].id;
+            tmpEle[template.rich_attr.picture]=docs[i].pic_url;
+            showList.push(tmpEle);
+        }
+        res.send(template.getRichTextTemplate(msg,showList));
     });
 }

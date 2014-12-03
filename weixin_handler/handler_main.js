@@ -15,7 +15,8 @@ var pattern =
     [exactHandler.check_reinburse_ticket,   exactHandler.faire_reinburse_ticket],
     [exactHandler.check_list_ticket,        exactHandler.faire_list_ticket],
     [usersHandler.check_bind_accout,        usersHandler.faire_bind_accout],
-    [usersHandler.check_unbind_accout,      usersHandler.faire_unbind_accout]
+    [usersHandler.check_unbind_accout,      usersHandler.faire_unbind_accout],
+    [usersHandler.check_bookable_activity,  usersHandler.faire_bookable_activity]
 ]
 
 module.exports = function(req, res)
@@ -29,7 +30,7 @@ module.exports = function(req, res)
             res.send("Wrong format.");
             return;
         }
-        var msg=result.xml;
+        var msg=result.xml
         for (var i=0;i<pattern.length;i++)
         {
             if (pattern[i][0](msg))
