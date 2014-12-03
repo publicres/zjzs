@@ -30,7 +30,7 @@ module.exports = function(req, res)
             res.send("Wrong format.");
             return;
         }
-        var msg=result.xml
+        var msg=result.xml;
         for (var i=0;i<pattern.length;i++)
         {
             if (pattern[i][0](msg))
