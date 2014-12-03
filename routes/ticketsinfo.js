@@ -37,14 +37,13 @@ router.get('/', function(req, res) {
                     var tmp2 = new Date(docs1[0].end_time);
                     var endTime = tmp2.getFullYear() + "年" + (tmp1.getMonth()+1) + "月" + (tmp1.getDate()+1) + "日" + tmp2.getHours() + "时" + tmp2.getMinutes() + "分";
                     var activityKey = docs1[0].key;
-                    res.render('ticketsinfo', {act_name: activityName, act_photo: activityPhoto, act_place: activityPlace, act_begintime: beginTime, act_endtime: endTime, act_key: activityKey, ticket_status:ticketstatus});
+                    res.render('ticketsinfo', {act_name: activityName, act_photo: activityPhoto, act_place: activityPlace, act_begintime: beginTime, act_endtime: endTime, act_key: activityKey, ticket_status:ticketstatus, tid:req.query.ticketid});
 
                     return;
                 }
             });
         }
     });
-    //res.render('ticketsinfo', {act_name: "音乐会", act_photo: "/img/act1.jpg", act_place: "新清华学堂", act_begintime: "2014年11月25日8点", act_endtime: "2014年11月25日9点", act_key: "123", ticket_status:1});
 });
 
 module.exports = router;

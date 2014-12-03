@@ -4,6 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="/stylesheets/base.css" rel="stylesheet" type="text/css" />
     <link href="/stylesheets/ticket.css" rel="stylesheet" type="text/css" />
+    <script src="/javascripts/jquery/jquery-1.11.1.min.js"></script>
+    <script src="/javascripts/jquery.qrcode.min.js"></script>
     <script src="/javascripts/weixin_lib.js"></script>
     <script src="/javascripts/ticket.js"></script>
     <title>票务信息</title>
@@ -19,8 +21,8 @@
     <hr/>
     <div id="mainbody">
         <div class="details-wrapper img-wrapper">
-            <div class="img-inner">
-                <img class="details-img" src="<%= act_photo  %>" />
+            <div class="img-inner" id="qrcode">
+
             </div>
         </div>
 
@@ -39,7 +41,7 @@
                 <span class="status-size ticket-used">活动已结束</span>
             <% } %>
         </div>
-        
+
         <div class="ticket-wrapper">
             活动地点：<b><%= act_place %></b>
         </div>
@@ -59,7 +61,7 @@
             <b>回复“退票 <%= act_key %>”即可退票</b>
         </div>
         <% } %>
-        
+
     </div>
 
 </div>
@@ -68,5 +70,13 @@
     共青团清华大学委员会<br>
     &copy; 2013
 </footer>
+
+<script>
+    theTID="<%= tid %>";
+    $("body").ready(function()
+    {
+        $("#qrcode").qrcode({width: 64,height: 64,text: theTID});
+    });
+</script>
 </body>
 </html>
