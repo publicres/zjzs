@@ -23,3 +23,4 @@ what to modify?
     To modify host ip:      address_configure.js
     To modify databases:    models/models.js
     To modify weixin keys:  weixin_basic/settings.js
+    #REMEMBER TO ENSURE INDEX IN MONGODB, s'il vous plaît!
