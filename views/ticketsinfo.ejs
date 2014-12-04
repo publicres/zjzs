@@ -75,7 +75,12 @@
     theTID="<%= tid %>";
     $("body").ready(function()
     {
-        $("#qrcode").qrcode({width: 64,height: 64,text: theTID});
+        $("#qrcode").qrcode(
+        {
+            width: Math.round(0.5*$(window).width()),
+            height: Math.round(0.5*$(window).width()),
+            text: theTID
+        });
     });
 </script>
 </body>
