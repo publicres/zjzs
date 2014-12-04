@@ -2,6 +2,8 @@ var template = require('./reply_template');
 var model = require('../models/models');
 var lock = require('../models/lock');
 var urls = require("../address_configure");
+var checker = require("./checkRequest");
+var basicInfo = require("../weixin_basic/settings.js");
 
 //Attentez: keep the activity::key unique globally.
 var TICKET_DB = model.tickets;
@@ -125,6 +127,8 @@ function fetchRemainTicket(key,callback)
 
 exports.check_get_ticket=function(msg)
 {
+    if (checker.checkMenuClick(msg).substr(0,basicInfo.WEIXIN_BOOK_HEADER.length)===basicInfo.WEIXIN_BOOK_HEADER)
+        return true;
     if (msg.MsgType[0]==="text")
         if (msg.Content[0]==="抢票" || msg.Content[0].substr(0,3)==="抢票 ")
             return true;
@@ -133,15 +137,22 @@ exports.check_get_ticket=function(msg)
 exports.faire_get_ticket=function(msg,res)
 {
     var actName,openID;
-    if (msg.Content[0]==="抢票")
+
+    if (msg.MsgType[0]==="text")
     {
-        //WARNING: Fill the activity name!!
-        res.send(template.getPlainTextTemplate(msg,"bie nao."));
-        return;
+        if (msg.Content[0]==="抢票")
+        {
+            res.send(template.getPlainTextTemplate(msg,"请使用“抢票 活动代称”的命令或菜单按钮完成指定活动的抢票。"));
+            return;
+        }
+        else
+        {
+            actName=msg.Content[0].substr(3);
+        }
     }
     else
     {
-        actName=msg.Content[0].substr(3);
+        actName=msg.EventKey[0].substr(basicInfo.WEIXIN_BOOK_HEADER.length);
     }
 
     openID=msg.FromUserName[0];
@@ -237,7 +248,7 @@ exports.faire_reinburse_ticket=function(msg,res)
     if (msg.Content[0]==="退票")
     {
         //WARNING: Fill the activity name!!
-        res.send(template.getPlainTextTemplate(msg,"bie nao."));
+        res.send(template.getPlainTextTemplate(msg,"请使用“退票 活动代称”的命令完成指定活动的退票。"));
         return;
     }
     else
@@ -296,6 +307,8 @@ exports.check_list_ticket=function(msg)
     if (msg.MsgType[0]==="text")
         if (msg.Content[0]==="查票")
             return true;
+    if (checker.checkMenuClick(msg)===basicInfo.WEIXIN_EVENT_KEYS['ticket_get'])
+        return true;
     return false;
 }
 function renderTicketList(oneTicket,oneActivity,isSingle)

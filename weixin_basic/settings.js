@@ -61,23 +61,23 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                 }
             ]
         },
-        {   
+        {
             "name": "抢票",
-            "type": "click", 
-            "key": WEIXIN_EVENT_KEYS['ticket_no_activity'], 
+            "type": "click",
+            "key": WEIXIN_EVENT_KEYS['ticket_no_activity'],
             "sub_button": []
         }
     ]
 };
 exports.WEIXIN_COSTUM_MENU_TEMPLATE = WEIXIN_COSTUM_MENU_TEMPLATE;
 
-exports.WEIXIN_BOOK_HEADER = 'TSINGHUA_BOOK_';
+exports.WEIXIN_BOOK_HEADER = 'I_WANNA_BOOK_';
 
 exports.getCustomMenuWithBookActs = function(actsbtn){
     var menuStr = JSON.stringify(WEIXIN_COSTUM_MENU_TEMPLATE);
     var tmpmenu = eval('(' + menuStr + ')');
     book_btn = tmpmenu['button'][2];
-    
+
     if(actsbtn[0] == undefined){
         book_btn['type'] = 'click';
         book_btn['key'] = WEIXIN_EVENT_KEYS['ticket_no_book_recommand']

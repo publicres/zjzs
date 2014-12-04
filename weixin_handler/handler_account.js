@@ -4,6 +4,8 @@ var urls = require("../address_configure");
 var model = require('../models/models');
 var lock = require('../models/lock');
 var act_infoer = require("../weixin_basic/activity_info");
+var checker = require("./checkRequest");
+var basicInfo = require("../weixin_basic/settings.js");
 
 //Attentez: keep the activity::key unique globally.
 var TICKET_DB = model.tickets;
@@ -16,6 +18,8 @@ exports.check_bind_accout=function(msg)
     if (msg.MsgType[0]==="text")
         if (msg.Content[0]==="绑定")
             return true;
+    if (checker.checkMenuClick(msg)===basicInfo.WEIXIN_EVENT_KEYS['account_bind'])
+        return true;
     return false;
 }
 function sendBindInfo(msg,res,openID)
@@ -42,6 +46,8 @@ exports.check_unbind_accout=function(msg)
     if (msg.MsgType[0]==="text")
         if (msg.Content[0]==="解绑")
             return true;
+    if (checker.checkMenuClick(msg)===basicInfo.WEIXIN_EVENT_KEYS['account_unbind'])
+        return true;
     return false;
 }
 exports.faire_unbind_accout=function(msg,res)
@@ -71,6 +77,8 @@ exports.check_bookable_activity=function(msg)
     if (msg.MsgType[0]==="text")
         if (msg.Content[0]==="抢啥")
             return true;
+    if (checker.checkMenuClick(msg)===basicInfo.WEIXIN_EVENT_KEYS['ticket_book_what'])
+        return true;
     return false;
 }
 exports.faire_bookable_activity=function(msg,res)
