@@ -9,6 +9,7 @@ var basicInfo = require("../weixin_basic/settings.js");
 var TICKET_DB = model.tickets;
 var USER_DB = model.students;
 var ACTIVITY_DB = model.activities;
+var SEAT_DB = model.seats;
 var db = model.db;
 
 var timer = new Date();
@@ -268,21 +269,29 @@ exports.faire_reinburse_ticket=function(msg,res)
             res.send(template.getPlainTextTemplate(msg,"目前没有符合要求的活动处于退票期。"));
         },function(actID)
         {
-            db[TICKET_DB].update(
+            db[TICKET_DB].findAndModify(
             {
-                stu_id:stuID,
-                activity:actID,
-                status:1
-            },
+                query: {stu_id:stuID,activity:actID,status:1},
+                update: {$set: {status:0}}
+            },function(err,result)
             {
-                $set: {status:0}
-            },{multi:false},function(err,result)
-            {
-                if (err || result.n==0)
+                if (err || result==null)
                 {
                     res.send(template.getPlainTextTemplate(msg,
                         "未找到您的抢票记录或您的票已经支付，退票失败。如为已支付票，请联系售票机构退还钱款后退票。"));
                     return;
+                }
+                if (result.seat!="" && result.seat!=null)
+                {
+                    var incIndex={};
+                    incIndex[result.seat]=1;
+                    db[SEAT_DB].update({activity:actID},
+                    {
+                        $inc: incIndex
+                    },function()
+                    {
+                        //Nothing? Oui, ne rien.
+                    });
                 }
 
                 fetchRemainTicket(actName,function()

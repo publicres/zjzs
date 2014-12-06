@@ -20,6 +20,15 @@
 
     <hr/>
     <div id="mainbody">
+
+        <% if (act_need_seat == 1 && seat == "") {%>
+            <div class="ticket-wrapper">
+                <span class="status-size ticket-invalid">
+                    <b>由于您并未在抢票时间内选座，系统将稍后给您随机分配座位。</b>
+                </span>
+            </div>
+        <% } %>
+
         <div class="details-wrapper img-wrapper">
             <div class="img-inner" id="qrcode">
 
@@ -37,7 +46,7 @@
             <% if (ticket_status == 3) {%>
                 <span class="status-size ticket-used">已使用</span>
             <% } %>
-            <% if (ticket_status == 4) {%>
+            <% if (ticket_status == 99) {%>
                 <span class="status-size ticket-used">活动已结束</span>
             <% } %>
         </div>
@@ -45,6 +54,11 @@
         <div class="ticket-wrapper">
             活动地点：<b><%= act_place %></b>
         </div>
+        <% if (act_need_seat == 1 && seat != "") {%>
+            <div class="ticket-wrapper">
+                座位/区域信息：<b><%= seat %></b>
+            </div>
+        <% } %>
 
         <div class="ticket-wrapper">
             活动开始时间：<b><%= act_begintime %></b>

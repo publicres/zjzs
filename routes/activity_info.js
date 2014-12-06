@@ -56,6 +56,7 @@ router.get("/", function(req, res, next)
             act_key:            theAct.key,
             act_pic_url:        theAct.pic_url,
             act_desc:           theAct.description,
+            act_need_seat:      theAct.need_seat,
 
             cur_time:           getTime(new Date(),true),
             rem_tik:            theAct.remain_tickets,

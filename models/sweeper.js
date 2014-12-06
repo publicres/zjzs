@@ -4,7 +4,7 @@ var TICKET_DB = model.tickets;
 var ACTIVITY_DB = model.activities;
 var db = model.db;
 
-function wipeActivity(actID)
+function wipeActivity(actID,callback)
 {
     db[ACTIVITY_DB].update({_id:actID},
     {
@@ -21,11 +21,12 @@ function wipeActivity(actID)
         },{multi:true},function()
         {
             console.log("+++++Wipe out one ACTIVITY SUCCESSFULLY+++++");
+            callback();
         });
     });
 }
 
-function genericWiper()
+function genericWiper(callback)
 {
     var current=(new Date()).getTime();
     db[ACTIVITY_DB].find(
@@ -38,11 +39,17 @@ function genericWiper()
         {
             return;
         }
+        var t=0;
         for (var i=0;i<docs.length;i++)
         {
-            wipeActivity(docs[i]._id);
+            wipeActivity(docs[i]._id,function()
+            {
+                t++;
+                if (t==docs.length)
+                    callback();
+            });
         }
     });
 }
 
-genericWiper();
+module.exports = genericWiper;

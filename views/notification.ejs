@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="/stylesheets/base.css" rel="stylesheet" type="text/css" />
+    <title><%= title %></title>
+    <script src="/javascripts/jquery/jquery-1.11.1.min.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+    <header>
+        <img class="header-img" src="/img/newlogo.jpg" />
+    </header>
+
+    <div class="theme"><%= topic %></div>
+
+    <hr/>
+    <div id="mainbody">
+        <div id="successHolder" style="padding: 20px;text-align: center;">
+            <img src="/img/notify.png" />
+            <br>
+            <p><%= content %></p>
+        </div>
+    </div>
+
+</div>
+<footer id="footer">
+    <hr />
+    共青团清华大学委员会<br>
+    &copy; 2013
+</footer>
+
+</body>
+</html>

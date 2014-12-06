@@ -76,6 +76,9 @@
                         <div class="text-inner">
                             <div class="trigger">
                                 <h7><%= act_place %></h7>
+                                <% if (act_need_seat==1) { %>
+                                    <h7 class="highlight"><br>该活动需要选座，请在抢票成功后尽快选择座位！</h7>
+                                <% } %>
                             </div>
                         </div>
                     </div>
