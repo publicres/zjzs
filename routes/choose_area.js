@@ -51,13 +51,13 @@ function checkValidity(req, res, callback)
                 }
                 else
                 {
-                    if (docs1[0].need_seat!=1)
+                    if (docs1[0].need_seat==0)
                     {
                         res.send("No need to choose seat.");
                         return;
                     }
                     var current=(new Date()).getTime();
-                    if (current>=docs1[0].book_start && current<=docs1[0].book_end)
+                    if (current<docs1[0].book_start || current>docs1[0].book_end)
                     {
                         res.render("notification",
                         {
@@ -100,12 +100,12 @@ router.get("/", function(req, res)
             res.render("seat",
             {
                 tid:        ticketID,
-                bookddl:    getTime(endtime),
-                ArestTicket:(docs[0]["A"]==null?0:docs[0]["A"]),
-                BrestTicket:(docs[0]["B"]==null?0:docs[0]["B"]),
-                CrestTicket:(docs[0]["C"]==null?0:docs[0]["C"]),
-                DrestTicket:(docs[0]["D"]==null?0:docs[0]["D"]),
-                ErestTicket:(docs[0]["E"]==null?0:docs[0]["E"])
+                bookddl:    getTime(bookend),
+                ArestTicket:(docs[0]["A_area"]==null?0:docs[0]["A_area"]),
+                BrestTicket:(docs[0]["B_area"]==null?0:docs[0]["B_area"]),
+                CrestTicket:(docs[0]["C_area"]==null?0:docs[0]["C_area"]),
+                DrestTicket:(docs[0]["D_area"]==null?0:docs[0]["D_area"]),
+                ErestTicket:(docs[0]["E_area"]==null?0:docs[0]["E_area"])
             });
         });
     });

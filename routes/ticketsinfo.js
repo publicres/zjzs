@@ -40,12 +40,12 @@ router.get('/', function(req, res) {
                     var activityKey = docs1[0].key;
 
                     var ticket_status;
-                    if (docs1[0].need_seat==1 && tiSeat=="")
+                    if (docs1[0].need_seat!=0 && tiSeat=="")
                         ticket_status=1;
                     else
                         ticket_status=2;
 
-                    if (ticketstatus!=1 || ticketstatus!=2)
+                    if (ticketstatus!=1 && ticketstatus!=2)
                         ticket_status=3;
                     res.render('checkTicket', {
                         act_name: activityName,

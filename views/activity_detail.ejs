@@ -43,10 +43,11 @@
                         <h1 id="activity_detail_title"></h1>
                         <div id="activity_content"></div>
                     </div>
-                    <!--<div class="body">
+                    <div class="body">
                         <h1 id="activity_detail_title_2"></h1>
                         <div id="activity_content_2"></div>
                     </div>
+                    <!--
                     <div class="body">
                         <h1 id="activity_detail_title_3"></h1>
                         <div id="activity_content_3"></div>
@@ -81,21 +82,22 @@ var activity_content_2=
     '<b style="color:#dd881e">'+activity_book_ticket_time+'</b>'+
     '，“清华大学紫荆之声”线上抢票，数量有限，先到先得。您可以:<br>'+
     '1. 在微信中回复“<b>抢票 '+activity_key+'</b>”进行抢票<br>'+
-    '2. 点击“服务”下设二级菜单<b>“抢票”按钮</b>抢票<br>'+
-    '3. (开始抢票后)在本页面底部点击红色的<b>“抢票”按钮</b>抢票<br>';
+    '2. 点击“抢票”下设二级菜单<b>“'+activity_key+'”按钮</b>抢票<br>';
 var activity_detail_title_3="领票方式";
 var activity_content_3_seat_type=["门票随机发放，不提供选座服务。","该活动提供按区域选座服务，同学们可根据需要选座。","该活动提供选座服务，同学们可根据需要选座。"];
+/*
 var activity_content_3=
     '<b style="color:#dd881e">'+activity_get_ticket_time+'</b>'+
     '，在校团委门厅(文图十字路口西北侧小红楼，进门左转门内)<br>'+
     '抢票成功的同学凭二维码兑换纸质票，并现金结清票款，请同学们自备零钱。<br>'+
     '<b style="color:#dd881e">'+activity_content_3_seat_type[activity_seat_type]+'</b>';
+*/
 $('title').text(activity_page_title);
 $('#activity_title').text(activity_title);
 $('#activity_time').text(activity_time);
 $('#activity_content').append(activity_content);
 $('#activity_content_2').append(activity_content_2);
-$('#activity_content_3').append(activity_content_3);
+//$('#activity_content_3').append(activity_content_3);
 var seat_type=["不选座","分区选座","选座"];
 $('#activity_seat_type').append(seat_type[activity_seat_type]);
 for (var i in activity_extra_info)

@@ -95,7 +95,7 @@ function maintain_seat(callback)
     {
         status:1,
         book_end: {$lt:current},
-        need_seat: 1
+        need_seat: {$ne:0}
     },function(err, docs)
     {
         if (err || docs.length==0)

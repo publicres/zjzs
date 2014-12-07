@@ -30,9 +30,17 @@ $(document).ready(function(){
     if(status>=2){
         $("#seatEntrance").css("display", "none");
         $("#qrcodeWrap").css("display", "");
-        $("#qrcodeWrap").width(width*0.65)
-
-
+        $("#qrcodeWrap").width(width*0.65);
+		$('#qrcode').qrcode({
+				width: width*0.65,
+				height: width*0.65,
+				render: "canvas",
+				text: ticket.id,
+				background: "#ffffff", //背景颜色
+				foreground: qrcode_color>0.66?'#4b0500':
+	 					   (qrcode_color>0.36?'#03054b':'#222') //前景颜色
+			});
+/*
         var trs = $('#qrcode').qrcode({
                 width: width*0.65,
                 height: width*0.65,
@@ -60,6 +68,7 @@ $(document).ready(function(){
                 }
             });
         });
+		*/
     }
     else{
         var widthCurrent = 0.4*width;
@@ -70,6 +79,6 @@ $(document).ready(function(){
         $("#seatButton").width(widthCurrent);
         $("#noteImage").width(widthCurrent*0.8);
         $("#noteImage").height(widthCurrent*0.8);
-        $("#seatButton").attr("href", "/chooseseat?ticketid="+ticket.id);
+        $("#seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
     }
 });

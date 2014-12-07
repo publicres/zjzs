@@ -50,13 +50,13 @@ function checkValidity(req, res, callback)
                 }
                 else
                 {
-                    if (docs1[0].need_seat!=1)
+                    if (docs1[0].need_seat==0)
                     {
                         res.send("No need to choose seat.");
                         return;
                     }
                     var current=(new Date()).getTime();
-                    if (current>=docs1[0].book_start && current<=docs1[0].book_end)
+                    if (current<docs1[0].book_start || current>docs1[0].book_end)
                     {
                         res.render("notification",
                         {

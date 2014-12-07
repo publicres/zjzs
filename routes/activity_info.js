@@ -45,6 +45,8 @@ router.get("/", function(req, res, next)
         var current=(new Date()).getTime();
         if (current>theAct.book_start && current<theAct.book_end)
             nowStatus=1;
+        else if (current>=theAct.book_end)
+            nowStatus=2;
         var tmp=
         {
             act_name:           theAct.name,
@@ -56,16 +58,16 @@ router.get("/", function(req, res, next)
             act_key:            theAct.key,
             act_pic_url:        theAct.pic_url,
             act_desc:           theAct.description,
-            act_need_seat:      theAct.need_seat,
+            seat_type:          theAct.need_seat,
 
             cur_time:           getTime(new Date(),true),
             rem_tik:            theAct.remain_tickets,
 
             time_rem:           Math.round((theAct.book_start-current)/1000),
-            act_status:         nowStatus
+            ticket_status:      nowStatus
         };
 
-        res.render("actinfo", tmp);
+        res.render("activity_detail", tmp);
     });
 });
 
