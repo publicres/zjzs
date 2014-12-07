@@ -21,7 +21,7 @@ $(document).ready(function(){
 
     //赋值
     $("#ticket_time").html("日期："+ticket.time);
-
+	$("#ticket_title").html(ticket.title);
     $("#ticket_seat").html("座位："+seat);
     $("#ticket_place").html("场馆："+ticket.place);
     $("#ticket_status").html(statusList[status]);
@@ -38,8 +38,8 @@ $(document).ready(function(){
                 height: width*0.65,
                 render: "table",
                 text: ticket.id,
-                background: "#ffffff", //背景颜色 
-                foreground: "red" //前景颜色 
+                background: "#ffffff", //背景颜色
+                foreground: "red" //前景颜色
             })
             .find('tr'),
             trLen = Math.floor(trs.size() / 2),
@@ -73,7 +73,3 @@ $(document).ready(function(){
         $("#seatButton").attr("href", "/chooseseat?ticketid="+ticket.id);
     }
 });
-
-
-
-

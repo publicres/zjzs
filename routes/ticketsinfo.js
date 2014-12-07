@@ -38,17 +38,26 @@ router.get('/', function(req, res) {
                     var tmp2 = new Date(docs1[0].end_time);
                     var endTime = tmp2.getFullYear() + "年" + (tmp1.getMonth()+1) + "月" + (tmp1.getDate()+1) + "日" + tmp2.getHours() + "时" + tmp2.getMinutes() + "分";
                     var activityKey = docs1[0].key;
-                    res.render('ticketsinfo', {
+
+                    var ticket_status;
+                    if (docs1[0].need_seat==1 && tiSeat=="")
+                        ticket_status=1;
+                    else
+                        ticket_status=2;
+
+                    if (ticketstatus!=1 || ticketstatus!=2)
+                        ticket_status=3;
+                    res.render('checkTicket', {
                         act_name: activityName,
                         act_photo: activityPhoto,
                         act_place: activityPlace,
                         act_begintime: beginTime,
                         act_endtime: endTime,
                         act_key: activityKey,
-                        ticket_status:ticketstatus,
                         tid:req.query.ticketid,
                         act_need_seat: docs1[0].need_seat,
-                        seat: tiSeat
+                        seat: tiSeat,
+                        ticket_status:ticket_status
                     });
 
                     return;
