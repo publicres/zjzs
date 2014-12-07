@@ -74,6 +74,17 @@ function checkValidity(req, res, callback)
     });
 }
 
+function getTime(datet,isSecond)
+{
+    if (!(datet instanceof Date))
+        datet=new Date(datet);
+    return datet.getFullYear() + "年"
+        + (datet.getMonth()+1) + "月"
+        + (datet.getDate()+1) + "日 "
+        + datet.getHours() + ":"
+        + datet.getMinutes()
+        + (isSecond===true? ":"+datet.getSeconds() : "");
+}
 router.get("/", function(req, res)
 {
     checkValidity(req,res,function(ticketID, activityID, bookend)
@@ -85,10 +96,11 @@ router.get("/", function(req, res)
                 res.send("Error.");
                 return;
             }
+
             res.render("seat",
             {
                 tid:        ticketID,
-                bookddl:    bookend,
+                bookddl:    getTime(endtime),
                 ArestTicket:(docs[0]["A"]==null?0:docs[0]["A"]),
                 BrestTicket:(docs[0]["B"]==null?0:docs[0]["B"]),
                 CrestTicket:(docs[0]["C"]==null?0:docs[0]["C"]),
