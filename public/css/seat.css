@@ -1,0 +1,153 @@
+﻿
+body
+{
+	background-color: rgb(30,35,41);
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	margin: 0 0 0 0;
+	font-family: "微软雅黑";
+}
+
+ul{
+	padding-left: 0px;
+	list-style-type:none;
+}
+
+#front
+{
+	background-image: url(../img/seat/wutai.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	width: 50%;
+}
+/**********综体分区**************/
+#Zongti{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	position: relative;
+	margin-bottom: 30px;
+}
+
+#block_A
+{
+	background-image: url(../img/seat/block_A.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 44%;
+	position: absolute;
+
+}
+
+#block_B
+{
+	background-image: url(../img/seat/block_B.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 70%;
+	position: absolute;
+}
+
+
+#block_C
+{
+	background-image: url(../img/seat/block_C.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 70%;
+	right: 0;
+	position: absolute;
+}
+
+#Friend_block
+{
+	background-image: url(../img/seat/block_Friend.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 6.67%;
+	position: absolute;
+}
+
+#block_D
+{
+	background-image: url(../img/seat/block_D.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 22%;
+	position: absolute;
+}
+
+#block_E
+{
+	background-image: url(../img/seat/block_E.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	width: 100%;
+	position: absolute;
+}
+
+/**********购票信息**************/
+#info_Area
+{
+	width: 80%;
+	height: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 2em;
+	color: rgb(150,150,150);
+	margin-bottom: 20%;
+}
+
+#item, #info{
+	width: 50%;
+}
+#item{
+	float: left;
+}
+
+#info{
+	float: right;
+}
+
+#info ul{
+	text-align: right;
+}
+
+#item ul{
+	text-align: left;
+} 
+
+#bottom {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-image: url(../img/seat/bottom.png);
+	background-size: cover;
+	background-repeat: no-repeat;
+	font-size: 2.5em;
+	color: rgb(200,200,200);
+}
+
+#save
+{
+	text-align: center;
+	float: left;
+	margin-left: 7%;
+}
+
+#submit{
+	text-align: center;
+	float: right;
+	margin-right: 14%;
+}
+
+#save, #submit{
+	margin-top: 10%;
+}
