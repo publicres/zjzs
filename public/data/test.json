@@ -1,0 +1,15 @@
+{
+	"ticket":[{"place":"综合体育馆",
+		   "book_time":"2014/11/06 12:02:12", 
+		   "ticket_id":"2014110623423",
+                   "qrcode":"img/qrcode.PNG",
+                   "status":"2"
+		   },
+		   {"place":"综合体育馆",
+		   "book_time":"2014/11/05 11:02:12", 
+		   "ticket_id":"2014110523423",
+                   "qrcode":"",
+                   "status":"1"
+ 		   }
+	]
+}

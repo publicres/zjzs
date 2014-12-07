@@ -1,0 +1,46 @@
+header{
+	z-index: 10;
+	position: fixed;
+}
+
+dd .title{
+	padding-bottom: 10px;
+	color: #dd001e;
+	font-weight: bold;
+	float: left;
+	margin-right: 10px;
+}
+
+#qrcodeWrap{
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	border-radius: 10px;
+	border: dotted;
+	border-color: #aeaeae;
+}
+
+#header_blank{
+	height: 34px;
+}
+
+#fakeQrcode{
+	border: dotted;
+	border-color: #aeaeae;
+	border-radius: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 2em;
+	margin-bottom: 1em;
+}
+
+#seatButton{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2px;
+	height: 2em;
+	margin-bottom: 1em;
+	margin-top: 2em;
+}
