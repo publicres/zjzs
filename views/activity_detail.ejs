@@ -76,7 +76,12 @@ var activity_book_ticket_link="";//抢票链接
 var activity_view_ticket_link="";//查票链接
 var activity_key = "<%= act_key %>";
 var activity_remain_ticket = <%= rem_tik %>;
-var activity_extra_info=activity_ticket_status==0?[{t:'活动总票数',c:activity_remain_ticket}]:(activity_ticket_status==1?[{t:'剩余票数',c:activity_remain_ticket}]:[]);//可选项目
+var act_key= <%= act_key %>;
+var activity_extra_info=[{t:'活动代称',c:act_key+" (用于指令退票)"}];
+if (activity_ticket_status==0)
+    activity_extra_info.push({t:'活动总票数',c:activity_remain_ticket});
+else if (activity_ticket_status==1)
+    activity_extra_info.push({t:'剩余票数',c:activity_remain_ticket});
 /********************************/
 var activity_detail_title_2="抢票方式";
 var activity_content_2=
