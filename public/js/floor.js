@@ -1,5 +1,5 @@
 ﻿$(document).ready(function() {
-	$('#book_time').html(book_time + "起");
+	$('#book_time').html(book_time);
 });
 
 //CSS格式调整
