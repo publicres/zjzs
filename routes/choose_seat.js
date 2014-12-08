@@ -50,7 +50,7 @@ function checkValidity(req, res, callback)
                 }
                 else
                 {
-                    if (docs1[0].need_seat==0)
+                    if (docs1[0].need_seat!=2)
                     {
                         res.send("No need to choose seat.");
                         return;

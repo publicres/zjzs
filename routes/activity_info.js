@@ -32,7 +32,7 @@ router.get("/", function(req, res, next)
     db[ACTIVITY_DB].find(
     {
         _id:theActID,
-        status:{$ne:0}
+        status:{$gt:0}
     },function(err, docs)
     {
         if (err || docs.length==0)

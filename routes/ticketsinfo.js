@@ -44,9 +44,23 @@ router.get('/', function(req, res) {
                         ticket_status=1;
                     else
                         ticket_status=2;
-
                     if (ticketstatus!=1 && ticketstatus!=2)
                         ticket_status=3;
+
+                    if (tiSeat=="")
+                    {
+                        var current=(new Date()).getTime();
+                        if (ticket_status==1 && (current<docs[0].book_start || current>docs[0].book_end))
+                        {
+                            ticket_status=2;
+                            tiSeat="您未在抢票时间内选座，系统将稍后随机分配座位";
+                        }
+                    }
+                    else
+                    {
+                        if (docs1[0].need_seat==1)
+                            tiSeat=tiSeat[0]+"区";
+                    }
                     res.render('checkTicket', {
                         act_name: activityName,
                         act_photo: activityPhoto,

@@ -79,7 +79,7 @@ $("#save").mouseup(function(){
 			alert("成功保存预选座位信息。");
 		else
 			alert("你还未选择任何座位。");
-		
+
 	}, 100);
 })
 
@@ -92,16 +92,17 @@ $("#submit").mouseup(function(){
 		$("#bottom").css("background-image", "url(img/seat/bottom.png)");
 		var url = window.location.href;
 		if (selected != 0){
-			document.write('<form name=myForm '+ url + '><input type=hidden name=ticket_id><input type=hidden name=seat></form>');  
-		    var myForm=document.forms['myForm'];  
-		    myForm.action='index.jsp';  
-		    myForm.method='POST';  
-		    myForm.ticket_id.value=ticket_id;  
-		    myForm.seat.value=$("#seat_info").html();  
+			$("body").append($('<div style="display:none;" id="huahua">'));
+			$("#huahua").html('<form name=myForm ><input type=hidden name=ticket_id><input type=hidden name=seat></form>');
+		    var myForm=document.forms['myForm'];
+		    myForm.action=url;
+		    myForm.method='POST';
+		    myForm.ticket_id.value=ticket_id;
+		    myForm.seat.value=$("#seat_info").html();
 		    myForm.submit();
 		}
 		else
 			alert("你还未选择任何座位。");
-		
+
 	}, 100);
 })

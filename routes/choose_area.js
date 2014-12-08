@@ -16,7 +16,7 @@ function checkValidity(req, res, callback)
         res.send("ticketid is required!");
         return;
     }
-    db[TICKET_DB].find({unique_id: req.query.ticketid}, function(err, docs)
+    db[TICKET_DB].find({unique_id: req.query.ticketid, status:{$ne:0}}, function(err, docs)
     {
         if (docs.length == 0)
         {
@@ -51,9 +51,9 @@ function checkValidity(req, res, callback)
                 }
                 else
                 {
-                    if (docs1[0].need_seat==0)
+                    if (docs1[0].need_seat!=1)
                     {
-                        res.send("No need to choose seat.");
+                        res.send("No need to choose area.");
                         return;
                     }
                     var current=(new Date()).getTime();
@@ -106,6 +106,42 @@ router.get("/", function(req, res)
                 CrestTicket:(docs[0]["C_area"]==null?0:docs[0]["C_area"]),
                 DrestTicket:(docs[0]["D_area"]==null?0:docs[0]["D_area"]),
                 ErestTicket:(docs[0]["E_area"]==null?0:docs[0]["E_area"])
+            });
+        });
+    });
+});
+
+router.post("/", function(req, res)
+{
+    checkValidity(req,res,function(ticketID, activityID, bookend)
+    {
+        var toFind={activity: activityID};
+        var realName=req.body.seat[0]+"_area";
+        toFind[realName]={$gt:0};
+        var toModify={};
+        toModify[realName]=-1;
+        db[SEAT_DB].update(toFind,{$inc:toModify},{multi:false},function(err,result)
+        {
+            if (err || result.n==0)
+            {
+                //WARNING!
+                res.send("No  seat . ");
+                return;
+            }
+            db[TICKET_DB].update({unique_id: req.query.ticketid, status:{$ne:0}},
+            {
+                $set:{seat:realName}
+            },{multi:false},function(err,result)
+            {
+                if (err || result.n==0)
+                {
+                    //ROLL BACK, supposed never to be executed.
+                    res.send("Fatal Failure!");
+                    toModify[realName]=1;
+                    db[SEAT_DB].update({activity: activityID},{$inc:toModify},{multi:false},function(){});
+                    return;
+                }
+                res.redirect(urls.ticketInfo+"?ticketid="+ticketID);
             });
         });
     });
