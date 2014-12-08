@@ -26,7 +26,7 @@ var options_creatMenu = {
 
 function createMenu(access_token){
     options_creatMenu.path = options_creatMenu.path + access_token;
-    
+
     var post = https.request(options_creatMenu, function (response) {
         response.on('data', function(d) {
             process.stdout.write(d);
@@ -120,7 +120,7 @@ function autoClearOldMenus(activities){
 
         buttons.push(JSON.parse(JSON.stringify(Obj)));
     };
-    
+
     modifyMenu(buttons);
     at.getAccessToken(createMenu);
 }
