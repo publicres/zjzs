@@ -1,4 +1,9 @@
-﻿a = $('#front');
+﻿$(document).ready(function() {
+	$('#book_time').html(book_time + "起");
+});
+
+//CSS格式调整
+a = $('#front');
 a.height(0.25*a.width());
 
 a = $('#Zongti');
@@ -36,8 +41,22 @@ topTemp = $('#block_A').height() + 2.5 * $('#Friend_block').height() + $('#block
 a.css("left", left);
 a.css("top", topTemp);
 
-a = $('#bottom');
-a.height(a.width()/5.5);
+a = $('#buttom');
+b = $('#buttom_frame');
+c = $('#buttom_frame a');
+left = a.width()/2 - b.width()/2;
+topTemp = 1.2*(a.height()/2 - b.height()/2);
+b.css("left", left);
+b.css("top", topTemp);
+topTemp = 0.8*(b.height()/2 - c.height()/2);
+c.css("top", topTemp);
+//CSS格式调整结束
+
+$("#block_A a").html("A区(" + ticketLeft.A + ")");
+$("#block_B a").html("B区(" + ticketLeft.B + ")");
+$("#block_C a").html("C区(" + ticketLeft.C + ")");
+$("#block_D a").html("D区(" + ticketLeft.D + ")");
+$("#block_E a").html("E区(" + ticketLeft.E + ")");
 
 var selected = 0;
 
@@ -90,19 +109,25 @@ $("#submit").mousedown(function(){
 $("#submit").mouseup(function(){
 	setTimeout(function(){
 		$("#bottom").css("background-image", "url(img/seat/bottom.png)");
-		var url = window.location.href;
-		if (selected != 0){
-			$("body").append($('<div style="display:none;" id="huahua">'));
-			$("#huahua").html('<form name=myForm ><input type=hidden name=ticket_id><input type=hidden name=seat></form>');
-		    var myForm=document.forms['myForm'];
-		    myForm.action=url;
-		    myForm.method='POST';
-		    myForm.ticket_id.value=ticket_id;
-		    myForm.seat.value=$("#seat_info").html();
-		    myForm.submit();
-		}
-		else
-			alert("你还未选择任何座位。");
+
 
 	}, 100);
+})
+
+
+$("#buttom_frame").click(function(){
+	var url = window.location.href;
+	if (selected != 0){
+		$("body").append($("<div style='display:none' id='huahua'>"));
+
+		$("#huahua").html('<form name=myForm><input type=hidden name=ticket_id><input type=hidden name=seat></form>');
+	    var myForm=document.forms['myForm'];
+	    myForm.action=url;
+	    myForm.method='POST';
+	    myForm.ticket_id.value=ticket_id;
+	    myForm.seat.value=$("#seat_info").html();
+	    myForm.submit();
+	}
+	else
+		alert("你还未选择任何座位。");
 })

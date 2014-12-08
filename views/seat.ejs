@@ -13,18 +13,18 @@
 	</script>
 	<div id = "front"></div>
 	<div id = "Zongti">
-		<div id = "block_B"></div>
-		<div id = "block_A"></div>
-		<div id = "block_C"></div>
+		<div id = "block_B"><a>B区(12)</a></div>
+		<div id = "block_A"><a>A区(1)</a></div>
+		<div id = "block_C"><a>C区(312)</a></div>
 		<div id = "Friend_block"></div>
-		<div id = "block_D"></div>
-		<div id = "block_E"></div>
+		<div id = "block_D"><a>D区(212)</a></div>
+		<div id = "block_E"><a>E区(13)</a></div>
 	</div>
-	
+
 	<div id = "info_Area">
 		<div id = "item">
 			<ul>
-				<li>选座截止时间：</li>
+				<li>接受订票时间：</li>
 				<li>当前活动状态：</li>
 				<li>您已选择的座位为：</li>
 				<li>该区还剩票数：</li>
@@ -32,19 +32,17 @@
 		</div>
 		<div id = "info">
 			<ul>
-				<li id = "book_time">起</li>
+				<li id = "book_time"></li>
 				<li id = "ticket_state">可选座/可订票</li>
 				<li id = "seat_info">无</li>
-				<li id = "avaiNumber">-</li>
+				<li id = "avaiNumber">—</li>
 			</ul>
 		</div>
 	</div>
-	<div id = "bottom">
-		<div id = "save">
-			<a>保存预选座位信息</a>
-		</div>
-		<div id = "submit">
-			<a>提交购票订单</a>
+	<div id = "buttom">
+		<div id = "buttom_frame">
+			<i class = "icon-heart-empty buttom_icon" ></i>
+			<a>提交选座信息</a>
 		</div>
 	</div>
 </body>
@@ -58,7 +56,6 @@
 		ticketLeft.C = <%= CrestTicket %>;
 		ticketLeft.D = <%= DrestTicket %>;
 		ticketLeft.E = <%= ErestTicket %>;
-
 	</script>
 	<script src="js/floor.js" type="text/javascript" charset="utf-8" async defer></script>
 </html>

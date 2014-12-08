@@ -120,6 +120,7 @@ router.post("/", function(req, res)
         toFind[realName]={$gt:0};
         var toModify={};
         toModify[realName]=-1;
+        console.log(req.body);
         db[SEAT_DB].update(toFind,{$inc:toModify},{multi:false},function(err,result)
         {
             if (err || result.n==0)

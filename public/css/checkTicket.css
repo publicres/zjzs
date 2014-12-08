@@ -1,3 +1,47 @@
+/* 
+*	fonts are fromt fontello.com 
+*	author: Yanzhe Yang;
+* 	time:　	2014/12/8;
+*/
+
+
+@font-face {
+  font-family: 'fontello';
+  src: url('../font/fontello.eot?1125755');
+  src: url('../font/fontello.eot?1125755#iefix') format('embedded-opentype'),
+       url('../font/fontello.woff?1125755') format('woff'),
+       url('../font/fontello.ttf?1125755') format('truetype'),
+       url('../font/fontello.svg?1125755#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+}
+
+
+.icon-cart:before { content: '\e800'; }
+.icon-location:before { content: '\e802'; }
+.icon-right-thin:before { content: '\e803';}
+.icon-leaf:before { content: '\e804'; } 
+.icon-compass:before { content: '\e805'; } 
+.icon-signal:before { content: '\e801'; }
+
 header{
 	z-index: 10;
 	position: fixed;
@@ -36,11 +80,130 @@ dd .title{
 	margin-bottom: 1em;
 }
 
-#seatButton{
+#direction{
+	color: #30DFE0;
+	float: right;
+}
+
+#wifi{
+	color: #CCCCCC;
+	float: right;
+}
+
+#compass{
+	display: inline-block;
+	color: #CCCCCC;
+	float: right;
+}
+
+#iconBar{
+	margin-top: 15px;
+	margin-right: 30px;
+	height: 20px;
+}
+
+/**********综体分区**************/
+#front{
+	background-image: url(../img/seat/wutai.png);
+	background-size: contain;
+	background-repeat: no-repeat;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 2px;
-	height: 2em;
-	margin-bottom: 1em;
-	margin-top: 2em;
+	margin-top: 5px;
+	width: 50%;
+}
+
+
+#Zongti{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	position: relative;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+#Zongti a{
+	position: relative;
+	font-size: 1em;
+	font-weight: bold;
+	color: rgb(20, 20, 20);
+}
+
+#block_A
+{
+	background-image: url(../img/seat/block_A.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 44%;
+	position: absolute;
+	text-align: center;
+}
+
+#block_B
+{
+	background-image: url(../img/seat/block_B.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 70%;
+	position: absolute;
+}
+
+#block_C
+{
+	background-image: url(../img/seat/block_C.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 70%;
+	right: 0;
+	position: absolute;
+}
+
+#Friend_block
+{
+	background-image: url(../img/seat/block_Friend.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 6.67%;
+	position: absolute;
+}
+
+#block_D
+{
+	background-image: url(../img/seat/block_D.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 22%;
+	position: absolute;
+}
+
+#block_E
+{
+	background-image: url(../img/seat/block_E.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	width: 100%;
+	position: absolute;
+}
+
+#block_A a{
+	top:35%;
+}
+
+#block_B a{
+	top: 65%;
+}
+
+#block_C a{
+	top: 65%;
+}
+
+
+#block_D a{
+	top: 30%;
+}
+
+#block_E a{
+	top: 31%;
 }

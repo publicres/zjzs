@@ -8,8 +8,6 @@
     <title>我的票夹</title>
     <link href="css/checkTicket.css" type="text/css" rel="stylesheet">
     <link href="css/style.min.css" type="text/css" rel="stylesheet">
-    <script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
-    <script src="js/jquery.qrcode.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -17,8 +15,8 @@
         <article id="container" class="ticket">
             <section id="order" class="ticket co-bto">
                 <header class="web-box">
-                    <a href="javascript:;" class="active">我的电子票</a>
-                    <a href="javascript:;">座位引导</a>
+                    <a id="e-ticket" class="active">我的电子票</a>
+                    <a id="seat-guide">座位引导</a>
                 </header>
                 <div id="header_blank">
                 </div>
@@ -26,8 +24,8 @@
                 <div class="cz_order" style= "padding-bottom: 0">
                     <dl>
                         <dt>
-                          <span></span>
-                          <font>Happy New Year!</font>
+                          <span id="ticket_order">订单编号：</span>
+                          <font></font>
                         </dt>
                         <dd>
                             <div>
@@ -40,6 +38,7 @@
                             <p id="ticket_place">场馆：</p>
                             <p id="ticket_time">日期：</p>
                             <p id="ticket_seat">座位：</p>
+                            <p id="ticket_cancel">退票方式：回复 "退票"+"新年音乐会"</p>
                             <br>
                             <b></b>
                         </dd>
@@ -48,21 +47,41 @@
                             <div id="qrcodeWrap">
                                 <div id="qrcode"></div>
                             </div>
-
-                            <div id="seatEntrance">
-                                <a id="seatButton" style="float:none" href="">进入选座</a>
-                                <div id="fakeQrcode" style="display:none">
-
-                                </div>
-
-                            </div>
-
-                            <br>
+                            <p id="ticket_ddl" >选座截止时间：</p>
                             <b></b>
                         </dd>
                     </dl>
                 </div>
+
+                <!-座位引导综体部分->
+                <div id="guideMap-zt">
+                    <div id="iconBar">
+                        <div id="direction"><i class="icon-right-thin">北</i></div>
+                    </div>
+
+                    <div id="front" style="clear:both"></div>
+                    <div id="Zongti">
+                        <div id="block_B"><a>B</a></div>
+                        <div id="block_A"><a>A</a></div>
+                        <div id="block_C"><a>C</a></div>
+                        <div id="Friend_block"></div>
+                        <div id="block_D"><a>D</a></div>
+                        <div id="block_E"><a>E</a></div>
+                    </div>
+                </div>
+
+                <!-座位引导新清华学堂部分->
+                <div id="guideMap-xq">
+
+                </div>
+
             </section>
+            <section class="info" id="seatEntrance">
+                <div class="btn" style="height:58px">
+                  <a id="seatButton" href=""><i class="icon-cart"></i>进入选座</a>
+                </div>
+            </section>
+
         </article>
     </div>
 </body>
@@ -71,14 +90,19 @@
 <script>
     //测试用
     var ticket = new Object();
-    ticket.id = "<%= tid %>"
+    ticket.id = "<%= tid %>";
     ticket.title="<%= act_name %>";
+    ticket.name = "<%= act_key %>";      //退票的活动代称
     ticket.place = "<%= act_place %>";
     ticket.time = "<%= act_begintime %>";
-    ticket.seat = "<%= seat %>";           //ticket.seat = "A区"
-    ticket.qrcode_img= "<%= act_photo %>";
-    ticket.status= <%= ticket_status %>;            //status=1, "等待选座"， status=2, "等待检票", status=3, "已检票"
-
+    ticket.seat = "<%= seat %>";              //ticket.seat = "A区";
+    ticket.qrcode_img="<%= act_photo %>";
+    ticket.status = <%= ticket_status %>;              //status=1, "等待选座"， status=2, "等待检票", status=3, "已检票"
+    ticket.seatddl = "<%= act_book_end %>";
+    ticket.needseat = <%= act_need_seat %>;
 </script>
-<script src="js/checkTicket.js" type="text/javascript"></script>
+<script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/qrcode.js" type="text/javascript" charset="utf-8" ></script>
+<script src="js/createqrcode.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/checkTicket.js" type="text/javascript" charset="utf-8"></script>
 </html>

@@ -61,6 +61,7 @@ router.get('/', function(req, res) {
                         if (docs1[0].need_seat==1)
                             tiSeat=tiSeat[0]+"区";
                     }
+                    var be=new Date(docs1[0].book_end);
                     res.render('checkTicket', {
                         act_name: activityName,
                         act_photo: activityPhoto,
@@ -71,7 +72,12 @@ router.get('/', function(req, res) {
                         tid:req.query.ticketid,
                         act_need_seat: docs1[0].need_seat,
                         seat: tiSeat,
-                        ticket_status:ticket_status
+                        ticket_status:ticket_status,
+                        act_book_end: be.getFullYear() + "年"
+                                    +(be.getMonth()+1) + "月"
+                                    + (be.getDate()+1) + "日 "
+                                       + be.getHours() + ":"
+                                     + be.getMinutes()
                     });
 
                     return;
