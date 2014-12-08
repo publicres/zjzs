@@ -69,13 +69,14 @@ var activity_title="<%= act_name %>";//活动名称
 var activity_seat_type="<%= seat_type %>";//0:不选座 1:选区 2:选座
 var activity_detail_title="演出详情";//可以填"演出详情"、"活动详情"等
 var activity_content="<%= act_desc %>";
-var activity_extra_info=[];//可选项目
 var activity_main_image="<%= act_pic_url %>";//必须是竖着的图片
 var activity_title_image="<%= act_pic_url %>";//最好是横着的图片
 var activity_ticket_status=<%= ticket_status %>;//0:未开始抢票 1:抢票中 2:抢票结束 3:抢票成功，点击查看 4:已领票
 var activity_book_ticket_link="";//抢票链接
 var activity_view_ticket_link="";//查票链接
 var activity_key = "<%= act_key %>";
+var activity_remain_ticket = <%= rem_tik %>;
+var activity_extra_info=activity_ticket_status==0?[{t:'活动总票数',c:activity_remain_ticket}]:(activity_ticket_status==1?[{t:'剩余票数',c:activity_remain_ticket}]:[]);//可选项目
 /********************************/
 var activity_detail_title_2="抢票方式";
 var activity_content_2=
