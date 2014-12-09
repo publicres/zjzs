@@ -8,15 +8,22 @@ var urls = require("../address_configure");
 var ACTIVITY_DB = model.activities;
 var db = model.db;
 
+function addZero(num)
+{
+    if (num<10)
+        return "0"+num;
+    return ""+num;
+}
 function getTime(datet,isSecond)
 {
     if (!(datet instanceof Date))
         datet=new Date(datet);
+    datet.getMinutes()
     return datet.getFullYear() + "年"
         + (datet.getMonth()+1) + "月"
         + (datet.getDate()+1) + "日 "
-        + datet.getHours() + ":"
-        + datet.getMinutes()
+        + addZero(datet.getHours()) + ":"
+        + addZero(datet.getMinutes())
         + (isSecond===true? ":"+datet.getSeconds() : "");
 }
 router.get("/", function(req, res, next)

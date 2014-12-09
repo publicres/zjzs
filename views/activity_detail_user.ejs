@@ -76,12 +76,13 @@ var activity_book_ticket_link="";//抢票链接
 var activity_view_ticket_link="";//查票链接
 var activity_key = "<%= act_key %>";
 var activity_remain_ticket = <%= rem_tik %>;
+var activity_place = "<%= act_place %>";
 var act_key= "<%= act_key %>";
-var activity_extra_info=[{t:'活动代称',c:act_key+" (用于指令退票)"}];
+var activity_extra_info=[{t:'活动时间',c:activity_time},{t:'活动地点',c:activity_place},{t:'活动代称',c:act_key}];
 if (activity_ticket_status==0)
-    activity_extra_info.push({t:'活动总票数',c:activity_remain_ticket});
+    activity_extra_info.push({t:'活动票数',c:activity_remain_ticket+" 张"});
 else if (activity_ticket_status==1)
-    activity_extra_info.push({t:'剩余票数',c:activity_remain_ticket});
+    activity_extra_info.push({t:'剩余票数',c:activity_remain_ticket+" 张"});
 /********************************/
 var activity_detail_title_2="抢票方式";
 var activity_content_2=
