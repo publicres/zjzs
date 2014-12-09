@@ -6,6 +6,7 @@ var lock = require('../models/lock');
 var urls = require("../address_configure");
 var manageRoute = require("./user_manage");
 var purchaseRoute = require("./user_purchase");
+var uploadRoute = require("./user_upload_pic");
 
 var ADMIN_DB = model.admins;
 var db = model.db;
@@ -73,5 +74,7 @@ router.use("/purchase", function(req, res, next)
     });
 });
 router.use("/purchase",purchaseRoute);
+
+router.use("/upload",uploadRoute);
 
 module.exports = router;
