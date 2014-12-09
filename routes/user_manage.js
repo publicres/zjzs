@@ -16,7 +16,7 @@ var SEAT_DB = model.seats;
 
 router.get("/", function(req, res)
 {
-	res.redirect("users/manage/list");
+	res.redirect("/users/manage/list");
 });
 
 router.get("/list", function(req, res) {
@@ -44,7 +44,7 @@ router.get("/list", function(req, res) {
     		activities1[i] = activity;
 		}
 		res.render("activity_list", {activities1: activities1});
-	}); 
+	});
 });
 
 router.post("/delete", function(req, res){
@@ -58,7 +58,7 @@ router.post("/delete", function(req, res){
 				lock.release(ACTIVITY_DB);
 				return;
 			}
-			if (docs[0]["status"] == 1 && 
+			if (docs[0]["status"] == 1 &&
 				moment(docs[0]["book_start"]).isBefore() && moment(docs[0]["end_time"]).isAfter())
 			{
 				res.send("活动处于抢票开始到活动结束间的阶段，此阶段不能删除活动！");
@@ -78,7 +78,7 @@ router.post("/delete", function(req, res){
 				}
 			});
 		});
-		
+
 	});
 });
 
@@ -88,7 +88,7 @@ router.get("/export", function(req, res){
 		res.send("导出命令缺少actid参数！");
 		return;
 	}
-	
+
 	var idObj = getIDClass(req.query.actid);
 	db[ACTIVITY_DB].find({_id:idObj}, function(err, docs){
 		if (err || docs.length == 0)
@@ -96,22 +96,22 @@ router.get("/export", function(req, res){
 			res.send("找不到要导出的活动！");
 			return;
 		}
-		
+
 		var filename = docs[0]["name"] + ".xlsx";
 		var payFlag;
 		var seatFlag;
 		var conf ={};
-		
+
 		payFlag = false;
 		seatFlag = docs[0].need_seat;
-		
+
 		conf.cols = [{caption:'学号', type:'string'}];
 		if (payFlag)
 			conf.cols.push({caption:'支付状态', type:'string'});
 		conf.cols.push({caption:'入场状态', type:'string'});
 		if (seatFlag != 0)
 			conf.cols.push({caption:'座位', type:'string'});
-		
+
 		db[TICKET_DB].find({activity:idObj, status:{$ne:0}}, function(err, docs){
 			if (err)
 			{
@@ -125,7 +125,7 @@ router.get("/export", function(req, res){
 				item.push(docs[i]["stu_id"]);
 				if (payFlag) //需要支付
 				{
-					
+
 				}
 				else //不需要支付
 				{
@@ -134,7 +134,7 @@ router.get("/export", function(req, res){
 					else
 						item.push("已入场");
 				}
-				
+
 				if (seatFlag == 1) //分区选座的活动
 				{
 					switch (docs[i].seat)
@@ -154,25 +154,27 @@ router.get("/export", function(req, res){
 					case "E_area":
 						item.push("E区");
 						break;
+					default:
+						item.push("未选座");
 					}
 				}
-				
+
 				conf.rows.push(item);
 			}
-			
+
 			var result = nodeExcel.execute(conf);
 			res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-			
+
 			var userAgent = (req.headers['user-agent']||'').toLowerCase();
 			if(userAgent.indexOf('msie') >= 0 || userAgent.indexOf('chrome') >= 0)
 				res.setHeader('Content-Disposition', 'attachment; filename=' + encodeURIComponent(filename));
 			else if(userAgent.indexOf('firefox') >= 0)
-				res.setHeader('Content-Disposition', 'attachment; filename*="utf8\'\'' 
+				res.setHeader('Content-Disposition', 'attachment; filename*="utf8\'\''
 							  + encodeURIComponent(filename)+'"');
 			else
 				res.setHeader('Content-Disposition', 'attachment; filename='
 							  + new Buffer(filename).toString('binary'));
-			
+
 			res.end(result, 'binary');
 		});
 	});
@@ -257,7 +259,7 @@ router.get("/detail", function(req, res)
 								lock.release(ACTIVITY_DB);
 								return;
 							}
-							var ar = {a:docs[0].A_area, b:docs[0].B_area, c:docs[0].C_area, 
+							var ar = {a:docs[0].A_area, b:docs[0].B_area, c:docs[0].C_area,
 									  d:docs[0].D_area, e:docs[0].E_area};
 							activity["area_arrange"] = ar;
 							res.render("activity_detail", {activity:activity});
@@ -287,7 +289,7 @@ router.post("/detail", function(req, res)
 		activity.status = 0;
 	for (key in req.body)
 		activity[key] = req.body[key];
-		
+
 	if (activity.publish)
 		delete activity.publish;
 	if (activity.id)
@@ -304,7 +306,7 @@ router.post("/detail", function(req, res)
 		activity.book_end = parseInt(activity["book_end"]);
 	if (activity.need_seat)
 		activity.need_seat = parseInt(activity["need_seat"]);
-	
+
 	if (req.body.id == undefined) //新建活动
 	{
 		lock.acquire(ACTIVITY_DB, function(){
@@ -319,7 +321,7 @@ router.post("/detail", function(req, res)
 				else {
 					if (!(activity["name"] && activity["key"] && activity["place"] && activity["description"] &&
 						activity["total_tickets"] != undefined && activity["pic_url"] && activity["start_time"] &&
-						activity["end_time"] && activity["book_start"] && activity["book_end"] && 
+						activity["end_time"] && activity["book_start"] && activity["book_end"] &&
 						activity["need_seat"] != undefined))
 					{
 						res.send("活动信息不完整，没有录入数据库！请重新检查。");
@@ -410,7 +412,7 @@ router.post("/detail", function(req, res)
 								}
 								else
 								{
-									var ar = {activity: docs[0]["_id"], 
+									var ar = {activity: docs[0]["_id"],
 											  A_area:a, B_area:b, C_area:c, D_area:d, E_area:e};
 									db[SEAT_DB].insert(ar, function(){
 										res.send("新建活动成功(分区票务)！");
@@ -447,7 +449,7 @@ router.post("/detail", function(req, res)
 					var a, b, c, d, e;
 					if (!(activity["name"] && activity["key"] && activity["place"] && activity["description"] &&
 						activity["total_tickets"] != undefined && activity["pic_url"] && activity["start_time"] &&
-						activity["end_time"] && activity["book_start"] && activity["book_end"] && 
+						activity["end_time"] && activity["book_start"] && activity["book_end"] &&
 						activity["need_seat"] != undefined))
 					{
 						res.send("活动信息不完整，没有录入数据库！请重新检查。");
@@ -629,7 +631,7 @@ router.post("/detail", function(req, res)
 						lock.release(ACTIVITY_DB);
 						return;
 					}
-				
+
 					db[ACTIVITY_DB].find({_id:idObj},function(err,docs){
 						if (err || docs.length == 0)
 						{
@@ -657,7 +659,7 @@ router.post("/detail", function(req, res)
 								lock.release(ACTIVITY_DB);
 								return;
 							}
-							if (activity["A_area"] || activity["B_area"] || activity["C_area"] || 
+							if (activity["A_area"] || activity["B_area"] || activity["C_area"] ||
 								activity["D_area"] || activity["E_area"])
 							{
 								res.send("抢票已开始，不允许更改分区票数！请重新检查。");
@@ -778,7 +780,7 @@ router.post("/detail", function(req, res)
 			});
 		});
 	}
-	
+
 });
 
 module.exports = router;
