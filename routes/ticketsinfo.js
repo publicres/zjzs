@@ -7,6 +7,25 @@ var db = models.db;
 var tickets = models.tickets;
 var activities = models.activities;
 
+function addZero(num)
+{
+    if (num<10)
+        return "0"+num;
+    return ""+num;
+}
+function getTime(datet,isSecond)
+{
+    if (!(datet instanceof Date))
+        datet=new Date(datet);
+    datet.getMinutes()
+    return datet.getFullYear() + "年"
+        + (datet.getMonth()+1) + "月"
+        + (datet.getDate()+1) + "日 "
+        + addZero(datet.getHours()) + ":"
+        + addZero(datet.getMinutes())
+        + (isSecond===true? ":"+datet.getSeconds() : "");
+}
+
 //0是被人退掉的票，1是订了但未支付，2是订了且支付了，3是使用过的票，4是活动结束的票
 router.get('/', function(req, res) {
     if (req.query.ticketid == null){
@@ -34,9 +53,9 @@ router.get('/', function(req, res) {
                     var activityPhoto = docs1[0].pic_url;
                     var activityPlace = docs1[0].place;
                     var tmp1 = new Date(docs1[0].start_time);
-                    var beginTime = tmp1.getFullYear() + "年" + (tmp1.getMonth()+1) + "月" + (tmp1.getDate()+1) + "日" + tmp1.getHours() + "时" + tmp1.getMinutes() + "分";
+                    var beginTime = getTime(tmp1);
                     var tmp2 = new Date(docs1[0].end_time);
-                    var endTime = tmp2.getFullYear() + "年" + (tmp1.getMonth()+1) + "月" + (tmp1.getDate()+1) + "日" + tmp2.getHours() + "时" + tmp2.getMinutes() + "分";
+                    var endTime = getTime(tmp2);
                     var activityKey = docs1[0].key;
 
                     var ticket_status;
@@ -73,11 +92,7 @@ router.get('/', function(req, res) {
                         act_need_seat: docs1[0].need_seat,
                         seat: tiSeat,
                         ticket_status:ticket_status,
-                        act_book_end: be.getFullYear() + "年"
-                                    +(be.getMonth()+1) + "月"
-                                    + (be.getDate()+1) + "日 "
-                                       + be.getHours() + ":"
-                                     + be.getMinutes()
+                        act_book_end: getTime(be)
                     });
 
                     return;
