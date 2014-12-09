@@ -19,6 +19,8 @@
     "mongojs": "~0.17.0",
     "mongodb": "~1.4.19",
     "thunky": "~0.1.0",
-    "request": "2.48.0"
+    "request": "2.48.0",
+    "moment":  "~2.8.4",
+    "excel-export": "~0.4.1"
   }
 }

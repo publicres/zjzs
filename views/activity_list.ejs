@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #content {
+            padding-top: 80px;
+        }
+    </style>
+    <link href="/lib/bs/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/activity_list.css"/>
+    <title>活动列表 - 紫荆之声票务管理系统</title>
+</head>
+<body>
+    <header class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="cursor:default">“紫荆之声”票务管理系统</a>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a class="btn-link" href="/users/manage/list">活动列表</a>
+                        </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/logout" >登出</a>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div id="content">
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+
+    <div class="pageheader">
+        <h1 class="lead">活动列表</h1>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+                <a class="btn btn-default" href="/users/manage/detail">新增活动</a>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>状态</th>
+                <th>名称</th>
+                <th>简介</th>
+                <th>活动时间</th>
+                <th>地点</th>
+                <th>订票时间</th>
+                <th>操作</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="tbody-activities">
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div id="deleteid" style="display: none;"></div>
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="delCancel()">&times;</button>
+        <h4 class="modal-title" id="delModalLabel">确认删除</h4>
+      </div>
+      <div class="modal-body" id="modalcontent">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="delConfirm()">确认</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="delCancel()">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <footer class="bs-footer" role="contentinfo">
+        <hr>
+        <div class="container">
+            <p style="text-align: right">清华紫荆之声 &copy; 2013</p>
+        </div>
+    </footer>
+    <script src="/lib/jq/jquery-1.10.2.min.js"></script>
+    <script src="/lib/bs/js/bootstrap.min.js"></script>
+    <script>
+        var activities = [
+            <% for (var i = 0; i < activities1.length; i++) { %>
+                {
+                    'status': <%= activities1[i].status %>,
+                    'name': '<%= activities1[i].name %>',
+                    'description': '<%= activities1[i].description %>',
+                    'start_time': new Date(<%= activities1[i].start_time %>),
+                    'end_time': new Date(<%= activities1[i].end_time %>),
+                    'place': '<%= activities1[i].place %>',
+                    'delete': '<%= activities1[i].id %>',
+                    'operations': {'detail':'/users/manage/detail?actid=<%= activities1[i].id %>','export':'/users/manage/export?actid=<%= activities1[i].id %>', 'checkin':'/users/manage/checkin?actid=<%= activities1[i].id %>'},
+                    'book_start': new Date(<%= activities1[i].book_start %>),
+                    'book_end': new Date(<%= activities1[i].book_end %>)
+                } <% if (i != activities1.length-1) {%>,<% } %>
+            <% } %>
+        ];
+        var operations_name = {'detail':'详情', 'export':'导出', 'checkin':'检票'};
+        var operations_icon = {'detail':'pencil', 'export':'export', 'checkin':'check'};
+        var operations_target = {'detail':'', 'export':'_blank', 'checkin':'_blank'};
+    </script>
+    <script src="/javascripts/activity_list.js"></script>
+</body>
+</html>

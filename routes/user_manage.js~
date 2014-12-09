@@ -16,7 +16,7 @@ var SEAT_DB = model.seats;
 
 router.get("/", function(req, res)
 {
-	res.redirect("users/manage/list");
+	res.redirect("user/manage/detail");
 });
 
 router.get("/list", function(req, res) {
