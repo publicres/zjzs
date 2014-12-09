@@ -12,7 +12,6 @@ var ACTIVITY_DB = model.activities;
 var SEAT_DB = model.seats;
 var db = model.db;
 
-var timer = new Date();
 var alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
 
 var stu_cache={};
@@ -35,6 +34,7 @@ function verifyStudent(openID,ifFail,ifSucc)
 exports.verifyStu=verifyStudent;
 function verifyActivities(actKey,ifFail,ifSucc)
 {
+    var timer = new Date();
     var current=timer.getTime();
     var theAct=act_cache[actKey];
     if (theAct)

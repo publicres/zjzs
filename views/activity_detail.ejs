@@ -34,7 +34,7 @@
                             <a href="<% if (activity.id) { %>
                                 /users/manage/detail?actid=<%= activity.id %>
                                 <% } else { %>
-                                /users/manage/detail 
+                                /users/manage/detail
                                 <% } %>">
                                 <%= activity.name %>
                             </a>
@@ -311,7 +311,7 @@
                         <label class="control-label" for="input-B_area">B区</label>
                     </div>
                     <div class="form-group area-input">
-                        <input class="form-control" type="number" id="input-B_area" value="" 
+                        <input class="form-control" type="number" id="input-B_area" value=""
                                placeholder="B区票数" min="0" step="1" area-part="b">
                     </div>
                     <div class="form-group area-offset">
@@ -320,7 +320,7 @@
                         <label class="control-label" for="input-C_area">C区</label>
                     </div>
                     <div class="form-group area-input">
-                        <input class="form-control" type="number" id="input-C_area" value="" 
+                        <input class="form-control" type="number" id="input-C_area" value=""
                                placeholder="C区票数" min="0" step="1" area-part="c">
                     </div>
                     <div class="form-group area-offset">
@@ -366,7 +366,7 @@
         <pre id="resultHolder"></pre>
         <div class="col-sm-offset-2">
             <button class="btn btn-info" id="continueBtn">继续修改</button>
-            <a class="btn btn-success" href="users/manage/list">返回列表</a>
+            <a class="btn btn-success" href="/users/manage/list">返回列表</a>
         </div>
     </div>
     </div>
@@ -380,7 +380,7 @@
     <script src="/lib/jq/jquery-1.10.2.min.js"></script>
     <script src="/lib/bs/js/bootstrap.min.js"></script>
     <script src="/lib/jq/form/jquery.form.min.js"></script>
-    
+
     <script>
         var activity = {
             'name': '<%= activity.name %>'<% if (activity.id) { %>,

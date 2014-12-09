@@ -224,7 +224,7 @@ router.get("/detail", function(req, res)
 							hour: moment(et).get("hour"),
 							minute: moment(et).get("minute")
 						},
-						total_tickets: act.total_tickets,
+						total_tickets: act.remain_tickets,
 						pic_url: act.pic_url,
 						book_start: {
 							year: moment(bs).get("year"),
@@ -289,13 +289,14 @@ router.post("/detail", function(req, res)
 		activity.status = 0;
 	for (key in req.body)
 		activity[key] = req.body[key];
+	activity.remain_tickets=activity.total_tickets;
 
 	if (activity.publish)
 		delete activity.publish;
 	if (activity.id)
 		delete activity.id;
-	if (activity.total_tickets)
-		activity.total_tickets = parseInt(activity["total_tickets"]);
+	if (activity.remain_tickets)
+		activity.remain_tickets = parseInt(activity["remain_tickets"]);
 	if (activity.start_time)
 		activity.start_time = parseInt(activity["start_time"]);
 	if (activity.end_time)
@@ -320,7 +321,7 @@ router.post("/detail", function(req, res)
 				}
 				else {
 					if (!(activity["name"] && activity["key"] && activity["place"] && activity["description"] &&
-						activity["total_tickets"] != undefined && activity["pic_url"] && activity["start_time"] &&
+						activity["remain_tickets"] != undefined && activity["pic_url"] && activity["start_time"] &&
 						activity["end_time"] && activity["book_start"] && activity["book_end"] &&
 						activity["need_seat"] != undefined))
 					{
@@ -328,7 +329,7 @@ router.post("/detail", function(req, res)
 						lock.release(ACTIVITY_DB);
 						return;
 					}
-					if (activity["total_tickets"] < 0)
+					if (activity["remain_tickets"] < 0)
 					{
 						res.send("活动余票量小于0！请重新检查。");
 						lock.release(ACTIVITY_DB);
@@ -378,7 +379,7 @@ router.post("/detail", function(req, res)
 							lock.release(ACTIVITY_DB);
 							return;
 						}
-						if (a+b+c+d+e != activity["total_tickets"])
+						if (a+b+c+d+e != activity["remain_tickets"])
 						{
 							res.send("分区票数和不等于总票数，没有录入数据库！请重新检查。");
 							lock.release(ACTIVITY_DB);
@@ -448,7 +449,7 @@ router.post("/detail", function(req, res)
 				{
 					var a, b, c, d, e;
 					if (!(activity["name"] && activity["key"] && activity["place"] && activity["description"] &&
-						activity["total_tickets"] != undefined && activity["pic_url"] && activity["start_time"] &&
+						activity["remain_tickets"] != undefined && activity["pic_url"] && activity["start_time"] &&
 						activity["end_time"] && activity["book_start"] && activity["book_end"] &&
 						activity["need_seat"] != undefined))
 					{
@@ -456,7 +457,7 @@ router.post("/detail", function(req, res)
 						lock.release(ACTIVITY_DB);
 						return;
 					}
-					if (activity["total_tickets"] < 0)
+					if (activity["remain_tickets"] < 0)
 					{
 						res.send("活动余票量小于0！请重新检查。");
 						lock.release(ACTIVITY_DB);
@@ -506,7 +507,7 @@ router.post("/detail", function(req, res)
 							lock.release(ACTIVITY_DB);
 							return;
 						}
-						if (a+b+c+d+e != activity["total_tickets"])
+						if (a+b+c+d+e != activity["remain_tickets"])
 						{
 							res.send("分区票数和不等于总票数，没有录入数据库！请重新检查。");
 							lock.release(ACTIVITY_DB);
@@ -647,7 +648,7 @@ router.post("/detail", function(req, res)
 								lock.release(ACTIVITY_DB);
 								return;
 							}
-							if (activity["total_tickets"] != undefined)
+							if (activity["remain_tickets"] != undefined)
 							{
 								res.send("抢票已开始，不允许更改总票数！请重新检查。");
 								lock.release(ACTIVITY_DB);
@@ -695,13 +696,13 @@ router.post("/detail", function(req, res)
 								lock.release(ACTIVITY_DB);
 								return;
 							}
-							if (!(activity["total_tickets"] != undefined && activity["need_seat"] != undefined))
+							if (!(activity["remain_tickets"] != undefined && activity["need_seat"] != undefined))
 							{
 								res.send("总票数和座位分配信息缺失，请重新检查。");
 								lock.release(ACTIVITY_DB);
 								return;
 							}
-							if (activity["total_tickets"] < 0)
+							if (activity["remain_tickets"] < 0)
 							{
 								res.send("活动余票量小于0！请重新检查。");
 								lock.release(ACTIVITY_DB);
@@ -727,7 +728,7 @@ router.post("/detail", function(req, res)
 									lock.release(ACTIVITY_DB);
 									return;
 								}
-								if (a+b+c+d+e != activity["total_tickets"])
+								if (a+b+c+d+e != activity["remain_tickets"])
 								{
 									res.send("分区票数和不等于总票数，没有录入数据库！请重新检查。");
 									lock.release(ACTIVITY_DB);

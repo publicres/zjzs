@@ -67,7 +67,7 @@ router.get("/", function(req, res, next)
             ticket_status:      nowStatus
         };
 
-        res.render("activity_detail", tmp);
+        res.render("activity_detail_user", tmp);
     });
 });
 
