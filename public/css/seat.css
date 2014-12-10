@@ -23,7 +23,7 @@ ul{
 	background-repeat: no-repeat;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 30px;
+	margin-top: 12px;
 	width: 50%;
 }
 /**********综体分区**************/
@@ -31,17 +31,18 @@ ul{
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 30px;
+	margin-top: 10px;
 	position: relative;
-	margin-bottom: 30px;
+	margin-bottom: 15px;
 	text-align: center;
 }
 
 #Zongti a{
 	position: relative;
-	font-size: 3em;
+	font-size: 10px;
 	font-weight: bold;
 	color: rgb(20, 20, 20);
+	opacity: 0.8;
 }
 
 #block_A
@@ -104,10 +105,6 @@ ul{
 	position: absolute;
 }
 
-#Zongti a{
-	opacity: 0.8;
-}
-
 #block_A a{
 	top:35%;
 }
@@ -134,7 +131,7 @@ ul{
 	position: fixed;
 	bottom: 0;
 	width: 100%;
-	height: 170px;
+	height: 70px;
 	background-image: url(../img/seat/buttom_back.png);
 	overflow: hidden;
 	background-repeat: repeat-x;
@@ -166,8 +163,7 @@ ul{
 #buttom_frame a{
 	font-family: '微软雅黑';
 	color: #F3AFBA;
-	text-height: 50px;
-	font-size: 55px;
+	font-size: 20px;
 	font-weight: lighter;
 	position: relative;
 }
@@ -178,7 +174,7 @@ ul{
 	height: 200px;
 	margin-left: auto;
 	margin-right: auto;
-	font-size: 2em;
+	font-size: .5em;
 	color: rgb(150,150,150);
 	margin-bottom: 20%;
 }
@@ -202,7 +198,25 @@ ul{
 	text-align: left;
 } 
 
+/**********提示框样式*************/
+#alertFrame{
+	position: absolute;
+	left:15%;
+	top: 20%;
+	width: 70%;
+	background-color: #555;
+	opacity: 0;
+	-webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+}
 
+#alertInfo{ 
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-weight: bold;
+	color: #ccc;
+}
 
 /**********图标字体**************/
 @font-face {
@@ -234,10 +248,10 @@ ul{
  
   position: relative;
   color: #F3AFBA;
-  font-size: 55px;
+  font-size: 1.3em;
   display: inline-block;
   text-decoration: inherit;
-  width: 1em;
+  width: 0.5em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
@@ -268,6 +282,6 @@ ul{
 .icon-compass:before { content: '\e805'; } /* '' */
 .icon-heart-empty:before { 
 	content: '\e806'; 
-	top: 20px;
+	top: 15px;
 	} /* '' */
 .icon-export:before { content: '\e807'; } /* '' */

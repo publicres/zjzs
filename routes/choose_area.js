@@ -33,11 +33,10 @@ function checkValidity(req, res, callback)
             }
             if (docs[0].seat!="")
             {
-                res.render("notification",
+                res.render("alert",
                 {
-                    title: "提醒",
-                    topic: "座位已选",
-                    content: "您已经选过座位啦！座位是"+docs[0].seat
+                    errorinfo:  "已经选过座位啦！座位是"+docs[0].seat,
+                    backadd:    urls.ticketInfo+"?ticketid="+req.query.ticketid
                 });
                 return;
             }
@@ -59,11 +58,10 @@ function checkValidity(req, res, callback)
                     var current=(new Date()).getTime();
                     if (current<docs1[0].book_start || current>docs1[0].book_end)
                     {
-                        res.render("notification",
+                        res.render("alert",
                         {
-                            title: "提醒",
-                            topic: "选座时间已过",
-                            content: "很抱歉，选座时间已过。如果您还没有选择座位，系统将稍后给您随机分配。"
+                            errorinfo: "抱歉，选座时间已过<br>请等待系统自动分配座位",
+                            backadd:    urls.ticketInfo+"?ticketid="+req.query.ticketid
                         });
                         return;
                     }
@@ -74,15 +72,22 @@ function checkValidity(req, res, callback)
     });
 }
 
+function addZero(num)
+{
+    if (num<10)
+        return "0"+num;
+    return ""+num;
+}
 function getTime(datet,isSecond)
 {
     if (!(datet instanceof Date))
         datet=new Date(datet);
+    datet.getMinutes()
     return datet.getFullYear() + "年"
         + (datet.getMonth()+1) + "月"
         + (datet.getDate()+1) + "日 "
-        + datet.getHours() + ":"
-        + datet.getMinutes()
+        + addZero(datet.getHours()) + ":"
+        + addZero(datet.getMinutes())
         + (isSecond===true? ":"+datet.getSeconds() : "");
 }
 router.get("/", function(req, res)
@@ -96,7 +101,9 @@ router.get("/", function(req, res)
                 res.send("Error.");
                 return;
             }
-
+            var errorid=100;
+            if (req.query.err!=null)
+                errorid=1;
             res.render("seat",
             {
                 tid:        ticketID,
@@ -105,7 +112,8 @@ router.get("/", function(req, res)
                 BrestTicket:(docs[0]["B_area"]==null?0:docs[0]["B_area"]),
                 CrestTicket:(docs[0]["C_area"]==null?0:docs[0]["C_area"]),
                 DrestTicket:(docs[0]["D_area"]==null?0:docs[0]["D_area"]),
-                ErestTicket:(docs[0]["E_area"]==null?0:docs[0]["E_area"])
+                ErestTicket:(docs[0]["E_area"]==null?0:docs[0]["E_area"]),
+                errorid:    errorid
             });
         });
     });
@@ -126,7 +134,7 @@ router.post("/", function(req, res)
             if (err || result.n==0)
             {
                 //WARNING!
-                res.send("No  seat . ");
+                res.redirect(urls.choosearea+"?ticketid="+ticketID+"&err=1");
                 return;
             }
             db[TICKET_DB].update({unique_id: req.query.ticketid, status:{$ne:0}},

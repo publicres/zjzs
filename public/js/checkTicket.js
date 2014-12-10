@@ -37,6 +37,8 @@ $(document).ready(function(){
     $("#ticket_order").html("订单编号："+ id.substring(0,12));
     $("#guideMap-zt").css("display", "none");
     $("#guideMap-xq").css("display", "none");
+	$("#guideMap-zt").css("opacity", "1");
+	$("#guideMap-xq").css("opacity", "1");
 
 	//调整二维码大小
     if(status>=2){

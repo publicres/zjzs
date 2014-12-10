@@ -48,29 +48,93 @@ left = a.width()/2 - b.width()/2;
 topTemp = 1.2*(a.height()/2 - b.height()/2);
 b.css("left", left);
 b.css("top", topTemp);
-topTemp = 0.8*(b.height()/2 - c.height()/2);
+topTemp = (b.height()/2 - c.height()/2);
 c.css("top", topTemp);
+
+
+$("[id^=block] a").css("font-size", 0.04*document.body.clientWidth);
+$("#info_Area").css("font-size", 0.03*document.body.clientWidth);
+
+a = $("#alertFrame");
+
+
 //CSS格式调整结束
 
+
+//渲染界面数据和图片
+//显示票数
 $("#block_A a").html("A区(" + ticketLeft.A + ")");
 $("#block_B a").html("B区(" + ticketLeft.B + ")");
 $("#block_C a").html("C区(" + ticketLeft.C + ")");
 $("#block_D a").html("D区(" + ticketLeft.D + ")");
 $("#block_E a").html("E区(" + ticketLeft.E + ")");
 
+//区域票数
+ticketNum = new Array();
+ticketNum = [ticketLeft.A,  ticketLeft.B, ticketLeft.C, ticketLeft.D, ticketLeft.E]
+//区域标识
+blockSign = new Array();
+blockSign = ["A", "B", "C", "D", "E"]
+//无票的选区
+for (i = 0; i < 5; i++){
+	if (ticketNum[i] == 0) {
+		$("#block_" + blockSign[i]).css("background-image", "url(img/seat/block_"+blockSign[i]+"_empty"+".png)")
+		$("#block_" + blockSign[i]).attr("class", "empty");
+	}
+}
+
+//渲染结束
+//提示信息
+/*var outTime = 10000;*/
+
+
+switch (stateCode){
+	case 0: $("#alertInfo").html("请在3分钟内选座<br>超时则本次操作无效");
+			break;
+	case 1: $("#alertInfo").html("你选择的区域已满<br>请重新选座");
+			break;
+	case 2: $("#alertInfo").html("选座超时<br>请重新选座");
+			break;
+}
+
+if (stateCode<3)
+{
+setTimeout(function(){
+	$("#alertFrame").animate({
+		top: '30%',
+		opacity: '.9',
+	}, 600, function(){
+		setTimeout(function(){
+			$("#alertFrame").animate({
+				top: '20%',
+				opacity: '0',
+			}, 600, function(){
+				$("#alertFrame").css("display", "none");
+			})
+		}, 2000);
+	})
+}, 100);
+}
+else
+{
+	$("#alertFrame").css("display", "none");
+}
+
+/*setTimeout(function(){
+	alert("选座超时。请重新选座。");
+	stateCode = 2;
+}, outTime);*/
+
+//
+
+
 var selected = 0;
 
-$("[id^=f1],[id^=f2]").click(function(){
-	if (selected != 0)
-		$('#' + selected).css("background-image", "url(/staticcccccccc/img/seat/"+selected+".png)");
-	selected = $(this).attr("id");
-	$(this).css("background-image", "url(img/seat/"+selected+"_selected.png)");
-	if (selected[1] == '1')
-		$("#seat_info").html("一层"+selected[3]+"区");
-	else $("#seat_info").html("二层"+selected[3]+"区");
-})
 
 $("[id^=block]").click(function(){
+	if (this.className == "empty"){
+		return;
+	}
 	if (selected != 0)
 		$('#' + selected).css("background-image", "url(img/seat/"+selected+".png)");
 	selected = $(this).attr("id");
@@ -87,45 +151,19 @@ $("[id^=block]").click(function(){
 	$("#avaiNumber").html(avaiNumber);
 })
 
-$("#save").mousedown(function(){
-	$("#bottom").css("background-image", "url(img/seat/bottom_save.png)");
-})
 
-$("#save").mouseup(function(){
-	setTimeout(function(){
-		$("#bottom").css("background-image", "url(img/seat/bottom.png)");
-		if (selected != 0)
-			alert("成功保存预选座位信息。");
-		else
-			alert("你还未选择任何座位。");
-
-	}, 100);
-})
-
-$("#submit").mousedown(function(){
-	$("#bottom").css("background-image", "url(img/seat/bottom_submit.png)");
-})
-
-$("#submit").mouseup(function(){
-	setTimeout(function(){
-		$("#bottom").css("background-image", "url(img/seat/bottom.png)");
-
-
-	}, 100);
-})
 
 
 $("#buttom_frame").click(function(){
 	var url = window.location.href;
 	if (selected != 0){
-		$("body").append($("<div style='display:none' id='huahua'>"));
-
-		$("#huahua").html('<form name=myForm><input type=hidden name=ticket_id><input type=hidden name=seat></form>');
+		$("#submitArea").html('<form name=myForm><input type=hidden name=ticket_id><input type=hidden name=seat><input type=hidden name=stateCode></form>');
 	    var myForm=document.forms['myForm'];
 	    myForm.action=url;
 	    myForm.method='POST';
 	    myForm.ticket_id.value=ticket_id;
 	    myForm.seat.value=$("#seat_info").html();
+	    myForm.stateCode.value = stateCode;
 	    myForm.submit();
 	}
 	else
