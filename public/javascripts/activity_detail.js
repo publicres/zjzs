@@ -65,6 +65,9 @@ var dateInterfaceMap = {
                 }
             }
         }
+    },
+    'button': function(dom, value) {
+        ;
     }
 }, keyMap = {
     'name': 'value',
@@ -78,7 +81,8 @@ var dateInterfaceMap = {
     'pic_url': 'value',
     'total_tickets': 'value',
     'need_seat': 'value',
-    'area_arrange': 'arrange_area'
+    'area_arrange': 'arrange_area',
+    'uploadPic': 'button'
 }, lockMap = {
     'value': function(dom, lock) {
         dom.prop('disabled', lock);
@@ -104,6 +108,9 @@ var dateInterfaceMap = {
                 part.prop('disabled', lock);
             }
         }
+        dom.prop('disabled', lock);
+    },
+    'button': function(dom, lock) {
         dom.prop('disabled', lock);
     }
 };
@@ -341,6 +348,9 @@ function lockByStatus(status, book_start, start_time, end_time) {
             },
             'pic_url': function() {
             	return (new Date() >= getDateByObj(start_time));
+            },
+            'uploadPic': function() {
+                return (new Date() >= getDateByObj(start_time));
             }
         }
     }, key;

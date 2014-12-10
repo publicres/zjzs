@@ -11,7 +11,7 @@ router.post('/', function(req, res)
     var thefile=req.files.upfile;
     if (thefile==null)
     {
-        res.send("NOTHING");
+        res.send("Nothing");
         return;
     }
     if (thefile instanceof Array)

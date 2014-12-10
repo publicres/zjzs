@@ -1,0 +1,22 @@
+.transformer
+{
+    transition: all 0.30s ease-in-out;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+}
+
+.shadowBlue
+{
+    border:1px solid rgba(81, 203, 238, 1);
+    box-shadow: 0 0 7px rgba(81, 203, 238, 1);
+    -webkit-box-shadow: 0 0 7px rgba(81, 203, 238, 1);
+    -moz-box-shadow: 0 0 7px rgba(81, 203, 238, 1);
+}
+
+.shadowRed
+{
+    border:1px solid rgba(255, 0, 0, 1);
+    box-shadow: 0 0 7px rgba(255, 0, 0, 1);
+    -webkit-box-shadow: 0 0 7px rgba(255, 0, 0, 1);
+    -moz-box-shadow: 0 0 7px rgba(255, 0, 0, 1);
+}

@@ -11,6 +11,7 @@
     <link href="/lib/bs/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/stylesheets/activity_list.css"/>
     <link rel="stylesheet" href="/stylesheets/activity_detail.css"/>
+    <link rel="stylesheet" href="/stylesheets/css3_specified.css"/>
     <title><%= activity.name %>- 紫荆之声票务管理系统</title>
 </head>
 <body>
@@ -89,7 +90,8 @@
             <div class="form-group">
                 <label for="input-pic_url" class="col-sm-2 control-label" min="0">活动配图</label>
                 <div class="col-sm-10">
-                    <input type="url" name="pic_url" class="form-control" id="input-pic_url" min="0" placeholder="请填入图片链接">
+                    <input type="url" name="pic_url" class="form-control" style = "width:80%;display:inline;" id="input-pic_url" min="0" placeholder="请填入图片链接">
+                    <button type="button" class="btn btn-info" style = "width:17%;float:right;" id="input-uploadPic">从本地上传图片</button>
                 </div>
             </div>
 
@@ -371,6 +373,23 @@
     </div>
     </div>
 
+    <div id="globalCover" style="position:fixed;width:100%;height:100%;left:0px;top:0px;z-index:100;visibility:hidden;">
+        <div id="alphaCover" class="transformer" style="position:absolute;width:100%;height:100%;left:0px;top:0px;background-color:black;opacity:0.3">
+        </div>
+        <div id="windowCover" class="transformer shadowBlue" style="position:relative;width:500px;height:200px;margin:0 auto;top:10%;background-color:white;border-radius:3px">
+            <form action="/users/upload" method="post" id="fileUploader" enctype="multipart/form-data">
+                <div style="position:absolute;top:40px;left:60px;color:#FF4411">
+                    上传图片后活动配图将被自动填写，如需保留请勿改动。
+                </div>
+                <input type="file" name="upfile" id="upfile" style="position:absolute;top:100px;left:60px" />
+                <button type="submit" class="btn btn-default" style="position:absolute;width:80px;height:40px;bottom:20px;right:60px">上传</button>
+                <div id="errCosntent" style="position:absolute;align:right;height:40px;top:149px;right:155px;color:#FF0000">
+
+                </div>
+            </form>
+        </div>
+    </div>
+
     <footer class="bs-footer" role="contentinfo">
         <hr>
         <div class="container">
@@ -380,6 +399,7 @@
     <script src="/lib/jq/jquery-1.10.2.min.js"></script>
     <script src="/lib/bs/js/bootstrap.min.js"></script>
     <script src="/lib/jq/form/jquery.form.min.js"></script>
+    <script src="/javascripts/uploader.js"></script>
 
     <script>
         var activity = {
