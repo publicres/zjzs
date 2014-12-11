@@ -6,6 +6,7 @@ var router = express.Router();
 var model = require('../models/models');
 var lock = require('../models/lock');
 var urls = require("../address_configure");
+var checkin = require('./checkin');
 
 var ADMIN_DB = model.admins;
 var db = model.db;
@@ -18,6 +19,8 @@ router.get("/", function(req, res)
 {
 	res.redirect("/users/manage/list");
 });
+
+router.use("/checkin",checkin);
 
 router.get("/list", function(req, res) {
 	var activities1 = new Array();
