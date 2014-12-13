@@ -7,6 +7,8 @@ var model = require('../models/models');
 var lock = require('../models/lock');
 var urls = require("../address_configure");
 var checkin = require('./checkin');
+var cm = require("../weixin_basic/custom_menu");
+var act_info = require('../weixin_basic/activity_info');
 
 var ADMIN_DB = model.admins;
 var db = model.db;
@@ -419,6 +421,8 @@ router.post("/detail", function(req, res)
 									var ar = {activity: docs[0]["_id"],
 											  A_area:a, B_area:b, C_area:c, D_area:d, E_area:e};
 									db[SEAT_DB].insert(ar, function(){
+										if (activity.status == 1)
+											act_info.getCurrentActivity(cm.autoClearOldMenus);
 										res.send("新建活动成功(分区票务)！");
 										lock.release(ACTIVITY_DB);
 										return;
@@ -428,6 +432,8 @@ router.post("/detail", function(req, res)
 						}
 						else
 						{
+							if (activity.status == 1)
+								act_info.getCurrentActivity(cm.autoClearOldMenus);
 							res.send("新建活动成功(无选座票务)！");
 							lock.release(ACTIVITY_DB);
 							return;
@@ -556,6 +562,8 @@ router.post("/detail", function(req, res)
 										if (err || result.n == 0)
 										{
 											db[SEAT_DB].insert(ar, function(){
+												if (activity.status == 1)
+													act_info.getCurrentActivity(cm.autoClearOldMenus);
 												res.send("新建活动成功(分区票务)！");
 												lock.release(ACTIVITY_DB);
 												return;
@@ -563,6 +571,8 @@ router.post("/detail", function(req, res)
 										}
 										else
 										{
+											if (activity.status == 1)
+												act_info.getCurrentActivity(cm.autoClearOldMenus);
 											res.send("修改活动成功(分区票务)！");
 											lock.release(ACTIVITY_DB);
 											return;
@@ -571,6 +581,8 @@ router.post("/detail", function(req, res)
 								}
 								else
 								{
+									if (activity.status == 1)
+										act_info.getCurrentActivity(cm.autoClearOldMenus);
 									res.send("修改活动成功(无选座票务)！");
 									lock.release(ACTIVITY_DB);
 									return;
@@ -679,12 +691,16 @@ router.post("/detail", function(req, res)
 								}
 								if (activity["need_seat"] == 1)
 								{
+									if (activity.status == 1)
+										act_info.getCurrentActivity(cm.autoClearOldMenus);
 									res.send("修改活动成功(分区票务)！");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
 								else
 								{
+									if (activity.status == 1)
+										act_info.getCurrentActivity(cm.autoClearOldMenus);
 									res.send("修改活动成功(无选座票务)！");
 									lock.release(ACTIVITY_DB);
 									return;
@@ -758,6 +774,8 @@ router.post("/detail", function(req, res)
 										if (err || result.n == 0)
 										{
 											db[SEAT_DB].insert(ar, function(){
+												if (activity.status == 1)
+													act_info.getCurrentActivity(cm.autoClearOldMenus);
 												res.send("新建活动成功(分区票务)！");
 												lock.release(ACTIVITY_DB);
 												return;
@@ -765,6 +783,8 @@ router.post("/detail", function(req, res)
 										}
 										else
 										{
+											if (activity.status == 1)
+												act_info.getCurrentActivity(cm.autoClearOldMenus);
 											res.send("修改活动成功(分区票务)！");
 											lock.release(ACTIVITY_DB);
 											return;
@@ -773,6 +793,8 @@ router.post("/detail", function(req, res)
 								}
 								else
 								{
+									if (activity.status == 1)
+										act_info.getCurrentActivity(cm.autoClearOldMenus);
 									res.send("修改活动成功(无选座票务)！");
 									lock.release(ACTIVITY_DB);
 									return;
