@@ -57,10 +57,10 @@ router.get("/", function(req, res, next)
         var tmp=
         {
             act_name:           theAct.name,
-            act_book_start:     getTime(theAct.book_start),
-            act_book_end:       getTime(theAct.book_end),
-            act_start:          getTime(theAct.start_time),
-            act_end:            getTime(theAct.end_time),
+            act_book_start:     theAct.book_start,
+            act_book_end:       theAct.book_end,
+            act_start:          theAct.start_time,
+            act_end:            theAct.end_time,
             act_place:          theAct.place,
             act_key:            theAct.key,
             act_pic_url:        theAct.pic_url,

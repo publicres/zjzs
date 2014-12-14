@@ -28,7 +28,7 @@
                 <figure>
                     <img id="activity_main_image" src="">
                     <figcaption>
-                        <p class="time" id="activity_time"></p>
+                        <p class="time">Tsinghua University</p>
                         <h1 id="activity_title"></h1>
                         <div class="bars">
                             <span id="activity_seat_type"><i class="iconfont"></i></span>
@@ -40,12 +40,12 @@
                 <div class="corner"></div>
                 <div class="details">
                     <div class="body">
-                        <h1 id="activity_detail_title"></h1>
-                        <div id="activity_content"></div>
-                    </div>
-                    <div class="body">
                         <h1 id="activity_detail_title_2"></h1>
                         <div id="activity_content_2"></div>
+                    </div>
+                    <div class="body">
+                        <h1 id="activity_detail_title"></h1>
+                        <div id="activity_content"></div>
                     </div>
                     <!--
                     <div class="body">
@@ -61,9 +61,12 @@
     </div>
 <script type="text/javascript">
 //需要动态添加的信息
-var activity_time="<%= act_start %>";//活动时间
-var activity_book_ticket_time="<%= act_book_start %>";//抢票时间
 //var activity_get_ticket_time="11月22日(本周六)中午11:30--13:30";//领票时间
+var activity_time_raw=<%= act_start %>;//活动时间
+var activity_book_ticket_time_raw=<%= act_book_start %>;//抢票时间
+var activity_end_time_raw=<%= act_end %>;
+var activity_book_ticket_end_time_raw=<%= act_book_end %>;
+
 var activity_page_title="<%= act_name %>-活动详情";//页面标题名称
 var activity_title="<%= act_name %>";//活动名称
 var activity_seat_type="<%= seat_type %>";//0:不选座 1:选区 2:选座
@@ -78,18 +81,56 @@ var activity_key = "<%= act_key %>";
 var activity_remain_ticket = <%= rem_tik %>;
 var activity_place = "<%= act_place %>";
 var act_key= "<%= act_key %>";
-var activity_extra_info=[{t:'活动时间',c:activity_time},{t:'活动地点',c:activity_place},{t:'活动代称',c:act_key}];
+
+
+/*时间格式处理*/
+var time1_start = new Date(activity_time_raw);
+var time1_end = new Date(activity_end_time_raw);
+var time2_start = new Date(activity_book_ticket_time_raw);
+var time2_end = new Date(activity_book_ticket_end_time_raw);
+function combine_time(t1, t2)
+{
+    var u='/';
+    var y1=t1.getFullYear();
+    var y2=t2.getFullYear();
+    var m1=1+t1.getMonth();
+    var m2=1+t2.getMonth();
+    var d1=1+t1.getDate();
+    var d2=1+t2.getDate();
+    var h1=t1.getHours()+''; h1=h1.length==1?'0'+h1:h1;
+    var h2=t2.getHours()+''; h2=h2.length==1?'0'+h2:h2;
+    var mi1=t1.getMinutes()+''; mi1=mi1.length==1?'0'+mi1:mi1;
+    var mi2=t2.getMinutes()+''; mi2=mi2.length==1?'0'+mi2:mi2;
+    var day=['Sun.','Mon.','Tue.','Wed.','Thur.','Fri.','Sat.'];
+    var day1=day[t1.getDay()];
+    var day2=day[t2.getDay()];
+    if (y1!=y2)
+        return y1+u+m1+u+d1+' '+h1+':'+mi1+' 至<br>'+y2+u+m2+u+d2+' '+h2+':'+mi2;
+    if (m1!=m2)
+        return y1+'年'+m1+'月'+d1+'日 '+h1+':'+mi1+' 至 '+m2+'月'+d2+'日 '+h2+':'+mi2;
+    if (d1!=d2)
+        return y1+'年'+m1+'月'+d1+'日 '+h1+':'+mi1+' 至 '+d2+'日 '+h2+':'+mi2;
+    return y1+u+m1+u+d1+' '+h1+':'+mi1+' 至 '+h2+':'+mi2;
+}
+var activity_time = combine_time(time1_start, time1_end);
+var activity_book_ticket_time = combine_time(time2_start, time2_end);
+/**/
+
+
+
+var activity_extra_info=[{t:'时间',c:activity_time},{t:'地点',c:activity_place}];
 if (activity_ticket_status==0)
-    activity_extra_info.push({t:'活动票数',c:activity_remain_ticket+" 张"});
+    activity_extra_info.push({t:'票数',c:activity_remain_ticket+" 张"});
 else if (activity_ticket_status==1)
-    activity_extra_info.push({t:'剩余票数',c:activity_remain_ticket+" 张"});
+    activity_extra_info.push({t:'余票',c:"<span style='color:#dd001e'>"+activity_remain_ticket+"</span> 张"});
+
 /********************************/
 var activity_detail_title_2="抢票方式";
 var activity_content_2=
-    '<b style="color:#dd881e">'+activity_book_ticket_time+'</b>'+
-    '，“清华大学紫荆之声”线上抢票，数量有限，先到先得。您可以:<br>'+
-    '1. 在微信中回复“<b>抢票 '+activity_key+'</b>”进行抢票<br>'+
-    '2. 点击“抢票”下设二级菜单<b>“'+activity_key+'”按钮</b>抢票<br>';
+    '<b>'+activity_book_ticket_time+'</b>'+
+    '， "清华大学紫荆之声"线上抢票，数量有限，先到先得。<br><div style="height:8px"></div>您可以:<br>'+
+    '1. 在微信中回复<b style="color:#dd881e">"抢票 '+activity_key+'"</b>进行抢票<br>'+
+    '2. 点击"抢票"下设二级菜单<b style="color:#dd881e">"'+activity_key+'"</b>抢票<br>';
 var activity_detail_title_3="领票方式";
 var activity_content_3_seat_type=["门票随机发放，不提供选座服务。","该活动提供按区域选座服务，同学们可根据需要选座。","该活动提供选座服务，同学们可根据需要选座。"];
 /*

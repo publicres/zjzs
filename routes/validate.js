@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
 
 });
 
-router.get('/time/', function(req, res) {
+router.get('/time', function(req, res) {
     request('http://auth.igeek.asia/v1/time', function(error, response, body){
         if (!error && response.statusCode == 200) {
             res.send(body);
