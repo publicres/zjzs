@@ -297,7 +297,7 @@ router.post("/detail", function(req, res)
 		if (key == "total_tickets")
 			activity["remain_tickets"] = req.body[key];
 		else
-			activity[key] = req.body[key];
+		activity[key] = req.body[key];
 	}
 
 	if (activity.publish)
@@ -324,7 +324,7 @@ router.post("/detail", function(req, res)
 				var a, b, c, d, e;
 				if (err || docs.length != 0)
 				{
-					res.send("404#新建活动失败，已经有同代称的活动！");
+					res.send("新建活动失败，已经有同代称的活动！");
 					lock.release(ACTIVITY_DB);
 					return;
 				}
@@ -334,37 +334,37 @@ router.post("/detail", function(req, res)
 						activity["end_time"] && activity["book_start"] && activity["book_end"] &&
 						activity["need_seat"] != undefined))
 					{
-						res.send("404#活动信息不完整，没有录入数据库！请重新检查。");
+						res.send("活动信息不完整，没有录入数据库！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (activity["remain_tickets"] < 0)
 					{
-						res.send("404#活动余票量小于0！请重新检查。");
+						res.send("活动余票量小于0！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["end_time"]).isBefore(activity["start_time"]))
 					{
-						res.send("404#活动结束时间早于开始时间！请重新检查。");
+						res.send("活动结束时间早于开始时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["book_end"]).isBefore(activity["book_start"]))
 					{
-						res.send("404#抢票结束时间早于开始时间！请重新检查。");
+						res.send("抢票结束时间早于开始时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["start_time"]).isBefore())
 					{
-						res.send("404#活动开始时间早于当前时间！请重新检查。");
+						res.send("活动开始时间早于当前时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["book_start"]).isBefore())
 					{
-						res.send("404#抢票开始时间早于当前时间！请重新检查。");
+						res.send("抢票开始时间早于当前时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
@@ -378,19 +378,19 @@ router.post("/detail", function(req, res)
 						if (!(a != undefined && b != undefined && c != undefined &&
 							d != undefined && e != undefined))
 						{
-							res.send("404#分区票数信息不完整，没有录入数据库！请重新检查。");
+							res.send("分区票数信息不完整，没有录入数据库！请重新检查。");
 							lock.release(ACTIVITY_DB);
 							return;
 						}
 						if (a<0 || b<0 || c<0 || d<0 || e<0)
 						{
-							res.send("404#分区票数有负数，没有录入数据库！请重新检查。");
+							res.send("分区票数有负数，没有录入数据库！请重新检查。");
 							lock.release(ACTIVITY_DB);
 							return;
 						}
 						if (a+b+c+d+e != activity["remain_tickets"])
 						{
-							res.send("404#分区票数和不等于总票数，没有录入数据库！请重新检查。");
+							res.send("分区票数和不等于总票数，没有录入数据库！请重新检查。");
 							lock.release(ACTIVITY_DB);
 							return;
 						}
@@ -405,7 +405,7 @@ router.post("/detail", function(req, res)
 					if (!(moment([moment(be).year(), moment(be).month(), moment(be).date()]).isBefore(
 						[moment(st).year(), moment(st).month(), moment(st).date()])))
 					{
-						res.send("404#抢票结束时间应不晚于活动开始的前一天！请重新检查。");
+						res.send("抢票结束时间应不晚于活动开始的前一天！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
@@ -416,7 +416,7 @@ router.post("/detail", function(req, res)
 							function(err,docs){
 								if (err || docs.length != 1)
 								{
-									res.send("404#活动数据库录入出错，或有相同代称的活动被同时录入，请删除它们再重新录入！");
+									res.send("活动数据库录入出错，或有相同代称的活动被同时录入，请删除它们再重新录入！");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
@@ -427,7 +427,7 @@ router.post("/detail", function(req, res)
 									db[SEAT_DB].insert(ar, function(){
 										if (activity.status == 1)
 											act_info.getCurrentActivity(cm.autoClearOldMenus);
-										res.send("200#新建活动成功(分区票务)！");
+										res.send("新建活动成功(分区票务)！");
 										lock.release(ACTIVITY_DB);
 										return;
 									});
@@ -438,7 +438,7 @@ router.post("/detail", function(req, res)
 						{
 							if (activity.status == 1)
 								act_info.getCurrentActivity(cm.autoClearOldMenus);
-							res.send("200#新建活动成功(无选座票务)！");
+							res.send("新建活动成功(无选座票务)！");
 							lock.release(ACTIVITY_DB);
 							return;
 						}
@@ -454,7 +454,7 @@ router.post("/detail", function(req, res)
 			db[ACTIVITY_DB].find({_id:idObj, $or:[{status:0},{status:1}]},function(err,docs){
 				if (err || docs.length != 1)
 				{
-					res.send("404#修改活动失败，没有此ID对应的活动！");
+					res.send("修改活动失败，没有此ID对应的活动！");
 					lock.release(ACTIVITY_DB);
 					return;
 				}
@@ -466,37 +466,37 @@ router.post("/detail", function(req, res)
 						activity["end_time"] && activity["book_start"] && activity["book_end"] &&
 						activity["need_seat"] != undefined))
 					{
-						res.send("404#活动信息不完整，没有录入数据库！请重新检查。");
+						res.send("活动信息不完整，没有录入数据库！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (activity["remain_tickets"] < 0)
 					{
-						res.send("404#活动余票量小于0！请重新检查。");
+						res.send("活动余票量小于0！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["end_time"]).isBefore(activity["start_time"]))
 					{
-						res.send("404#活动结束时间早于开始时间！请重新检查。");
+						res.send("活动结束时间早于开始时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["book_end"]).isBefore(activity["book_start"]))
 					{
-						res.send("404#抢票结束时间早于开始时间！请重新检查。");
+						res.send("抢票结束时间早于开始时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["start_time"]).isBefore())
 					{
-						res.send("404#活动开始时间早于当前时间！请重新检查。");
+						res.send("活动开始时间早于当前时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["book_start"]).isBefore())
 					{
-						res.send("404#抢票开始时间早于当前时间！请重新检查。");
+						res.send("抢票开始时间早于当前时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
@@ -510,19 +510,19 @@ router.post("/detail", function(req, res)
 						if (!(a != undefined && b != undefined && c != undefined &&
 							d != undefined && e != undefined))
 						{
-							res.send("404#分区票数信息不完整，没有录入数据库！请重新检查。");
+							res.send("分区票数信息不完整，没有录入数据库！请重新检查。");
 							lock.release(ACTIVITY_DB);
 							return;
 						}
 						if (a<0 || b<0 || c<0 || d<0 || e<0)
 						{
-							res.send("404#分区票数有负数，没有录入数据库！请重新检查。");
+							res.send("分区票数有负数，没有录入数据库！请重新检查。");
 							lock.release(ACTIVITY_DB);
 							return;
 						}
 						if (a+b+c+d+e != activity["remain_tickets"])
 						{
-							res.send("404#分区票数和不等于总票数，没有录入数据库！请重新检查。");
+							res.send("分区票数和不等于总票数，没有录入数据库！请重新检查。");
 							lock.release(ACTIVITY_DB);
 							return;
 						}
@@ -537,7 +537,7 @@ router.post("/detail", function(req, res)
 					if (!(moment([moment(be).year(), moment(be).month(), moment(be).date()]).isBefore(
 						[moment(st).year(), moment(st).month(), moment(st).date()])))
 					{
-						res.send("404#抢票结束时间应不晚于活动开始的前一天！请重新检查。");
+						res.send("抢票结束时间应不晚于活动开始的前一天！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
@@ -545,7 +545,7 @@ router.post("/detail", function(req, res)
 					function(err,docs){
 						if (err || docs.length != 0)
 						{
-							res.send("404#修改活动失败，已有同代称的活动！");
+							res.send("修改活动失败，已有同代称的活动！");
 							lock.release(ACTIVITY_DB);
 							return;
 						}
@@ -554,7 +554,7 @@ router.post("/detail", function(req, res)
 							db[ACTIVITY_DB].update({_id:idObj},{$set: activity},{multi:false},function(err,result){
 								if (err || result.n != 1)
 								{
-									res.send("404#修改活动失败，没有此ID对应的活动！");
+									res.send("修改活动失败，没有此ID对应的活动！");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
@@ -568,7 +568,7 @@ router.post("/detail", function(req, res)
 											db[SEAT_DB].insert(ar, function(){
 												if (activity.status == 1)
 													act_info.getCurrentActivity(cm.autoClearOldMenus);
-												res.send("200#新建活动成功(分区票务)！");
+												res.send("新建活动成功(分区票务)！");
 												lock.release(ACTIVITY_DB);
 												return;
 											});
@@ -577,7 +577,7 @@ router.post("/detail", function(req, res)
 										{
 											if (activity.status == 1)
 												act_info.getCurrentActivity(cm.autoClearOldMenus);
-											res.send("200#修改活动成功(分区票务)！");
+											res.send("修改活动成功(分区票务)！");
 											lock.release(ACTIVITY_DB);
 											return;
 										}
@@ -587,7 +587,7 @@ router.post("/detail", function(req, res)
 								{
 									if (activity.status == 1)
 										act_info.getCurrentActivity(cm.autoClearOldMenus);
-									res.send("200#修改活动成功(无选座票务)！");
+									res.send("修改活动成功(无选座票务)！");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
@@ -599,7 +599,7 @@ router.post("/detail", function(req, res)
 				{
 					if (activity.status == 0)
 					{
-						res.send("404#已发布的活动不允许暂存，没有录入数据库！请重新检查。");
+						res.send("已发布的活动不允许暂存，没有录入数据库！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
@@ -607,38 +607,38 @@ router.post("/detail", function(req, res)
 						activity["pic_url"] && activity["start_time"] &&
 						activity["end_time"] && activity["book_end"]))
 					{
-						res.send("404#活动信息不完整，没有录入数据库！请重新检查。");
+						res.send("活动信息不完整，没有录入数据库！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 
 					if (activity["name"])
 					{
-						res.send("404#已发布的活动不允许修改活动名称!");
+						res.send("已发布的活动不允许修改活动名称!");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (activity["key"])
 					{
-						res.send("404#已发布的活动不允许修改活动代称!");
+						res.send("已发布的活动不允许修改活动代称!");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (activity["book_start"])
 					{
-						res.send("404#已发布的活动不允许修改抢票开始时间!");
+						res.send("已发布的活动不允许修改抢票开始时间!");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["start_time"]).isBefore())
 					{
-						res.send("404#活动开始时间早于当前时间！请重新检查。");
+						res.send("活动开始时间早于当前时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
 					if (moment(activity["end_time"]).isBefore(activity["start_time"]))
 					{
-						res.send("404#活动结束时间早于开始时间！请重新检查。");
+						res.send("活动结束时间早于开始时间！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
@@ -647,7 +647,7 @@ router.post("/detail", function(req, res)
 					if (!(moment([moment(be).year(), moment(be).month(), moment(be).date()]).isBefore(
 						[moment(st).year(), moment(st).month(), moment(st).date()])))
 					{
-						res.send("404#抢票结束时间应不晚于活动开始的前一天！请重新检查。");
+						res.send("抢票结束时间应不晚于活动开始的前一天！请重新检查。");
 						lock.release(ACTIVITY_DB);
 						return;
 					}
@@ -655,7 +655,7 @@ router.post("/detail", function(req, res)
 					db[ACTIVITY_DB].find({_id:idObj},function(err,docs){
 						if (err || docs.length == 0)
 						{
-							res.send("404#修改活动失败！数据库操作错误或没有这个活动ID!");
+							res.send("修改活动失败！数据库操作错误或没有这个活动ID!");
 							lock.release(ACTIVITY_DB);
 							return;
 						}
@@ -663,60 +663,71 @@ router.post("/detail", function(req, res)
 						{
 							if (moment(activity["book_end"]).isBefore(docs[0]["book_start"]))
 							{
-								res.send("404#抢票结束时间早于开始时间！请重新检查。");
+								res.send("抢票结束时间早于开始时间！请重新检查。");
 								lock.release(ACTIVITY_DB);
 								return;
 							}
 							if (activity["remain_tickets"] != undefined)
 							{
-								res.send("404#抢票已开始，不允许更改总票数！请重新检查。");
+								res.send("抢票已开始，不允许更改总票数！请重新检查。");
 								lock.release(ACTIVITY_DB);
 								return;
 							}
 							if (activity["need_seat"] != undefined)
 							{
-								res.send("404#抢票已开始，不允许更改座位分配方式！请重新检查。");
+								res.send("抢票已开始，不允许更改座位分配方式！请重新检查。");
 								lock.release(ACTIVITY_DB);
 								return;
 							}
 							if (activity["A_area"] || activity["B_area"] || activity["C_area"] ||
 								activity["D_area"] || activity["E_area"])
 							{
-								res.send("404#抢票已开始，不允许更改分区票数！请重新检查。");
+								res.send("抢票已开始，不允许更改分区票数！请重新检查。");
 								lock.release(ACTIVITY_DB);
 								return;
 							}
 							db[ACTIVITY_DB].update({_id:idObj},{$set: activity},{multi:false},function(err,result){
 								if (err || result.n != 1)
 								{
-									res.send("404#修改活动失败，没有此ID对应的活动！");
+									res.send("修改活动失败，没有此ID对应的活动！");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
-								if (activity.status == 1)
-									act_info.getCurrentActivity(cm.autoClearOldMenus);
-								res.send("200#修改活动成功！");
-								lock.release(ACTIVITY_DB);
-								return;
+								if (activity["need_seat"] == 1)
+								{
+									if (activity.status == 1)
+										act_info.getCurrentActivity(cm.autoClearOldMenus);
+									res.send("修改活动成功(分区票务)！");
+									lock.release(ACTIVITY_DB);
+									return;
+								}
+								else
+								{
+									if (activity.status == 1)
+										act_info.getCurrentActivity(cm.autoClearOldMenus);
+									res.send("修改活动成功(无选座票务)！");
+									lock.release(ACTIVITY_DB);
+									return;
+								}
 							});
 						}
 						else //抢票还没开始
 						{
 							if (moment(activity["book_end"]).isBefore(docs[0]["book_start"]))
 							{
-								res.send("404#抢票结束时间早于开始时间！请重新检查。");
+								res.send("抢票结束时间早于开始时间！请重新检查。");
 								lock.release(ACTIVITY_DB);
 								return;
 							}
 							if (!(activity["remain_tickets"] != undefined && activity["need_seat"] != undefined))
 							{
-								res.send("404#总票数和座位分配信息缺失，请重新检查。");
+								res.send("总票数和座位分配信息缺失，请重新检查。");
 								lock.release(ACTIVITY_DB);
 								return;
 							}
 							if (activity["remain_tickets"] < 0)
 							{
-								res.send("404#活动余票量小于0！请重新检查。");
+								res.send("活动余票量小于0！请重新检查。");
 								lock.release(ACTIVITY_DB);
 								return;
 							}
@@ -730,19 +741,19 @@ router.post("/detail", function(req, res)
 								if (!(a != undefined && b != undefined && c != undefined &&
 									d != undefined && e != undefined))
 								{
-									res.send("404#分区票数信息不完整，没有录入数据库！请重新检查。");
+									res.send("分区票数信息不完整，没有录入数据库！请重新检查。");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
 								if (a<0 || b<0 || c<0 || d<0 || e<0)
 								{
-									res.send("404#分区票数有负数，没有录入数据库！请重新检查。");
+									res.send("分区票数有负数，没有录入数据库！请重新检查。");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
 								if (a+b+c+d+e != activity["remain_tickets"])
 								{
-									res.send("404#分区票数和不等于总票数，没有录入数据库！请重新检查。");
+									res.send("分区票数和不等于总票数，没有录入数据库！请重新检查。");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
@@ -755,7 +766,7 @@ router.post("/detail", function(req, res)
 							db[ACTIVITY_DB].update({_id:idObj},{$set: activity},{multi:false},function(err,result){
 								if (err || result.n != 1)
 								{
-									res.send("404#修改活动失败，没有此ID对应的活动！");
+									res.send("修改活动失败，没有此ID对应的活动！");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
@@ -769,7 +780,7 @@ router.post("/detail", function(req, res)
 											db[SEAT_DB].insert(ar, function(){
 												if (activity.status == 1)
 													act_info.getCurrentActivity(cm.autoClearOldMenus);
-												res.send("200#新建活动成功(分区票务)！");
+												res.send("新建活动成功(分区票务)！");
 												lock.release(ACTIVITY_DB);
 												return;
 											});
@@ -778,7 +789,7 @@ router.post("/detail", function(req, res)
 										{
 											if (activity.status == 1)
 												act_info.getCurrentActivity(cm.autoClearOldMenus);
-											res.send("200#修改活动成功(分区票务)！");
+											res.send("修改活动成功(分区票务)！");
 											lock.release(ACTIVITY_DB);
 											return;
 										}
@@ -788,7 +799,7 @@ router.post("/detail", function(req, res)
 								{
 									if (activity.status == 1)
 										act_info.getCurrentActivity(cm.autoClearOldMenus);
-									res.send("200#修改活动成功(无选座票务)！");
+									res.send("修改活动成功(无选座票务)！");
 									lock.release(ACTIVITY_DB);
 									return;
 								}
