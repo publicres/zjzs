@@ -39,6 +39,8 @@ exports.getPlainTextTemplate=function(oriMsg, textContent)
 //(parsedxml,int,object[])
 exports.getRichTextTemplate=function(oriMsg, itemArray)
 {
+    if (itemArray.length>10)
+        itemArray.length=10;
     var res=getGenericTemplate(oriMsg);
     res+=
             "<MsgType><![CDATA[news]]></MsgType>"+
