@@ -43,7 +43,7 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
             "sub_button": [
                 {
                     "type": "click",
-                    "name": "查票",
+                    "name": "我的票夹",
                     "key": WEIXIN_EVENT_KEYS['ticket_get'],
                     "sub_button": []
                 },
