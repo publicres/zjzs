@@ -3,7 +3,7 @@ var cm = require("./custom_menu.js")
 var at = require('./access_token')
 var act_info = require('./activity_info')
 
-act_info.getCurrentActivity(cm.autoClearOldMenus);
+//act_info.getCurrentActivity(cm.autoClearOldMenus);
 //at.getAccessToken(cm.createMenu)
 //at.getAccessToken(cm.getMenu)
 //at.getAccessToken(cm.deleteMenu)
