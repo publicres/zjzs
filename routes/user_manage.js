@@ -293,8 +293,12 @@ router.post("/detail", function(req, res)
 	else
 		activity.status = 0;
 	for (key in req.body)
+	{
+		if (key == "total_tickets")
+			activity["remain_tickets"] = req.body[key];
+		else
 		activity[key] = req.body[key];
-	activity.remain_tickets=activity.total_tickets;
+	}
 
 	if (activity.publish)
 		delete activity.publish;
