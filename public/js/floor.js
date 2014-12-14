@@ -169,3 +169,24 @@ $("#buttom_frame").click(function(){
 	else
 		alert("你还未选择任何座位。");
 })
+
+
+//获取当前网络状态
+function onBridgeReady(){
+ WeixinJSBridge.invoke('getNetworkType',{},
+ 		function(e){
+ 	    	WeixinJSBridge.log(e.err_msg);
+ 	    	alert("当前网络状态为：" + e.err_msg);
+ 	    });
+}
+
+if (typeof WeixinJSBridge == "undefined"){
+    if( document.addEventListener ){
+        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+    }else if (document.attachEvent){
+        document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+    }
+}else{
+    onBridgeReady();
+}
