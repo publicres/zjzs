@@ -18,7 +18,10 @@ var act_cache={};
 var rem_cache={};
 var usr_lock={};
 
-exports.act_cache=act_cache;
+exports.clearCache=function()
+{
+    act_cache={};
+}
 
 function verifyStudent(openID,ifFail,ifSucc)
 {
