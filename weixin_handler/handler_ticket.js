@@ -14,10 +14,11 @@ var db = model.db;
 
 var alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
 
-var stu_cache={};
 var act_cache={};
 var rem_cache={};
 var usr_lock={};
+
+exports.act_cache=act_cache;
 
 function verifyStudent(openID,ifFail,ifSucc)
 {
