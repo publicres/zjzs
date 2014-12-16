@@ -95,8 +95,8 @@ function combine_time(t1, t2)
     var y2=t2.getFullYear();
     var m1=1+t1.getMonth();
     var m2=1+t2.getMonth();
-    var d1=1+t1.getDate();
-    var d2=1+t2.getDate();
+    var d1=t1.getDate();
+    var d2=t2.getDate();
     var h1=t1.getHours()+''; h1=h1.length==1?'0'+h1:h1;
     var h2=t2.getHours()+''; h2=h2.length==1?'0'+h2:h2;
     var mi1=t1.getMinutes()+''; mi1=mi1.length==1?'0'+mi1:mi1;
