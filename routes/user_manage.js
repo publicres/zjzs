@@ -36,7 +36,6 @@ router.get("/list", function(req, res) {
 		for (var i = 0; i < docs.length; i++)
 		{
 			var j = docs.length-1-i;
-			var str = "abca";
 			var activity = {
         		status: docs[j].status,
         		name: docs[j].name,
