@@ -36,6 +36,7 @@ router.get("/list", function(req, res) {
 		for (var i = 0; i < docs.length; i++)
 		{
 			var j = docs.length-1-i;
+			var str = "abca";
 			var activity = {
         		status: docs[j].status,
         		name: docs[j].name,
@@ -211,6 +212,7 @@ router.get("/detail", function(req, res)
 				var et = parseInt(docs[0].end_time, 10);
 				var bs = parseInt(docs[0].book_start, 10);
 				var be = parseInt(docs[0].book_end, 10);
+				docs[0].description.replace(/\n/g,"\\\\n");
 				var activity = {
 						name: act.name,
 						key: act.key,
@@ -410,6 +412,8 @@ router.post("/detail", function(req, res)
 						lock.release(ACTIVITY_DB);
 						return;
 					}
+					if (activity["description"])
+						activity["description"] = activity["description"].replace(/\r?\n/g, "\\n");
 					db[ACTIVITY_DB].insert(activity, function(){
 						if (activity["need_seat"] == 1)
 						{
@@ -558,6 +562,8 @@ router.post("/detail", function(req, res)
 						}
 						else
 						{
+							if (activity["description"])
+								activity["description"] = activity["description"].replace(/\r?\n/g, "\\n");
 							db[ACTIVITY_DB].update({_id:idObj},{$set: activity},{multi:false},function(err,result){
 								if (err || result.n != 1)
 								{
@@ -578,7 +584,7 @@ router.post("/detail", function(req, res)
 													act_info.getCurrentActivity(cm.autoClearOldMenus);
 													cache.clearCache();
 												}
-												res.send("200#新建活动成功(分区票务)！");
+												res.send("200#修改活动成功(分区票务)！");
 												lock.release(ACTIVITY_DB);
 												return;
 											});
@@ -702,6 +708,8 @@ router.post("/detail", function(req, res)
 								lock.release(ACTIVITY_DB);
 								return;
 							}
+							if (activity["description"])
+								activity["description"] = activity["description"].replace(/\r?\n/g, "\\n");
 							db[ACTIVITY_DB].update({_id:idObj},{$set: activity},{multi:false},function(err,result){
 								if (err || result.n != 1)
 								{
@@ -771,6 +779,8 @@ router.post("/detail", function(req, res)
 								delete activity.D_area;
 								delete activity.E_area;
 							}
+							if (activity["description"])
+								activity["description"] = activity["description"].replace(/\r?\n/g, "\\n");
 							db[ACTIVITY_DB].update({_id:idObj},{$set: activity},{multi:false},function(err,result){
 								if (err || result.n != 1)
 								{
@@ -791,7 +801,7 @@ router.post("/detail", function(req, res)
 													act_info.getCurrentActivity(cm.autoClearOldMenus);
 													cache.clearCache();
 												}
-												res.send("200#新建活动成功(分区票务)！");
+												res.send("200#修改活动成功(分区票务)！");
 												lock.release(ACTIVITY_DB);
 												return;
 											});
