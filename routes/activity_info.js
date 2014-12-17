@@ -65,11 +65,11 @@ router.get("/", function(req, res, next)
             act_key:            theAct.key,
             act_pic_url:        theAct.pic_url,
             act_desc:           theAct.description
-                                    .replace(/\\n/g,"<br>")
                                     .replace(/ /g,"&nbsp;")
                                     .replace(/"/g,"&quot;")
                                     .replace(/</g,"&lt;")
-                                    .replace(/>/g,"&gt;"),
+                                    .replace(/>/g,"&gt;")
+                                    .replace(/\\n/g,"<br>"),
             seat_type:          theAct.need_seat,
 
             cur_time:           getTime(new Date(),true),
