@@ -80,7 +80,7 @@ router.get('/', function(req, res) {
                     if (tiSeat=="")
                     {
                         var current=(new Date()).getTime();
-                        if (ticket_status==1 && (current<docs[0].book_start || current>docs[0].book_end))
+                        if (ticket_status==1 && (current<docs1[0].book_start || current>docs1[0].book_end))
                         {
                             ticket_status=2;
                             tiSeat="您未在抢票时间内选座，系统将稍后随机分配座位";
