@@ -1,10 +1,13 @@
 var sweeper = require("./models/sweeper");
 var assigner= require("./models/assign_seat");
+var cm = require("./weixin_basic/custom_menu");
+var act_info = require('./weixin_basic/activity_info');
 
 sweeper(function()
 {
     assigner(function()
     {
-        process.exit(0);
+        cm.isExit=true;
+        act_info.getCurrentActivity(cm.autoClearOldMenus);
     });
 });

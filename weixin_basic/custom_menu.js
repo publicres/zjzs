@@ -9,6 +9,7 @@ exports.deleteMenu = deleteMenu
 exports.modifyMenu = modifyMenu
 exports.autoClearOldMenus = autoClearOldMenus
 exports.menuStr = menuStr
+exports.isExit = false;
 
 var menuStr = JSON.stringify(set.WEIXIN_COSTUM_MENU_TEMPLATE);
 var menuNowUsed;
@@ -30,6 +31,8 @@ function createMenu(access_token){
     var post = https.request(options_creatMenu, function (response) {
         response.on('data', function(d) {
             process.stdout.write(d);
+            if (exports.isExit==true)
+                process.exit(0);
         });
     }).on('error', function(e) {
         console.error(e);
