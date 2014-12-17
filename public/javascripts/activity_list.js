@@ -12,7 +12,8 @@ function clearActs() {
 function getSmartStatus(act) {
     if (act.status == 0) {
         return '未发布';
-    } else if (act.status == 1) {
+    } 
+    else if (act.status == 1) {
         var now = new Date();
         if (now < act.book_start) {
             return '等待订票';
@@ -25,7 +26,11 @@ function getSmartStatus(act) {
         } else {
             return '已结束';
         }
-    } else {
+    } 
+    else if (act.status == 99){
+        return '已结束';
+    }
+    else {
         return '未知';
     }
 }

@@ -8,3 +8,5 @@ exports.ticketInfo=         "http://"+hostIP+"/ticketsinfo";
 exports.userPage=           "http://"+hostIP+"/users";
 exports.activityInfo=       "http://"+hostIP+"/actinfo";
 exports.choosearea=         "http://"+hostIP+"/choosearea";
+
+exports.autoRefresh=false;

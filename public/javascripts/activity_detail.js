@@ -352,6 +352,21 @@ function lockByStatus(status, book_start, start_time, end_time) {
             'uploadPic': function() {
                 return (new Date() >= getDateByObj(start_time));
             }
+        },
+        '99': {
+            'name': true,
+            'key': true,
+            'place': true,
+            'book_start': true,
+            'book_end': true,
+            'total_tickets': true,
+            'area_arrange': true,
+            'start_time': true,
+            'end_time': true,
+            'need_seat': true,
+            'description': true,
+            'pic_url': true,
+            'uploadPic': true
         }
     }, key;
     for (key in keyMap) {
@@ -523,6 +538,14 @@ function beforeSubmit(formData, jqForm, options) {
         }
     }
     if (lackArray.length > 0) {
+        var d = $('#resultHolder');
+        if (d.hasClass("resultError")) {
+            d.removeClass("resultError");
+        }
+        if (d.hasClass("resultSuccess")) {
+            d.removeClass("resultSuccess");
+        }
+        d.addClass("resultError");
         setResult('以下字段是必须的，请补充完整后再提交：\r\n' + lackArray.join('、'));
         $('#continueBtn').click(function() {
             showForm();
@@ -580,7 +603,31 @@ function submitResponse(data) {
 }
 
 function submitError(xhr) {
-    setResult(xhr.responseText || '<null>');
+    var d = $('#resultHolder');
+    if (d.hasClass("resultError")) {
+        d.removeClass("resultError");
+    }
+    if (d.hasClass("resultSuccess")) {
+        d.removeClass("resultSuccess");
+    }
+    var str = xhr.responseText;
+    if (!str) {
+        str = "<null>";
+        d.addClass("resultError");
+    }
+    else {
+        var arr = str.split("#");
+        if (arr[0] == "200") {
+            d.addClass("resultSuccess");
+            str = arr[1];
+        }
+        else {
+            d.addClass("resultError");
+            str = arr[1];
+        }
+    }
+    //setResult(xhr.responseText || '<null>');
+    setResult(str);
     $('#continueBtn').click(function() {
         showForm();
     });
