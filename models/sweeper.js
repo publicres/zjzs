@@ -37,6 +37,7 @@ function genericWiper(callback)
     {
         if (err || docs.length==0)
         {
+            callback();
             return;
         }
         var t=0;

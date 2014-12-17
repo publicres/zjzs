@@ -14,10 +14,14 @@ var db = model.db;
 
 var alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
 
-var stu_cache={};
 var act_cache={};
 var rem_cache={};
 var usr_lock={};
+
+exports.clearCache=function()
+{
+    act_cache={};
+}
 
 function verifyStudent(openID,ifFail,ifSucc)
 {
@@ -39,9 +43,14 @@ function verifyActivities(actKey,ifFail,ifSucc)
     var theAct=act_cache[actKey];
     if (theAct)
     {
-        if (current>theAct.book_start && current<theAct.book_end)
+        if (current<theAct.book_end)
         {
-            ifSucc(theAct._id,theAct);
+            if (current>theAct.book_start)
+            {
+                ifSucc(theAct._id,theAct);
+                return;
+            }
+            ifFail(theAct.book_start-current);
             return;
         }
         act_cache[actKey]=null;
@@ -51,7 +60,6 @@ function verifyActivities(actKey,ifFail,ifSucc)
     db[ACTIVITY_DB].find(
     {
         key:actKey,
-        book_start:{$lt:current},
         book_end:{$gt:current},
         status:1
     },function(err,docs)
@@ -62,8 +70,16 @@ function verifyActivities(actKey,ifFail,ifSucc)
             return;
         }
         act_cache[actKey]=docs[0];
-        //Attentez: Avoid to change activities info when booking time.
-        ifSucc(docs[0]._id,docs[0]);
+        if (current>docs[0].book_start)
+        {
+            ifSucc(docs[0]._id,docs[0]);
+            return;
+        }
+        else
+        {
+            ifFail(docs[0].book_start-current);
+            return;
+        }
     });
 }
 function getRandomString()
@@ -126,6 +142,18 @@ function fetchRemainTicket(key,callback)
     });
 }
 
+function getTimeFormat(timeInMS)
+{
+    var sec=Math.floor(timeInMS/1000);
+    var min=Math.floor(sec/60);
+    var hou=Math.floor(min/60);
+
+    sec-=min*60;
+    min-=hou*60;
+
+    return (hou>0?hou+"小时":"")+(min>0?min+"分":"")+(sec>0?sec+"秒":"");
+}
+
 exports.check_get_ticket=function(msg)
 {
     if (checker.checkMenuClick(msg).substr(0,basicInfo.WEIXIN_BOOK_HEADER.length)===basicInfo.WEIXIN_BOOK_HEADER)
@@ -169,9 +197,12 @@ exports.faire_get_ticket=function(msg,res)
             return;
         }
 
-        verifyActivities(actName,function()
+        verifyActivities(actName,function(tl)
         {
-            res.send(template.getPlainTextTemplate(msg,"目前没有符合要求的活动处于抢票期。"));
+            if (tl==null)
+                res.send(template.getPlainTextTemplate(msg,"目前没有符合要求的活动处于抢票期。"));
+            else
+                res.send(template.getPlainTextTemplate(msg,"该活动将在 "+getTimeFormat(tl)+" 后开始抢票，请耐心等待！"));
         },function(actID,staticACT)
         {
             //Attentez: unlike stuID which is THUid, act id is simply act._id
@@ -194,7 +225,7 @@ exports.faire_get_ticket=function(msg,res)
                     if (rem_cache[actName]==0)
                     {
                         usr_lock[stuID]=null;
-                        res.send(template.getPlainTextTemplate(msg,"对不起，票已抢完...(╯‵□′)╯︵┻━┻。如果你已经抢到票，请使用查票功能查看抢到票的信息。"));
+                        res.send(template.getPlainTextTemplate(msg,"对不起，票已抢完...\n(╯‵□′)╯︵┻━┻。如果你已经抢到票，请使用查票功能查看抢到票的信息。"));
                         return;
                     }
                     rem_cache[actName]--;

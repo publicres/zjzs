@@ -59,17 +59,28 @@ router.get('/', function(req, res) {
                     var activityKey = docs1[0].key;
 
                     var ticket_status;
+
+                    if (ticketstatus==0 || ticketstatus==99)
+                    {
+                        res.render("alert",
+                        {
+                            errorinfo: "无效票。可能是已经退掉的票或是活动已结束而无效。",
+                            backadd:    null
+                        });
+                        return;
+                    }
+
                     if (docs1[0].need_seat!=0 && tiSeat=="")
                         ticket_status=1;
                     else
                         ticket_status=2;
-                    if (ticketstatus!=1 && ticketstatus!=2)
+                    if (ticketstatus==3)
                         ticket_status=3;
 
                     if (tiSeat=="")
                     {
                         var current=(new Date()).getTime();
-                        if (ticket_status==1 && (current<docs[0].book_start || current>docs[0].book_end))
+                        if (ticket_status==1 && (current<docs1[0].book_start || current>docs1[0].book_end))
                         {
                             ticket_status=2;
                             tiSeat="您未在抢票时间内选座，系统将稍后随机分配座位";

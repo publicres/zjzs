@@ -102,6 +102,18 @@ dd .title{
 	height: 20px;
 }
 
+#seatButton{
+	width: 100%;
+}
+
+#blockNotify{
+	float: right;
+	font-size: 6em;
+	color: #DD001E;
+	margin-right: 20px;
+	opacity: 0.5;
+}
+
 /**********综体分区**************/
 #front{
 	background-image: url(../img/seat/wutai.png);

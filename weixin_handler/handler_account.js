@@ -83,7 +83,7 @@ exports.check_bookable_activity=function(msg)
 }
 exports.faire_bookable_activity=function(msg,res)
 {
-    act_infoer.getCurrentActivity(function(docs)
+    act_infoer.getCurrentActivity_EX(function(docs)
     {
         if (docs.length===0)
         {

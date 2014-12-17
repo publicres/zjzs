@@ -39,6 +39,6 @@ module.exports = function(req, res)
                 return;
             }
         }
-        res.send(template.getPlainTextTemplate(msg,"Bingo Lingo!"));
+        res.send(template.getPlainTextTemplate(msg,"对不起，没有合适的指令，请检查你的指令格式是否正确。"));
     });
 }
