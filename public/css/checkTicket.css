@@ -1,5 +1,5 @@
-/* 
-*	fonts are fromt fontello.com 
+/*
+*	fonts are fromt fontello.com
 *	author: Yanzhe Yang;
 * 	time:　	2014/12/8;
 */
@@ -21,14 +21,14 @@
   font-style: normal;
   font-weight: normal;
   speak: none;
- 
+
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
- 
+
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
@@ -38,8 +38,8 @@
 .icon-cart:before { content: '\e800'; }
 .icon-location:before { content: '\e802'; }
 .icon-right-thin:before { content: '\e803';}
-.icon-leaf:before { content: '\e804'; } 
-.icon-compass:before { content: '\e805'; } 
+.icon-leaf:before { content: '\e804'; }
+.icon-compass:before { content: '\e805'; }
 .icon-signal:before { content: '\e801'; }
 
 header{
@@ -218,4 +218,8 @@ dd .title{
 
 #block_E a{
 	top: 31%;
+}
+
+dt a{
+	color: black;
 }

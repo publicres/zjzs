@@ -70,8 +70,8 @@ function setValue(){
     }
     else{
         var w = seat.substring(0,1);
-        $("#blockNotify").html(w);
         if(w <= 'E' && w >= 'A'){
+            $("#blockNotify").html(w);
             $("#block_"+w).css("background-image", "url(img/seat/block_"+w+"_selected.png)");
         }
     }
