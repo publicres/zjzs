@@ -64,7 +64,7 @@ router.get("/", function(req, res, next)
             act_place:          theAct.place,
             act_key:            theAct.key,
             act_pic_url:        theAct.pic_url,
-            act_desc:           theAct.description.replace(/\\n/g,"<br>").replace(/ /g,"&nbsp;"),
+            act_desc:           theAct.description.replace(/\\n/g,"<br>").replace(/ /g,"&nbsp;").replace(/"/g,"&quot;"),
             seat_type:          theAct.need_seat,
 
             cur_time:           getTime(new Date(),true),
