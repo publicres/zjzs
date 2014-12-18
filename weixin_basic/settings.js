@@ -6,6 +6,10 @@ exports.WEIXIN_APPID = 'wxba2385bd8746d139';
 exports.WEIXIN_SECRET = 'e6f9aea61c5511cb2adb0543e1f2f206';
 
 var WEIXIN_EVENT_KEYS = {
+	'info_news': 'V1001_SCHOOL_NEWS',
+	'info_organization': 'V1001_OGNIZATION',
+	'info_job': 'V1001_JOB',
+	'info_vote': 'TSINGHUA_VOTE',
     'ticket_book_what': 'TSINGHUA_BOOK_WHAT',
     'ticket_get': 'TSINGHUA_TICKET',
     'account_bind': 'TSINGHUA_BIND',
@@ -13,7 +17,6 @@ var WEIXIN_EVENT_KEYS = {
     'help': 'TSINGHUA_HELP',
     'ticket_no_book_recommand': 'TSINGHUA_NO_BOOK_ACTS',
     'ticket_book_header': 'TSINGHUA_BOOK_',
-    'modern_figure': 'V1001_MODERN_FIGURE',
     'ticket_no_activity': 'NO_ACTIVITY',
 };
 
@@ -26,14 +29,26 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
             "sub_button": [
                 {
                     "type": "click",
-                    "name": "抢啥",
-                    "key": WEIXIN_EVENT_KEYS['ticket_book_what'],
+                    "name": "新闻",
+                    "key": WEIXIN_EVENT_KEYS['info_news'],
                     "sub_button": []
                 },
                 {
+                	"type": "click",
+                	"name": "就业",
+                	"key": WEIXIN_EVENT_KEYS['info_job'],
+                	"sub_button": []
+                },
+                {
                     "type": "click",
-                    "name": "帮助",
-                    "key": WEIXIN_EVENT_KEYS['help'],
+                    "name": "社团",
+                    "key": WEIXIN_EVENT_KEYS['info_organization'],
+                    "sub_button": []
+                }, 
+                {
+                    "type": "click",
+                    "name": "投票",
+                    "key": WEIXIN_EVENT_KEYS['info_vote'],
                     "sub_button": []
                 }
             ]
@@ -57,6 +72,12 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                     "type": "click",
                     "name": "解绑",
                     "key": WEIXIN_EVENT_KEYS['account_unbind'],
+                    "sub_button": []
+                },
+                {
+                    "type": "click",
+                    "name": "帮助",
+                    "key": WEIXIN_EVENT_KEYS['help'],
                     "sub_button": []
                 }
             ]
@@ -83,6 +104,13 @@ exports.getCustomMenuWithBookActs = function(actsbtn){
         book_btn['key'] = WEIXIN_EVENT_KEYS['ticket_no_book_recommand']
     }
     book_btn['sub_button'] = actsbtn;
-
+    book_btn['sub_button'].push(objBW);
     return tmpmenu;
 }
+
+objBW = {
+            "type": "click",
+            "name": "近期活动",
+            "key": WEIXIN_EVENT_KEYS['ticket_book_what'],
+            "sub_button": []
+        }

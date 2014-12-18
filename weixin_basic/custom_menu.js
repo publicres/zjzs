@@ -97,7 +97,7 @@ function modifyMenu(buttons){
 function autoClearOldMenus(activities){
     buttons = [];
     Obj = {};
-    while(activities.length > 5){
+    while(activities.length > 4){
         earliestAct = activities[0];
         for(var i in activities){
             act = activities[i];
