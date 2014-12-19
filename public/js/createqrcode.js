@@ -1,4 +1,4 @@
-(function( $ ){
+﻿(function( $ ){
 	$.fn.qrcode = function(options) {
 		// if options is string,
 		if( typeof options === 'string' ){
@@ -35,9 +35,24 @@
 
 			// draw in the canvas
 			var myGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-			var randomColor = 'rgb('+Math.floor(Math.random()*150)+','+Math.floor(Math.random()*150)+','+Math.floor(Math.random()*150)+')';
-			myGradient.addColorStop(0, randomColor);
-			myGradient.addColorStop(1, "#000");
+			//var randomColor = 'rgb('+Math.floor(Math.random()*150)+','+Math.floor(Math.random()*150)+','+Math.floor(Math.random()*150)+')';
+			var r11=30+Math.floor(Math.random()*50), r21=r11+30, r31=r21+30, r01=r11-30;
+			var r12=30+Math.floor(Math.random()*50), r22=r12+30, r32=r22+30, r02=r12-30;
+			var r13=30+Math.floor(Math.random()*50), r23=r13+30, r33=r23+30, r03=r13-30;
+			var color1 = 'rgb('+r11+','+r12+','+r13+')';
+			var color2 = 'rgb('+r21+','+r22+','+r23+')';
+			var color3 = 'rgb('+r31+','+r32+','+r33+')';
+			var color0 = 'rgb('+r01+','+r02+','+r03+')';
+			myGradient.addColorStop(0, color3);
+			myGradient.addColorStop(0.245, color3);
+			myGradient.addColorStop(0.255, color2);
+			myGradient.addColorStop(0.495, color2);
+			myGradient.addColorStop(0.505, color1);
+			myGradient.addColorStop(0.745, color1);
+			myGradient.addColorStop(0.755, color0);
+			myGradient.addColorStop(1, color0);
+			
+		//	var darkcolor;
 			for( var row = 0; row < qrcode.getModuleCount(); row++ ){
 				for( var col = 0; col < qrcode.getModuleCount(); col++ ){
 					ctx.fillStyle = qrcode.isDark(row, col) ? myGradient : options.background;
@@ -46,11 +61,26 @@
 					ctx.fillRect(Math.round(col*tileW),Math.round(row*tileH), w, h);
 				}
 			}
-			var image = new Image();
-			image.onload = function() {
-    			ctx.drawImage(image, canvas.width*0.4, canvas.height*0.4, canvas.width*0.2,canvas.height*0.2);
+			have_not_choose_seat = false;
+			if (have_not_choose_seat == true)
+			{//提示用户先选座位
+				ctx.fillStyle = 'rgba(240,240,240,0.9)';
+				ctx.fillRect(0,0,canvas.width,canvas.height);
+				ctx.fillStyle = 'rgba(160,160,160,0.8)';
+				ctx.font = 'Bold '+Math.floor(canvas.width*0.3)+'px Arial';
+				ctx.fillText('请',canvas.width*0.1,canvas.height*0.4);
+				ctx.fillText('先',canvas.width*0.6,canvas.height*0.4);
+				ctx.fillText('选',canvas.width*0.1,canvas.height*0.8);
+				ctx.fillText('座',canvas.width*0.6,canvas.height*0.8);
 			}
-			image.src = "/img/tuan.png";
+			else
+			{
+				var image = new Image();
+				image.onload = function() {
+    				ctx.drawImage(image, canvas.width*0.4, canvas.height*0.4, canvas.width*0.2,canvas.height*0.2);
+				}
+				image.src = "/img/tuan.png";
+			}
 			// return just built canvas
 			return canvas;
 		}
