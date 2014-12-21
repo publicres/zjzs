@@ -19,6 +19,13 @@ var logout = require('./routes/logout');
 
 var app = express();
 
+process.on('uncaughtException', function(err)
+{
+    console.log("****LETHAL EXCEPTION!!!******");
+    if (err.stack)
+        console.log(err.stack);
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

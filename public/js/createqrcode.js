@@ -36,13 +36,25 @@
 			// draw in the canvas
 			var myGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
 			//var randomColor = 'rgb('+Math.floor(Math.random()*150)+','+Math.floor(Math.random()*150)+','+Math.floor(Math.random()*150)+')';
-			var randomColor = "#6e4e4f";
-			myGradient.addColorStop(0, randomColor);
-			myGradient.addColorStop(1, "#000");
+			var r11=30+Math.floor(Math.random()*40), r21=r11+30, r31=r21+30, r01=r11-30;
+			var r12=30+Math.floor(Math.random()*40), r22=r12+30, r32=r22+30, r02=r12-30;
+			var r13=30+Math.floor(Math.random()*40), r23=r13+30, r33=r23+30, r03=r13-30;
+			var color1 = 'rgb('+r11+','+r12+','+r13+')';
+			var color2 = 'rgb('+r21+','+r22+','+r23+')';
+			var color3 = 'rgb('+r31+','+r32+','+r33+')';
+			var color0 = 'rgb('+r01+','+r02+','+r03+')';
+			myGradient.addColorStop(0, color3);
+			myGradient.addColorStop(0.249, color3);
+			myGradient.addColorStop(0.251, color2);
+			myGradient.addColorStop(0.499, color2);
+			myGradient.addColorStop(0.501, color1);
+			myGradient.addColorStop(0.749, color1);
+			myGradient.addColorStop(0.751, color0);
+			myGradient.addColorStop(1, color0);
 
+		//	var darkcolor;
 			for( var row = 0; row < qrcode.getModuleCount(); row++ ){
 				for( var col = 0; col < qrcode.getModuleCount(); col++ ){
-
 					ctx.fillStyle = qrcode.isDark(row, col) ? myGradient : options.background;
 					var w = (Math.ceil((col+1)*tileW) - Math.floor(col*tileW));
 					var h = (Math.ceil((row+1)*tileW) - Math.floor(row*tileW));
@@ -55,7 +67,7 @@
 				ctx.drawImage(image, canvas.width*0.4, canvas.height*0.4, canvas.width*0.2,canvas.height*0.2);
 			}
 			image.src = "img/tuan.png";
-		
+
 			// return just built canvas
 			return canvas;
 		}
