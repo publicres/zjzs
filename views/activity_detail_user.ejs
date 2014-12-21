@@ -7,7 +7,7 @@
     <meta content="telephone=no" name="format-detection">
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=no">
     <title></title>
-    <link type="text/css" href="css/style.css" rel="stylesheet">
+    <link type="text/css" href="css/style_zbw.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.min.css">
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript">
@@ -18,21 +18,32 @@
 </head>
 
 <body>
+<!--[if IE]><p style="background-color: white;color:black;">抱歉, 本页面暂不支持IE内核的浏览器，您看到的排版可能较为混乱，请谅解。</p><![endif]-->
     <div id="robot" class="robot">
+        <section class="info" id="get_ticket">
+            <div class="auto_hide bottom_mask"><!--style.css-->
+            </div>
+            <div class="auto_hide btn" style="">
+                <div class="bottom_button">
+                    <h1 id="get_ticket_method_title"></h1>
+                    <div id="get_ticket_method_content"></div>
+                </div>
+            </div>
+        </section>
         <article id="container" class="ticket">
-            <section class="info">
+            <section class="info" style="padding-bottom: 3em;" id="huahua">
                 <figure>
-                    <div class="mask"></div>
+                    <div class="mask" style="background-repeat: repeat;"></div>
                     <div id="activity_title_image" style="background-size: 100%;" class="m-cover"></div>
                 </figure>
                 <figure>
-                    <img id="activity_main_image" src="">
+                    <img id="activity_main_image">
                     <figcaption>
                         <p class="time">Tsinghua University</p>
                         <h1 id="activity_title"></h1>
                         <div class="bars">
                             <span id="activity_seat_type"><i class="iconfont"></i></span>
-                            <span id="activity_ticket_status"><i class="iconfont"></i></span>
+                            <span id="activity_ticket_status"><i class="iconfont"></i></span>
                         </div>
                     </figcaption>
                 </figure>
@@ -40,150 +51,41 @@
                 <div class="corner"></div>
                 <div class="details">
                     <div class="body">
-                        <h1 id="activity_detail_title_2"></h1>
-                        <div id="activity_content_2"></div>
-                    </div>
-                    <div class="body">
                         <h1 id="activity_detail_title"></h1>
                         <div id="activity_content"></div>
                     </div>
-                    <!--
-                    <div class="body">
-                        <h1 id="activity_detail_title_3"></h1>
-                        <div id="activity_content_3"></div>
+                    <div class="body" id="get_ticket_2" style="">
+                        <h1 id="activity_detail_title_2"></h1>
+                        <div id="activity_content_2"></div>
                     </div>
-                    <div id="activity_button" class="btn" style="height:auto;display:none;">
-                        <a id="activity_button_content"><i class="iconfont"></i></a>
-                    </div>-->
                 </div>
             </section>
         </article>
     </div>
 <script type="text/javascript">
-//需要动态添加的信息
-//var activity_get_ticket_time="11月22日(本周六)中午11:30--13:30";//领票时间
-var activity_time_raw=<%= act_start %>;//活动时间
-var activity_book_ticket_time_raw=<%= act_book_start %>;//抢票时间
-var activity_end_time_raw=<%= act_end %>;
-var activity_book_ticket_end_time_raw=<%= act_book_end %>;
+/********需要从后台动态添加的信息**********/
+    var activity_time_raw=<%= act_start %>;//活动时间(毫秒)
+    var activity_book_ticket_time_raw=<%= act_book_start %>;;//抢票时间
+    var activity_end_time_raw=<%= act_end %>;
+    var activity_book_ticket_end_time_raw=<%= act_book_end %>;
+    var time_server=new Date(<%= current_time %>);//服务器当前时间
 
-var activity_page_title="<%= act_name %>-活动详情";//页面标题名称
-var activity_title="<%= act_name %>";//活动名称
-var activity_seat_type="<%= seat_type %>";//0:不选座 1:选区 2:选座
-var activity_detail_title="演出详情";//可以填"演出详情"、"活动详情"等
-var activity_content="<%- act_desc %>";
-var activity_main_image="<%= act_pic_url %>";//必须是竖着的图片
-var activity_title_image="<%= act_pic_url %>";//最好是横着的图片
-var activity_ticket_status=<%= ticket_status %>;//0:未开始抢票 1:抢票中 2:抢票结束 3:抢票成功，点击查看 4:已领票
-var activity_book_ticket_link="";//抢票链接
-var activity_view_ticket_link="";//查票链接
-var activity_key = "<%= act_key %>";
-var activity_remain_ticket = <%= rem_tik %>;
-var activity_place = "<%= act_place %>";
-var act_key= "<%= act_key %>";
-
-
-/*时间格式处理*/
-var time1_start = new Date(activity_time_raw);
-var time1_end = new Date(activity_end_time_raw);
-var time2_start = new Date(activity_book_ticket_time_raw);
-var time2_end = new Date(activity_book_ticket_end_time_raw);
-function combine_time(t1, t2)
-{
-    var u='/';
-    var y1=t1.getFullYear();
-    var y2=t2.getFullYear();
-    var m1=1+t1.getMonth();
-    var m2=1+t2.getMonth();
-    var d1=t1.getDate();
-    var d2=t2.getDate();
-    var h1=t1.getHours()+''; h1=h1.length==1?'0'+h1:h1;
-    var h2=t2.getHours()+''; h2=h2.length==1?'0'+h2:h2;
-    var mi1=t1.getMinutes()+''; mi1=mi1.length==1?'0'+mi1:mi1;
-    var mi2=t2.getMinutes()+''; mi2=mi2.length==1?'0'+mi2:mi2;
-    var day=['Sun.','Mon.','Tue.','Wed.','Thur.','Fri.','Sat.'];
-    var day1=day[t1.getDay()];
-    var day2=day[t2.getDay()];
-    if (y1!=y2)
-        return y1+u+m1+u+d1+' '+h1+':'+mi1+' 至<br>'+y2+u+m2+u+d2+' '+h2+':'+mi2;
-    if (m1!=m2)
-        return y1+'年'+m1+'月'+d1+'日 '+h1+':'+mi1+' 至 '+m2+'月'+d2+'日 '+h2+':'+mi2;
-    if (d1!=d2)
-        return y1+'年'+m1+'月'+d1+'日 '+h1+':'+mi1+' 至 '+d2+'日 '+h2+':'+mi2;
-    return y1+u+m1+u+d1+' '+h1+':'+mi1+' 至 '+h2+':'+mi2;
-}
-var activity_time = combine_time(time1_start, time1_end);
-var activity_book_ticket_time = combine_time(time2_start, time2_end);
+    var activity_page_title="<%= act_name %>-活动详情";//页面标题名称
+    var activity_title="<%= act_name %>";//活动名称
+    var activity_seat_type="<%= seat_type %>";//0:不选座 1:选区 2:选座
+    var activity_detail_title="活动介绍";//可以填"演出详情"、"活动详情"等
+    var activity_content="<%- act_desc %>";
+    var activity_main_image="<%= act_pic_url %>";//必须是竖着的图片
+    var activity_title_image="<%= act_pic_url %>";//最好是横着的图片
+    var activity_ticket_status=<%= ticket_status %>;//0:未开始抢票 1:抢票中 2:抢票结束 3:抢票成功，点击查看 4:已领票
+    var activity_key = "<%= act_key %>";
+    var activity_remain_ticket = <%= rem_tik %>;
+    var activity_place = "<%= act_place %>";
+    var act_key= "<%= act_key %>";
 /**/
 
-
-
-var activity_extra_info=[{t:'时间',c:activity_time},{t:'地点',c:activity_place}];
-if (activity_ticket_status==0)
-    activity_extra_info.push({t:'票数',c:activity_remain_ticket+" 张"});
-else if (activity_ticket_status==1)
-    activity_extra_info.push({t:'余票',c:"<span style='color:#dd001e'>"+activity_remain_ticket+"</span> 张"});
-
-/********************************/
-var activity_detail_title_2="抢票方式";
-var activity_content_2=
-    '<b>'+activity_book_ticket_time+'</b>'+
-    '， "清华大学紫荆之声"线上抢票，数量有限，先到先得。<br><div style="height:8px"></div>您可以:<br>'+
-    '1. 在微信中回复<b style="color:#dd881e">"抢票 '+activity_key+'"</b>进行抢票<br>'+
-    '2. 点击"抢票"下设二级菜单<b style="color:#dd881e">"'+activity_key+'"</b>抢票<br>';
-var activity_detail_title_3="领票方式";
-var activity_content_3_seat_type=["门票随机发放，不提供选座服务。","该活动提供按区域选座服务，同学们可根据需要选座。","该活动提供选座服务，同学们可根据需要选座。"];
-/*
-var activity_content_3=
-    '<b style="color:#dd881e">'+activity_get_ticket_time+'</b>'+
-    '，在校团委门厅(文图十字路口西北侧小红楼，进门左转门内)<br>'+
-    '抢票成功的同学凭二维码兑换纸质票，并现金结清票款，请同学们自备零钱。<br>'+
-    '<b style="color:#dd881e">'+activity_content_3_seat_type[activity_seat_type]+'</b>';
-*/
-$('title').text(activity_page_title);
-$('#activity_title').text(activity_title);
-$('#activity_time').text(activity_time);
-$('#activity_content').html(activity_content);
-$('#activity_content_2').html(activity_content_2);
-//$('#activity_content_3').append(activity_content_3);
-var seat_type=["不选座","分区选座","选座"];
-$('#activity_seat_type').append(seat_type[activity_seat_type]);
-for (var i in activity_extra_info)
-{
-  $('#activity_extra_info').append(
-    '<div><span>'+activity_extra_info[i].t+':</span>'+
-       '<label>'+activity_extra_info[i].c+'</label>'+
-    '</div>');
-}
-$('#activity_detail_title').append('<b>'+activity_detail_title+'</b>');
-$('#activity_detail_title_2').append('<b>'+activity_detail_title_2+'</b>');
-$('#activity_detail_title_3').append('<b>'+activity_detail_title_3+'</b>');
-$('#activity_main_image').attr("src",activity_main_image);
-$('#activity_title_image').css("background","url("+activity_title_image+") no-repeat")
-var ticket_status=[
-    "未开始抢票",
-    "<b style='color:#dd001e;'>抢票中!</b>",
-    "抢票已结束",
-    "抢票成功",
-    "已领票"
-    ];
-$('#activity_ticket_status').append(ticket_status[activity_ticket_status]);
-if (activity_ticket_status==1)
-{
-    $('#activity_button').css('display','block');
-    $('#activity_button_content').append("<b>点我抢票!</b>");
-    $('#activity_button_content').attr("href",activity_book_ticket_link);
-}
-else if (activity_ticket_status==3)
-{
-    $('#activity_button').css('display','block');
-    $('#activity_button_content').append("<b>查看电子票</b>");
-    $('#activity_button_content').attr("href",activity_view_ticket_link);
-}
-else
-{
-    $('#activity_button').css('display','none');
-}
+</script>
+<script type="text/javascript" src="js/activity_detail.js">
 </script>
 </body>
 </html>

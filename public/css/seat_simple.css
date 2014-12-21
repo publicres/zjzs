@@ -60,12 +60,6 @@ ul{
 
 }
 
-#validSign2{
-	background: #e74518;
-
-}
-
-
 
 
 #selectedSign{
@@ -73,29 +67,26 @@ ul{
 }
 
 #fullSign1{
-	background-color: #30dfe0;
+	background-color: rgb(111, 217, 217);
 }
 
-#fullSign2{
-	background-color: #f16768;
-}
 
-#fullSign1, #fullSign2{
+#fullSign1{
 	webkit-background-size: 16px 16px;
     -moz-background-size: 16px 16px; /* 控制条纹的大小 */
     background-image: -webkit-gradient(linear, 0 0, 100% 100%,
-                            color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, transparent),
-                            color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .2)),
-                            color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, transparent),
+                            color-stop(.25, rgba(245, 245, 245, .7)), color-stop(.25, transparent),
+                            color-stop(.5, transparent), color-stop(.5, rgba(245, 245, 245, .7)),
+                            color-stop(.75, rgba(245, 245, 245, .7)), color-stop(.75, transparent),
                             to(transparent));
-    background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
-                        transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+    background-image: -moz-linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
+                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
                         transparent 75%, transparent);
-    background-image: -o-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
-                        transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+    background-image: -o-linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
+                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
                         transparent 75%, transparent);
-    background-image: linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
-                        transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+    background-image: linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
+                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
                         transparent 75%, transparent);
 }
 
@@ -308,22 +299,22 @@ ul{
 }
 
 .linear-style{
-	background-color: #f16768;
+	background-color: #30dfe0;
 	webkit-background-size: 16px 16px;
     -moz-background-size: 16px 16px; /* 控制条纹的大小 */
     background-image: -webkit-gradient(linear, 0 0, 100% 100%,
-                            color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, transparent),
-                            color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .2)),
-                            color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, transparent),
+                            color-stop(.25, rgba(245, 245, 245, .7)), color-stop(.25, transparent),
+                            color-stop(.5, transparent), color-stop(.5, rgba(245, 245, 245, .7)),
+                            color-stop(.75, rgba(245, 245, 245, .7)), color-stop(.75, transparent),
                             to(transparent));
-    background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
-                        transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+    background-image: -moz-linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
+                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
                         transparent 75%, transparent);
-    background-image: -o-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
-                        transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+    background-image: -o-linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
+                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
                         transparent 75%, transparent);
-    background-image: linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
-                        transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+    background-image: linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
+                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
                         transparent 75%, transparent);
 }
 

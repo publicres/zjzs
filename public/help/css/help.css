@@ -1,0 +1,180 @@
+﻿body{
+	/*background-color: white;*/
+	background-color: #1E2329;
+	font-family: '微软雅黑';
+	margin: 0 0 0 0;
+}
+
+@font-face {
+  font-family: 'iconHelpPage';
+  src: url('../font/iconHelpPage.eot?27762698');
+  src: url('../font/iconHelpPage.eot?27762698#iefix') format('embedded-opentype'),
+       url('../font/iconHelpPage.woff?27762698') format('woff'),
+       url('../font/iconHelpPage.ttf?27762698') format('truetype'),
+       url('../font/iconHelpPage.svg?27762698#quote') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "iconHelpPage";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+
+  font-variant: normal;
+  text-transform: none;
+     
+  line-height: 1em;
+  margin-left: .2em;
+}
+ 
+.icon-paper-plane:before { content: '\e801'; }
+.icon-giraffe:before { content: '\e802'; } 
+.icon-quote-left:before { content: '\e803'; } 
+.icon-quote-right:before { content: '\e804'; } 
+.icon-heart-empty:before { content: '\e806'; } 
+.icon-leaf-1:before { content: '\e809'; }
+.icon-leaf-2:before { content: '\e80b'; }
+
+/******************* Some common styles  *******************
+********************        菜单按钮       *******************/
+.header{
+	background: #000;
+	height: 40px;
+	color: #8C8C8C;
+	line-height: 40px;
+	width: 100%;
+}
+
+#helpTicket, #helpOther{
+	width: 50%;
+	float: left;
+	
+	text-align: center;
+	font-size: .8em;
+}
+
+.active{
+	color: #FFCC66;
+	border-bottom: 3px solid #FFCC66;
+}
+
+/******************* Some common styles  *******************
+********************        标题栏       *******************/
+.square{
+	height: 2em;
+	width: 1em;
+	float: left;
+	margin-right: 0.5em;
+	background-color: #66CCCC;
+	/*background-color: #FF9966;*/
+}
+
+.titleBig{
+	margin-top: 20px;
+}
+
+.colorRed{
+	color: #DD001E;
+}
+
+.i_num{
+	margin: 0px 8px 0px 8px;
+	padding: 4px 10px;
+	border: 0px;
+	font-family: 微软雅黑;
+	line-height: 28px;
+	text-align: justify;
+	border-radius: 80% 100% 90% 20%;
+	color: #000;
+	background-color: #FFCC66;
+	opacity: 0.9;
+}
+
+#titleBig{
+	height: 2.1em;
+	display: inline-block;
+	margin-right: 0.5em;
+	/*background-color: #DD001E;*/
+	font-size: 1.2em;
+	color: #fff;
+}
+
+/******************* Some common styles  *******************
+********************        内容栏       *******************/
+.content{
+	width: 80%;
+	margin-top: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 8px;
+
+
+	border-radius: 8px;
+	padding: 5px;
+	
+	border-radius: 5px;
+	border: dotted;
+	border-color: #66CCCC;
+	
+}
+
+.text{
+	color: #FFCC66;
+}
+
+.content .text{
+	margin: 5px;
+	font-size: .8em;
+	color: #fff;
+	line-height: 1.4em;
+}
+
+
+/******************* 彩蛋 *******************/
+#additional{
+	float: right;
+	margin-bottom: 20px;
+	margin-right: 40px;
+}
+#Thanks{
+	position: relative;
+
+}
+
+#finger{
+	opacity: 1;
+	background: url(../img/finger.png) no-repeat;
+}
+#fingerLight{
+	opacity: 0;
+	background: url(../img/fingerLight.png) no-repeat;
+}
+#finger, #fingerLight{
+	position: absolute;
+	bottom: -2em;
+	right: 0;
+	float: right;
+	background-size: contain;
+	width: 8em;
+	height: 8em;
+}
+#thanksInfo{
+	opacity: 0;
+	position: fixed;
+	right: 40%;
+	top:30%;
+	left:20%;
+	right: 20%;
+	top:20%;
+	bottom: 20%;
+	text-align: center;
+	color:white;
+}

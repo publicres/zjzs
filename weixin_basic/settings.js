@@ -1,3 +1,4 @@
+var urls=require("../address_configure");
 
 exports.WEIXIN_TOKEN = 'F8ZFW1Cyzr5z6nNoJ5uZhA8iXEbe1hvX';
 
@@ -44,7 +45,7 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                     "name": "社团",
                     "key": WEIXIN_EVENT_KEYS['info_organization'],
                     "sub_button": []
-                }, 
+                },
                 {
                     "type": "click",
                     "name": "投票",
@@ -75,19 +76,18 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                     "sub_button": []
                 },
                 {
-                    "type": "click",
+                    "type": "view",
                     "name": "帮助",
-                    "key": WEIXIN_EVENT_KEYS['help'],
-                    "sub_button": []
+                    "url":  urls.help
                 }
             ]
         },
-        {
-            "name": "抢票",
-            "type": "click",
-            "key": WEIXIN_EVENT_KEYS['ticket_no_activity'],
-            "sub_button": []
-        }
+		{
+			"name": "抢票",
+			"type": "click",
+			"key": WEIXIN_EVENT_KEYS['ticket_no_activity'],
+			"sub_button": []
+		}
     ]
 };
 exports.WEIXIN_COSTUM_MENU_TEMPLATE = WEIXIN_COSTUM_MENU_TEMPLATE;
