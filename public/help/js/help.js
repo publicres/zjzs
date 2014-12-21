@@ -31,11 +31,6 @@ $("#helpOther").click(function(){
 	$("#helpTicket").attr("class", "");
 });
 
-setInterval(function(){
-	$("#fingerLight").animate({opacity: '0',}, 1000, function(){
-		$("#fingerLight").animate({opacity: '0.5',}, 1000);
-	});
-}, 2000);
 
 
 
@@ -44,20 +39,56 @@ a = $("#helpTicketPart, #helpOtherPart");
 b = $("#thanksInfo");
 var startBlur;
 var cancelBlur;
-$("#finger, #fingerLight").mousedown(function(){
+var blurFlag = 0;
+$("#finger").click(function(){
+	if (blurFlag == 0){
+		a.animate({opacity: 0},1000, null);
+		setTimeout(function(){
+			b.animate({opacity:1}, 2000, null);
+		},500)
+		blurFlag = 1;
+		/*a.animate({opacity: 1}, 1000, null)*/
+	}
+	else{
+		a.animate({opacity: 1},2000, null);
+		b.animate({opacity:0}, 1000, null);
+		blurFlag = 0;
+	}
+})
+/*
+$("#finger").click(function(){
 	clearInterval(cancelBlur);
 	startBlur = setInterval(function(){
 		blurSize += 0.3;
 		a.css("-webkit-filter", "blur("+blurSize+"px)");
 		if (blurSize > 10)
 			b.css("opacity", (blurSize-10)/25);
-		if (blurSize >= 25){
+		setTimeout(function(){
 			clearInterval(startBlur);
-		}
-	}, 10)
-})
+			cancelBlur = setInterval(function(){
+				blurSize -= 0.1;
+				a.css("-webkit-filter", "blur("+blurSize+"px)");
+				b.css("opacity", (blurSize-10)/25);
+				if (blurSize <= 0){
+					clearInterval(cancelBlur);
+				}
+			}, 1000)
+		}, 1000)
+/*		if (blurSize >= 25){
+			clearInterval(startBlur);
+			cancelBlur = setInterval(function(){
+				blurSize -= 0.1;
+				a.css("-webkit-filter", "blur("+blurSize+"px)");
+				b.css("opacity", (blurSize-10)/25);
+				if (blurSize <= 0){
+					clearInterval(cancelBlur);
+				}
+			}, 10)
+		}*/
+/*	}, 10)
+})*/
 
-$("#finger, #fingerLight").mouseup(function(){
+/*$("#finger").mouseup(function(){
 	clearInterval(startBlur);
 	cancelBlur = setInterval(function(){
 		blurSize -= 0.1;
@@ -68,3 +99,4 @@ $("#finger, #fingerLight").mouseup(function(){
 		}
 	}, 10)
 })
+*/

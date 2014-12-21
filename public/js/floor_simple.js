@@ -109,10 +109,11 @@ blockSign = new Array();
 blockSign = ["A", "B", "C", "D", "E"]
 //无票的选区
 for (i = 0; i < 5; i++){
+	$("#block_" + blockSign[i]).children("[id^=area]").css("background-color", "#6fd9d9");
 	if (ticketNum[i] == 0) {
-		$("#block_" + blockSign[i]).children("[id^=area]").attr("class", "linear-style");
-		if (i <= 5)
-			$("#block_" + blockSign[i]).children("[id^=area]").css("background-color", "#6fd9d9");
+		$("#block_" + blockSign[i]).css("border-color", "#F22121");
+		$("#block_" + blockSign[i]).css("background", "#930202");
+		$("#block_" + blockSign[i]).children("[id^=area]").css("background", "#F22121");	
 	}
 	a = $("#block_" + blockSign[i] + " a");
 	left = 0.5*(a.parent().width() - a.width());
@@ -146,7 +147,7 @@ var selected = 0;
 
 
 $("[id^=block]").click(function(){
-	if ($(this).children("[id^=area]").attr("class") == "linear-style"){
+	if ($(this).children("a").html()[3] == "0"){
 		alertInfo("所选区域已满<br>请选择其他区域");
 		return;
 	}
@@ -176,8 +177,8 @@ $("[id^=block]").click(function(){
 
 
 
-$("#buttom_frame").click(function(){
-	var url = window.location.href;
+	
+/*	var url = window.location.href;
 	if (selected != 0){
 		$("#submitArea").html('<form name=myForm><input type=hidden name=ticket_id><input type=hidden name=seat><input type=hidden name=stateCode></form>');
 	    var myForm=document.forms['myForm'];
@@ -190,8 +191,8 @@ $("#buttom_frame").click(function(){
 	}
 	else{
 		alertInfo("您还未选择任何座位");
-	}
-})
+	}*/
+
 
 
 function alertInfo(info){

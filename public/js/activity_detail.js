@@ -63,20 +63,18 @@ var activity_book_ticket_time = combine_time(time2_start, time2_end);
 
 
 /******添加额外信息******/
-var activity_extra_info=[{t:'<p style="letter-spacing:0.333em">活动时间</p>',c:activity_time}];//,{t:'活动地点',c:activity_place}];
+var activity_extra_info=[{t:'活动时间',c:activity_time},{t:'活动地点',c:activity_place}];
 if (activity_ticket_status==0)
 {
-    activity_extra_info.push({t:'抢票倒计<p style="letter-spacing:0.333em">时</p>',c:'<p id="ticket_getting" style="color:#dd001e"></p>'});
-    activity_extra_info.push({t:'<p style="letter-spacing:0.333em">活动票数</p>',c:activity_remain_ticket+" 张"});
+    activity_extra_info.push({t:'活动票数',c:activity_remain_ticket+" 张"});
 }
 else if (activity_ticket_status==1)
 {
-    activity_extra_info.push({t:'距抢票结<p style="letter-spacing:0.333em">束</p>',c:'<p id="ticket_getting"></p>'});
-    activity_extra_info.push({t:'<p style="letter-spacing:0.333em">剩余票数</p>',c:"<span style='color:#dd001e'>"+activity_remain_ticket+"</span> 张"});
+    activity_extra_info.push({t:'剩余票数',c:"<span style='color:#dd001e'>"+activity_remain_ticket+"</span> 张"});
 }
 else
 {
-    activity_extra_info.push({t:'<p style="letter-spacing:0.333em">抢票时间</p>',c:activity_book_ticket_time});
+    activity_extra_info.push({t:'抢票时间',c:activity_book_ticket_time});
 }
 
 /********************************/
@@ -85,13 +83,13 @@ var get_ticket_method_title="抢票方式:";
 var activity_content_2=
     '<b>'+activity_book_ticket_time+'</b>'+
     '， "清华大学紫荆之声"线上抢票，数量有限，先到先得。<br><div style="height:8px"></div>您可以:<br>'+
-    '· 在微信中回复<i style="color:#dd881e">"抢票 '+activity_key+'"</i>进行抢票;<br>'+
+    '· 在微信中回复<i style="color:#dd881e">"抢票　'+activity_key+'"</i>进行抢票;<br>'+
     '· 点击"抢票"下设二级菜单<i style="color:#dd881e">"'+activity_key+'"</i>按钮抢票。<br>'+
     (activity_seat_type==0?'':(activity_seat_type==1?'该活动分区域选座，抢到票后可进入查票界面进行选座。<br>':'抢到票后可进入查票界面进行选座。<br>'));
 
 var get_ticket_method_content=''+activity_book_ticket_time+''+
-    ' 线上抢票，数量有限，先到先得！<br><div style="height:1px"></div>'+
-    '· 在微信中直接回复<i style="color:#d0dd1e">"抢票 '+activity_key+'"</i><br>'+
+    ' 线上抢票，先到先得！<br><div style="height:1px"></div>'+
+    '· 在微信中直接回复<i style="color:#d0dd1e">"抢票　'+activity_key+'"</i><br>'+
     '· 或者，点击"抢票"菜单下的<i style="color:#d0dd1e">"'+activity_key+'"</i>按钮<br>';
 $('title').text(activity_page_title);
 $('#activity_title').text(activity_title);
@@ -99,8 +97,11 @@ $('#activity_time').text(activity_time);
 $('#activity_content').append(activity_content);
 $('#activity_content_2').append(activity_content_2);
 $('#get_ticket_method_content').append(get_ticket_method_content);
-var seat_type=["不选座","分区选座","选座"];
-$('#activity_seat_type').append(seat_type[activity_seat_type]);
+//var seat_type=["不选座","分区选座","选座"];
+//$('#activity_seat_type').append(seat_type[activity_seat_type]);
+
+//if (activity_ticket_status>=2)
+//    $('#ticket_getting').css('display','none');
 for (var i in activity_extra_info)
 {
   $('#activity_extra_info').append(
@@ -124,7 +125,9 @@ $('#activity_ticket_status').append(activity_place);//ticket_status[activity_tic
 
 var get_ticket_show=true;
 var time_left=(activity_ticket_status==0?activity_book_ticket_time_raw:(activity_book_ticket_end_time_raw))-time_server;
-
+if (activity_ticket_status>=2)
+    $('#ticket_getting')[0].innerHTML='抢票已结束';
+    
 if (activity_content.length<300)
 {
     $("#get_ticket_2").css('display','none');
@@ -132,8 +135,9 @@ if (activity_content.length<300)
     var timer1=setInterval(function()
     {
         time_left-=100;
-
-        $('#ticket_getting')[0].innerHTML=(show_time(time_left));
+        $('#ticket_getting')[0].innerHTML=
+            activity_ticket_status>=2?'抢票已结束':
+                ((activity_ticket_status?'距抢票结束还有:<br>':'抢票倒计时:<br>')+'　　'+(show_time(time_left)));
     },100);
 }
 else
@@ -154,6 +158,8 @@ else
             get_ticket_show=true;
             //hide_div("#get_ticket_2");
         }
-        $('#ticket_getting')[0].innerHTML=(show_time(time_left));
+        $('#ticket_getting')[0].innerHTML=
+            activity_ticket_status>=2?'抢票已结束':
+                ((activity_ticket_status?'距抢票结束还有:<br>':'抢票倒计时:<br>')+'　　'+(show_time(time_left)));
     },100);
 }

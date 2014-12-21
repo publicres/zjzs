@@ -50,7 +50,7 @@ ul{
 #sign div{
 	border-radius: 0.2em;
 	float: left;
-	color: rgb(100,100,100);
+	color: rgb(170,170,170);
 	margin-left: 2%;
 }
 
@@ -67,28 +67,10 @@ ul{
 }
 
 #fullSign1{
-	background-color: rgb(111, 217, 217);
+	background-color: #F22121;
 }
 
 
-#fullSign1{
-	webkit-background-size: 16px 16px;
-    -moz-background-size: 16px 16px; /* 控制条纹的大小 */
-    background-image: -webkit-gradient(linear, 0 0, 100% 100%,
-                            color-stop(.25, rgba(245, 245, 245, .7)), color-stop(.25, transparent),
-                            color-stop(.5, transparent), color-stop(.5, rgba(245, 245, 245, .7)),
-                            color-stop(.75, rgba(245, 245, 245, .7)), color-stop(.75, transparent),
-                            to(transparent));
-    background-image: -moz-linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
-                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
-                        transparent 75%, transparent);
-    background-image: -o-linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
-                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
-                        transparent 75%, transparent);
-    background-image: linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
-                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
-                        transparent 75%, transparent);
-}
 
 #Zongti{
 	position: relative;
@@ -134,8 +116,8 @@ ul{
 
 #block_A{
 	border-style: solid;
-	border-color: #21dcf2;
-	background: #09a9a6;
+	border-color: #6fd9d9;
+	background:#09a9a6;
 	position: absolute;
 	height: 44%;
 	margin: auto;
@@ -148,7 +130,7 @@ ul{
 [id^=area_A]{
 	top:4%;
 	position: absolute;
-	background: #30dfe0;
+	background: #6fd9d9;
 	border-radius: 0.2em;
 }
 
@@ -293,30 +275,11 @@ ul{
 	height: 6.67%;
 	position: absolute;
 	background: #353637;
-	color: #646565;
+	color: rgb(170,170,170);
 	text-align: center;
 	line-height: 145%;
 }
 
-.linear-style{
-	background-color: #30dfe0;
-	webkit-background-size: 16px 16px;
-    -moz-background-size: 16px 16px; /* 控制条纹的大小 */
-    background-image: -webkit-gradient(linear, 0 0, 100% 100%,
-                            color-stop(.25, rgba(245, 245, 245, .7)), color-stop(.25, transparent),
-                            color-stop(.5, transparent), color-stop(.5, rgba(245, 245, 245, .7)),
-                            color-stop(.75, rgba(245, 245, 245, .7)), color-stop(.75, transparent),
-                            to(transparent));
-    background-image: -moz-linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
-                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
-                        transparent 75%, transparent);
-    background-image: -o-linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
-                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
-                        transparent 75%, transparent);
-    background-image: linear-gradient(-45deg, rgba(245, 245, 245, .7) 25%, transparent 25%,
-                        transparent 50%, rgba(245, 245, 245, .7) 50%, rgba(245, 245, 245, .7) 75%,
-                        transparent 75%, transparent);
-}
 
 /**********提交按钮***************/
 #buttom{
@@ -395,7 +358,7 @@ ul{
 	margin-left: auto;
 	margin-right: auto;
 	font-size: .5em;
-	color: rgb(150,150,150);
+	color: rgb(170,170,170);
 	margin-bottom: 20%;
 }
 
