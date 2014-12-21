@@ -55,7 +55,13 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
             ]
         },
         {
-            "name": "个人中心",
+            "name": "抢票",
+            "type": "click",
+            "key": WEIXIN_EVENT_KEYS['ticket_no_activity'],
+            "sub_button": []
+        },
+		{
+			"name": "个人中心",
             "sub_button": [
                 {
                     "type": "click",
@@ -81,12 +87,6 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                     "url":  urls.help
                 }
             ]
-        },
-		{
-			"name": "抢票",
-			"type": "click",
-			"key": WEIXIN_EVENT_KEYS['ticket_no_activity'],
-			"sub_button": []
 		}
     ]
 };
@@ -97,7 +97,7 @@ exports.WEIXIN_BOOK_HEADER = 'I_WANNA_BOOK_';
 exports.getCustomMenuWithBookActs = function(actsbtn){
     var menuStr = JSON.stringify(WEIXIN_COSTUM_MENU_TEMPLATE);
     var tmpmenu = eval('(' + menuStr + ')');
-    book_btn = tmpmenu['button'][2];
+    book_btn = tmpmenu['button'][1];
 
     if(actsbtn[0] == undefined){
         book_btn['type'] = 'click';
