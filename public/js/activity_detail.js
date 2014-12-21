@@ -26,9 +26,9 @@ function show_time(t)
     var ms=f(t%1000);
     s=s+'.'+f(ms/100);
     if (d)
-        return d+'天'+h+'小时';
+        return d+'天'+h+'小时'+m+'分';
     if (h)
-        return h+'小时'+m+'分';
+        return h+'小时'+m+'分'+s+'秒';
     if (m)
         return m+'分'+s+'秒';
     return s+'秒';
