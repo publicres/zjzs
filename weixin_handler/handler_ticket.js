@@ -108,7 +108,7 @@ function presentTicket(msg,res,tick,act)
     var tmp="恭喜，抢票成功！\n";
     tmp+=template.getHyperLink("点我查看电子票",urls.ticketInfo+"?ticketid="+tick.unique_id);
     if (act.need_seat!=0)
-        tmp+="\n\n注意：该活动需要选座(区)，如果在抢票结束前没有选择则会得到系统随机分配的座位。请尽快进入票务页面选座吧！";
+        tmp+="\n注意:该活动需在抢票结束前选座(区)，请进入电子票选择。";
     res.send(template.getPlainTextTemplate(msg,tmp));
 }
 function fetchRemainTicket(key,callback)
