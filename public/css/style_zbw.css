@@ -1,0 +1,36 @@
+.bottom_mask
+{
+    bottom:0;
+    position:fixed;
+    color:white;
+    z-index:200;
+    padding-bottom: 150px;
+    z-index: 98;
+    width: 100%;
+    background:url(../img/bottom_mask.png) repeat-x 140px;
+}
+
+.bottom_button
+{
+    margin:9px;
+    padding:0 9px 9px 9px;
+    background: url(../img/ticket.gif);
+    height:100px;
+}
+
+.btn
+{
+    height:60px;
+    color:#d4d4d4;
+}
+
+#get_ticket_method_title
+{
+    line-height: 27px;
+}
+
+#get_ticket_method_content
+{
+    font-size:12px;
+    line-height: 14px;
+}

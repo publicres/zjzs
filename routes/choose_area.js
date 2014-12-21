@@ -104,7 +104,7 @@ router.get("/", function(req, res)
             var errorid=100;
             if (req.query.err!=null)
                 errorid=1;
-            res.render("seat",
+            var inf=
             {
                 tid:        ticketID,
                 bookddl:    getTime(bookend),
@@ -114,7 +114,15 @@ router.get("/", function(req, res)
                 DrestTicket:(docs[0]["D_area"]==null?0:docs[0]["D_area"]),
                 ErestTicket:(docs[0]["E_area"]==null?0:docs[0]["E_area"]),
                 errorid:    errorid
-            });
+            };
+            if (req.query.simple!=null)
+            {
+                res.render("seat_simple",inf);
+            }
+            else
+            {
+                res.render("seat",inf);
+            }
         });
     });
 });

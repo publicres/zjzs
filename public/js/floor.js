@@ -6,6 +6,15 @@
 a = $('#front');
 a.height(0.25*a.width());
 
+a = $("#sign");
+topPos = 1.4*$('#front').height();
+a.css("top", topPos);
+a.css("font-size", 0.03*document.body.clientWidth);
+a.css("left", 0.63*document.body.clientWidth-0.5*a.width());
+a = $(".signIcon");
+a.width(0.05*document.body.clientWidth);
+a.height(0.05*document.body.clientWidth);
+
 a = $('#Zongti');
 a.height(a.width());
 
@@ -85,47 +94,20 @@ for (i = 0; i < 5; i++){
 
 //渲染结束
 //提示信息
-/*var outTime = 10000;*/
+
 
 
 switch (stateCode){
-	case 0: $("#alertInfo").html("请在3分钟内选座<br>超时则本次操作无效");
+	case 0: alertInfo("请点击图示区域进行选座");
 			break;
-	case 1: $("#alertInfo").html("你选择的区域已满<br>请重新选座");
+	case 1: alertInfo("你选择的区域已满<br>请重新选座");
 			break;
-	case 2: $("#alertInfo").html("选座超时<br>请重新选座");
+	case 2: alertInfo("选座超时<br>请重新选座");
 			break;
+	default: alertInfo("请点击图示区域进行选座");
 }
 
-if (stateCode<3)
-{
-setTimeout(function(){
-	$("#alertFrame").animate({
-		top: '30%',
-		opacity: '.9',
-	}, 600, function(){
-		setTimeout(function(){
-			$("#alertFrame").animate({
-				top: '20%',
-				opacity: '0',
-			}, 600, function(){
-				$("#alertFrame").css("display", "none");
-			})
-		}, 2000);
-	})
-}, 100);
-}
-else
-{
-	$("#alertFrame").css("display", "none");
-}
 
-/*setTimeout(function(){
-	alert("选座超时。请重新选座。");
-	stateCode = 2;
-}, outTime);*/
-
-//
 
 
 var selected = 0;
@@ -133,6 +115,7 @@ var selected = 0;
 
 $("[id^=block]").click(function(){
 	if (this.className == "empty"){
+		alertInfo("所选区域已满<br>请选择其他区域");
 		return;
 	}
 	if (selected != 0)
@@ -167,26 +150,24 @@ $("#buttom_frame").click(function(){
 	    myForm.submit();
 	}
 	else
-		alert("你还未选择任何座位。");
+		alertInfo("你还未选择任何座位。");
 })
 
-
-//获取当前网络状态
-function onBridgeReady(){
- WeixinJSBridge.invoke('getNetworkType',{},
- 		function(e){
- 	    	WeixinJSBridge.log(e.err_msg);
- 	    	alert("当前网络状态为：" + e.err_msg);
- 	    });
+function alertInfo(info){
+			$("#alertInfo").html(info);
+			$("#alertFrame").css("display", "inherit");
+			$("#alertFrame").animate({
+				top: '30%',
+				opacity: '.9',
+			}, 1000, function(){
+				setTimeout(function(){
+					$("#alertFrame").animate({
+						top: '20%',
+						opacity: '0',
+					}, 600, function(){
+						$("#alertFrame").css("display", "none");
+					})
+				}, 1000);
+			});
 }
 
-if (typeof WeixinJSBridge == "undefined"){
-    if( document.addEventListener ){
-        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-    }else if (document.attachEvent){
-        document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-    }
-}else{
-    onBridgeReady();
-}

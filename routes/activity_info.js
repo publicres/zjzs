@@ -76,7 +76,8 @@ router.get("/", function(req, res, next)
             rem_tik:            theAct.remain_tickets,
 
             time_rem:           Math.round((theAct.book_start-current)/1000),
-            ticket_status:      nowStatus
+            ticket_status:      nowStatus,
+            current_time:       (new Date()).getTime()
         };
 
         res.render("activity_detail_user", tmp);

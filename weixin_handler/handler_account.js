@@ -104,3 +104,27 @@ exports.faire_bookable_activity=function(msg,res)
         res.send(template.getRichTextTemplate(msg,showList));
     });
 }
+//======================================
+exports.check_get_help=function(msg)
+{
+    return true;
+    if (msg.MsgType[0]==="text")
+        if (msg.Content[0]==="帮助")
+            return true;
+    if (checker.checkSubscribe(msg))
+        return true;
+    return false;
+}
+exports.faire_get_help=function(msg,res)
+{
+    var showList=[];
+    var tmpEle;
+    tmpEle={};
+    tmpEle[template.rich_attr.title]="紫荆之声-操作指南";
+    tmpEle[template.rich_attr.description]=
+        "刚刚关注平台不知道该做什么？抢票时间将近却不知从何入手？点这里，三步内带你抢票，分秒间玩转紫荆之声！";
+    tmpEle[template.rich_attr.url]=urls.help;
+    showList.push(tmpEle);
+
+    res.send(template.getRichTextTemplate(msg,showList));
+}

@@ -1,9 +1,8 @@
-/*
-*	fonts are fromt fontello.com
+/* 
+*	fonts are fromt fontello.com 
 *	author: Yanzhe Yang;
 * 	time:　	2014/12/8;
 */
-
 
 @font-face {
   font-family: 'fontello';
@@ -21,14 +20,14 @@
   font-style: normal;
   font-weight: normal;
   speak: none;
-
+ 
   display: inline-block;
   text-decoration: inherit;
   width: 1em;
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
-
+ 
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
@@ -38,13 +37,50 @@
 .icon-cart:before { content: '\e800'; }
 .icon-location:before { content: '\e802'; }
 .icon-right-thin:before { content: '\e803';}
-.icon-leaf:before { content: '\e804'; }
-.icon-compass:before { content: '\e805'; }
+.icon-leaf:before { content: '\e804'; } 
+.icon-compass:before { content: '\e805'; } 
 .icon-signal:before { content: '\e801'; }
 
-header{
-	z-index: 10;
-	position: fixed;
+body{
+	background-color: #1E2329;
+	font-family: '微软雅黑';
+	margin: 0 0 0 0;
+	color: ;
+}
+
+.info .btn{
+	background: #000;
+}
+
+/******************* Some common styles  *********************
+********************        菜单按钮       *******************/
+.topMenu{
+	background: #000;
+	height: 40px;
+	color: #8C8C8C;
+	line-height: 40px;
+	width: 100%;
+}
+
+#eTicket, #mapGuide{
+	width: 50%;
+	float: left;
+	
+	text-align: center;
+	font-size: .8em;
+}
+
+#eTicket{
+	width: 100%;
+}
+
+#mapGuide{
+	width: 50%;
+}
+
+.active{
+	color: #DD001E;
+	border-bottom: 3px solid #DD001E;
 }
 
 dd .title{
@@ -55,15 +91,56 @@ dd .title{
 	margin-right: 10px;
 }
 
+.text{
+	margin-left: 1em;
+}
+
+/******************* 二维码视图  *********************
+******************************************************/
+
 #qrcodeWrap{
 	margin-top: 1em;
 	margin-bottom: 1em;
 	margin-left: auto;
 	margin-right: auto;
+
+	position: relative;
+
 	padding: 5px;
 	border-radius: 10px;
 	border: dotted;
+
 	border-color: #aeaeae;
+}
+
+#noteMessage{
+	z-index: 100;
+
+	position: absolute;
+	height:25%;
+	width: 50%;
+	text-align: center;
+
+	top: 37%;
+	left: 26%;
+	background: #fff;
+	opacity: 0.8;
+
+	border: dotted;
+	border-radius: 5px;
+	border-color: #004687;
+	border-width: 2px;
+	
+	font-size: 3em;
+	/*color: rgb(239, 228, 176);*/
+	/*color: rgb(255, 127, 39);*/
+	color: #202020;
+
+}
+
+.noteText{
+	margin-top: 10%;
+
 }
 
 #header_blank{
@@ -85,17 +162,6 @@ dd .title{
 	float: right;
 }
 
-#wifi{
-	color: #CCCCCC;
-	float: right;
-}
-
-#compass{
-	display: inline-block;
-	color: #CCCCCC;
-	float: right;
-}
-
 #iconBar{
 	margin-top: 15px;
 	margin-right: 30px;
@@ -114,7 +180,8 @@ dd .title{
 	opacity: 0.5;
 }
 
-/**********综体分区**************/
+/******************* 综体分区引导  *********************
+******************************************************/
 #front{
 	background-image: url(../img/seat/wutai.png);
 	background-size: contain;
@@ -218,8 +285,4 @@ dd .title{
 
 #block_E a{
 	top: 31%;
-}
-
-dt a{
-	color: black;
 }
