@@ -110,7 +110,7 @@ function waitSeatSelection(){
         $("#seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
     }
     else if(ticket.needseat == 1){
-        $("#seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
+        $("#seatButton").attr("href", "/choosearea?simple=1&ticketid="+ticket.id);
     }
 
     if(ticket.needseat == 2)
