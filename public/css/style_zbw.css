@@ -34,3 +34,8 @@
     font-size:12px;
     line-height: 18px;
 }
+
+#activity_extra_info
+{
+    z-index: 1000;
+}

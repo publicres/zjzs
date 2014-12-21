@@ -74,7 +74,7 @@ else if (activity_ticket_status==1)
 }
 else
 {
-    activity_extra_info.push({t:'抢票时间',c:activity_book_ticket_time});
+    //activity_extra_info.push({t:'抢票时间',c:activity_book_ticket_time});
 }
 
 /********************************/
@@ -127,7 +127,7 @@ var get_ticket_show=true;
 var time_left=(activity_ticket_status==0?activity_book_ticket_time_raw:(activity_book_ticket_end_time_raw))-time_server;
 if (activity_ticket_status>=2)
     $('#ticket_getting')[0].innerHTML='抢票已结束';
-    
+
 if (activity_content.length<300)
 {
     $("#get_ticket_2").css('display','none');
