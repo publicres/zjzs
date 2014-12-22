@@ -127,13 +127,13 @@ $(".linear-style").css("background-size", 0.1*document.body.clientWidth + "px " 
 
 
 switch (stateCode){
-	case 0: alertInfo("请点击图示区域进行选座");
-			break;
+	
 	case 1: alertInfo("你选择的区域已满<br>请重新选座");
 			break;
 	case 2: alertInfo("选座超时<br>请重新选座");
 			break;
-	default: alertInfo("请点击图示区域进行选座");
+	default: alertInfo("未连入wifi,网页已切入极速版<br>请点击图示区域进行选座");
+			break;
 }
 
 
@@ -177,8 +177,8 @@ $("[id^=block]").click(function(){
 
 
 
-	
-/*	var url = window.location.href;
+$("#buttom_frame").click(function(){
+	var url = window.location.href;
 	if (selected != 0){
 		$("#submitArea").html('<form name=myForm><input type=hidden name=ticket_id><input type=hidden name=seat><input type=hidden name=stateCode></form>');
 	    var myForm=document.forms['myForm'];
@@ -189,26 +189,26 @@ $("[id^=block]").click(function(){
 	    myForm.stateCode.value = stateCode;
 	    myForm.submit();
 	}
-	else{
-		alertInfo("您还未选择任何座位");
-	}*/
+	else
+		alertInfo("你还未选择任何座位。");
+})
 
 
 
 function alertInfo(info){
-			$("#alertInfo").html(info);
-			$("#alertFrame").css("display", "inherit");
+	$("#alertInfo").html(info);
+	$("#alertFrame").css("display", "inherit");
+	$("#alertFrame").animate({
+		top: '30%',
+		opacity: '.9',
+	}, 1000, function(){
+		setTimeout(function(){
 			$("#alertFrame").animate({
-				top: '30%',
-				opacity: '.9',
-			}, 1000, function(){
-				setTimeout(function(){
-					$("#alertFrame").animate({
-						top: '20%',
-						opacity: '0',
-					}, 600, function(){
-						$("#alertFrame").css("display", "none");
-					})
-				}, 1000);
-			});
+				top: '20%',
+				opacity: '0',
+			}, 600, function(){
+				$("#alertFrame").css("display", "none");
+			})
+		}, 1500);
+	});
 }
