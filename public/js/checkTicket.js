@@ -15,19 +15,22 @@ window.onload = function(){
 
     if(isIE()){
         $("#isIE").css("display", "");
+        //$(".btnIE").css("display", "");
+        
     }
 }
 
 function isIE(){
     var a1 = navigator.userAgent;
-    var yesIE = a1.search(/Trident/i);
+    var yesIE = a1.search(/Trident/i); 
     if(yesIE > 0){
         return true;
     }
     else{
         return false;
     }
-}
+
+}  
 
 function transferTicketId(){
     var str = ticket.id.substring(0,12);
@@ -100,25 +103,27 @@ function setValue(){
 }
 
 function waitSeatSelection(){
-    $("#qrcode").css("-webkit-filter", "blur(1px)");
+    $("#qrcode").attr("class", "blur");
     $("#qrcode").css("opacity", "0.5");
     $("#noteMessage").css("display", "");
 
+    $(".noteText").css('margin-top', ($('#noteMessage').height()-$('.noteText').height())/2+'px');
+  
     var widthCurrent = 0.4*width;
     $("#seatEntrance").css("display", "");
     $("#needButton").css("display", "");
     $("#ticket_ddl").css("display", "");
-
+    
 
     if (netWorkType == "network_type:wifi" && ticket.needseat == 1){
-        $("#seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
+        $(".seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
     }
     else if(ticket.needseat == 1){
-        $("#seatButton").attr("href", "/choosearea?simple=1&ticketid="+ticket.id);
+        $(".seatButton").attr("href", "/choosearea?simple=1&ticketid="+ticket.id);
     }
 
     if(ticket.needseat == 2)
-        $("#seatButton").attr("href", "/chooseseat?ticketid="+ticket.id);
+        $(".seatButton").attr("href", "/chooseseat?ticketid="+ticket.id);
 }
 
 $("#eTicket").click(function(){
@@ -132,7 +137,7 @@ $("#eTicket").click(function(){
     if(status < 2){
         $("#seatEntrance").css("display", "");
     }
-
+    
     $(".cz_order").css("display", "");
 });
 
