@@ -133,7 +133,7 @@ $('#activity_ticket_status').append(activity_place);//ticket_status[activity_tic
 var get_ticket_show=true;
 var time_left=(activity_ticket_status==0?activity_book_ticket_time_raw:(activity_book_ticket_end_time_raw))-time_server;
 
-if (activity_content.length<300)
+if (activity_content.length<150)
 {
     $("#get_ticket_2").css('display','none');
     $("#huahua").css("padding-bottom","150px");
@@ -151,13 +151,13 @@ else
     {
         time_left-=100;
         var y = $(window).scrollTop();
-        if (y > 80 && get_ticket_show)
+        if (y > 30 && get_ticket_show)
         {
             hide_div(".auto_hide");
             get_ticket_show=false;
             //show_div("#get_ticket_2");
         }
-        if (y <= 80 && !get_ticket_show)
+        if (y <= 30 && !get_ticket_show)
         {
             show_div(".auto_hide");
             get_ticket_show=true;
