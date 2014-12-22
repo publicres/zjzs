@@ -74,7 +74,7 @@ else if (activity_ticket_status==1)
 }
 else
 {
-    //activity_extra_info.push({t:'抢票时间',c:activity_book_ticket_time});
+    activity_extra_info.push({t:'抢票时间',c:activity_book_ticket_time});
 }
 
 /********************************/
@@ -92,6 +92,15 @@ var get_ticket_method_content=''+activity_book_ticket_time+''+
     '· 在微信中直接回复<i style="color:#d0dd1e">"抢票　'+activity_key+'"</i><br>'+
     '· 或者，点击"抢票"菜单下的<i style="color:#d0dd1e">"'+activity_key+'"</i>按钮<br>';
 $('title').text(activity_page_title);
+if (activity_title.length > 8)
+{
+    var s = $('#activity_title').css('font-size');
+    s = s.split(s.length-1)[0];
+    s = parseInt(s);
+    s *= 8 / activity_title.length;
+    s = Math.floor(s);
+    $('#activity_title').css('font-size',s+'px');
+}
 $('#activity_title').text(activity_title);
 $('#activity_time').text(activity_time);
 $('#activity_content').append(activity_content);
@@ -100,8 +109,6 @@ $('#get_ticket_method_content').append(get_ticket_method_content);
 //var seat_type=["不选座","分区选座","选座"];
 //$('#activity_seat_type').append(seat_type[activity_seat_type]);
 
-//if (activity_ticket_status>=2)
-//    $('#ticket_getting').css('display','none');
 for (var i in activity_extra_info)
 {
   $('#activity_extra_info').append(
@@ -125,8 +132,6 @@ $('#activity_ticket_status').append(activity_place);//ticket_status[activity_tic
 
 var get_ticket_show=true;
 var time_left=(activity_ticket_status==0?activity_book_ticket_time_raw:(activity_book_ticket_end_time_raw))-time_server;
-if (activity_ticket_status>=2)
-    $('#ticket_getting')[0].innerHTML='抢票已结束';
 
 if (activity_content.length<300)
 {
