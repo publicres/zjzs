@@ -190,7 +190,7 @@ $("#buttom_frame").click(function(){
 	    myForm.submit();
 	}
 	else
-		alertInfo("你还未选择任何座位。");
+		alertInfo("你还未选择任何座位");
 })
 
 
@@ -199,12 +199,12 @@ function alertInfo(info){
 	$("#alertInfo").html(info);
 	$("#alertFrame").css("display", "inherit");
 	$("#alertFrame").animate({
-		top: '30%',
+		top: '40%',
 		opacity: '.9',
 	}, 1000, function(){
 		setTimeout(function(){
 			$("#alertFrame").animate({
-				top: '20%',
+				top: '25%',
 				opacity: '0',
 			}, 600, function(){
 				$("#alertFrame").css("display", "none");

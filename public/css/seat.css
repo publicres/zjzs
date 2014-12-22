@@ -234,9 +234,9 @@ ul{
 
 /**********提示框样式*************/
 #alertFrame{
-	position: absolute;
+	position: fixed;
 	left:15%;
-	top: 20%;
+	top: 25%;
 	width: 70%;
 	background-color: #555;
 	opacity: 0;
