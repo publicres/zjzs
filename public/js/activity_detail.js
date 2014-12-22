@@ -74,7 +74,7 @@ else if (activity_ticket_status==1)
 }
 else
 {
-    activity_extra_info.push({t:'抢票时间',c:activity_book_ticket_time});
+    //activity_extra_info.push({t:'抢票时间',c:activity_book_ticket_time});
 }
 
 /********************************/
