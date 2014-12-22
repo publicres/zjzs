@@ -338,7 +338,10 @@ router.get("/detail", function(req, res)
 										seatArray[i][j] = 0;
 									else
 									{
-										seatArray[i][j] = docs[0][ch + colNum] + 1;
+										if (colNum < 10)
+											seatArray[i][j] = docs[0][ch + "0" + colNum] + 1;
+										else
+											seatArray[i][j] = docs[0][ch + colNum] + 1;
 										colNum++;
 									}
 								}
@@ -505,7 +508,10 @@ router.post("/detail", function(req, res)
 							{
 								if (activity.seat_map[i][j] == 0)
 									continue;
-								seatDBmap[ch + colNum] = activity.seat_map[i][j] - 1;
+								if (colNum < 10)
+									seatDBmap[ch + "0" + colNum] = activity.seat_map[i][j] - 1;
+								else
+									seatDBmap[ch + colNum] = activity.seat_map[i][j] - 1;
 								colNum++;
 								if (activity.seat_map[i][j] == 2)
 									totalCount++;
@@ -708,7 +714,10 @@ router.post("/detail", function(req, res)
 							{
 								if (activity.seat_map[i][j] == 0)
 									continue;
-								seatDBmap[ch + colNum] = activity.seat_map[i][j] - 1;
+								if (colNum < 10)
+									seatDBmap[ch + "0" + colNum] = activity.seat_map[i][j] - 1;
+								else
+									seatDBmap[ch + colNum] = activity.seat_map[i][j] - 1;
 								colNum++;
 								if (activity.seat_map[i][j] == 2)
 									totalCount++;
@@ -1046,7 +1055,10 @@ router.post("/detail", function(req, res)
 									{
 										if (activity.seat_map[i][j] == 0)
 											continue;
-										seatDBmap[ch + colNum] = activity.seat_map[i][j] - 1;
+										if (colNum < 10)
+											seatDBmap[ch + "0" + colNum] = activity.seat_map[i][j] - 1;
+										else
+											seatDBmap[ch + colNum] = activity.seat_map[i][j] - 1;
 										colNum++;
 										if (activity.seat_map[i][j] == 2)
 											totalCount++;
