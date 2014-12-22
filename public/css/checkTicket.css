@@ -166,6 +166,12 @@ dd .title{
 
 .noteText{
 	margin-top: 10%;
+	width: 100%;
+	margin-left: 10%;
+}
+
+#noteLink{
+	width: 100%;
 }
 
 #header_blank{
