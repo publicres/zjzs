@@ -20,14 +20,14 @@ window.onload = function(){
 
 function isIE(){
     var a1 = navigator.userAgent;
-    var yesIE = a1.search(/Trident/i); 
+    var yesIE = a1.search(/Trident/i);
     if(yesIE > 0){
         return true;
     }
     else{
         return false;
     }
-}  
+}
 
 function transferTicketId(){
     var str = ticket.id.substring(0,12);
@@ -41,6 +41,10 @@ function transferTicketId(){
 
 function initETicket(){
     setValue();
+    if(ticket.needseat > 0){
+        $("#ticket_seat").css("display", "");
+    }
+
     //仅在综体区有座位引导
     if(ticket.needseat == 1 && ticket.status > 1){
         $("#eTicket").css("width", "50%");
@@ -76,7 +80,7 @@ function setValue(){
         var w = seat.substring(0,1);
         if(w <= 'E' && w >= 'A'){
             $("#blockNotify").html(w);
-            $("#block_"+w).css("background-image", "url(img/seat/block_"+w+"_selected.png)");
+            $("#block_" + w).children("[id^=area]").css("background-color", "#f0ee2d");
         }
     }
 
@@ -104,13 +108,13 @@ function waitSeatSelection(){
     $("#seatEntrance").css("display", "");
     $("#needButton").css("display", "");
     $("#ticket_ddl").css("display", "");
-    
+
 
     if (netWorkType == "network_type:wifi" && ticket.needseat == 1){
         $("#seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
     }
     else if(ticket.needseat == 1){
-        $("#seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
+        $("#seatButton").attr("href", "/choosearea?simple=1&ticketid="+ticket.id);
     }
 
     if(ticket.needseat == 2)
@@ -128,7 +132,7 @@ $("#eTicket").click(function(){
     if(status < 2){
         $("#seatEntrance").css("display", "");
     }
-    
+
     $(".cz_order").css("display", "");
 });
 
@@ -153,29 +157,53 @@ $("#mapGuide").click(function(){
 //author: 林聪
 //function: 设置图片的长宽比，可适
 function initMapZt(){
-    var a = $('#front');
-    a.height(0.25*a.width());
+
+    a = $('#front');
+    a.height(0.2*a.width());
+    leftPos = 0.5 * (document.body.clientWidth - a.width());
+    a.css("left", leftPos);
+
+    b = $('#front div');
+    b.css("font-size", 0.05*document.body.clientWidth);
+    topPos = 0.4 * (a.height() - b.height());
+    b.css("margin-top", topPos);
 
     a = $('#Zongti');
     a.height(a.width());
 
+    a = $('[id^=block]');
+    a.css("border-width", 0.01*document.body.clientWidth);
+
     a = $('#block_A');
-    a.width(a.height()/0.76);
+    a.width(a.height()/0.83);
+    left = 0.485*a.parent().width() - 0.5*a.width();
+    a.css("left", left);
+
+    a = $('#area_A1');
     left = 0.5*a.parent().width() - 0.5*a.width();
     a.css("left", left);
+
+    a = $('#area_A4');
+    left = 0.5*a.parent().width() - 0.5*a.width();
+    a.css("left", left);
+    topTemp = 1.2*$('#area_A1').height();
+    a.css("top", topTemp);
 
     a = $('#block_B');
-    a.width(0.44*a.height());
+    a.width(0.23*a.height());
 
     a = $('#block_C');
-    a.width(0.45*a.height());
+    a.width(0.23*a.height());
+
 
     a = $('#Friend_block');
+    a.css("font-size", 0.035*document.body.clientWidth);
     a.width(4.45*a.height());
     left = 0.5*a.parent().width() - 0.5*a.width();
-    topTemp = $('#block_A').height()+0.5*a.height();
+    topTemp = 1*$('#block_A').height()+0.7*a.height();
     a.css("left", left);
     a.css("top", topTemp);
+
 
     a = $('#block_D');
     a.width(2.5*a.height());
@@ -187,10 +215,11 @@ function initMapZt(){
     a = $('#block_E');
     a.height(a.width()/5);
     left = 0.5*a.parent().width() - 0.5*a.width();
-    topTemp = $('#block_A').height() + 2.5 * $('#Friend_block').height() + $('#block_D').height();
+    topTemp = $('#block_A').height() + 2.77 * $('#Friend_block').height() + $('#block_D').height();
     a.css("left", left);
     a.css("top", topTemp);
 
-    a = $('#bottom');
-    a.height(a.width()/5.5);
+
+    $("[id^=block] a").css("font-size", 0.04*document.body.clientWidth);
+    $("#info_Area").css("font-size", 0.03*document.body.clientWidth);
 }

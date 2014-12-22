@@ -109,10 +109,11 @@ blockSign = new Array();
 blockSign = ["A", "B", "C", "D", "E"]
 //无票的选区
 for (i = 0; i < 5; i++){
+	$("#block_" + blockSign[i]).children("[id^=area]").css("background-color", "#6fd9d9");
 	if (ticketNum[i] == 0) {
-		$("#block_" + blockSign[i]).children("[id^=area]").attr("class", "linear-style");
-		if (i <= 5)
-			$("#block_" + blockSign[i]).children("[id^=area]").css("background-color", "#6fd9d9");
+		$("#block_" + blockSign[i]).css("border-color", "#F22121");
+		$("#block_" + blockSign[i]).css("background", "#930202");
+		$("#block_" + blockSign[i]).children("[id^=area]").css("background", "#F22121");	
 	}
 	a = $("#block_" + blockSign[i] + " a");
 	left = 0.5*(a.parent().width() - a.width());
@@ -126,13 +127,13 @@ $(".linear-style").css("background-size", 0.1*document.body.clientWidth + "px " 
 
 
 switch (stateCode){
-	case 0: alertInfo("请点击图示区域进行选座");
-			break;
+	
 	case 1: alertInfo("你选择的区域已满<br>请重新选座");
 			break;
 	case 2: alertInfo("选座超时<br>请重新选座");
 			break;
-	default: alertInfo("请点击图示区域进行选座");
+	default: alertInfo("未连入wifi,网页已切入极速版<br>请点击图示区域进行选座");
+			break;
 }
 
 
@@ -146,7 +147,7 @@ var selected = 0;
 
 
 $("[id^=block]").click(function(){
-	if ($(this).children("[id^=area]").attr("class") == "linear-style"){
+	if ($(this).children("a").html()[3] == "0"){
 		alertInfo("所选区域已满<br>请选择其他区域");
 		return;
 	}
@@ -188,26 +189,26 @@ $("#buttom_frame").click(function(){
 	    myForm.stateCode.value = stateCode;
 	    myForm.submit();
 	}
-	else{
-		alertInfo("您还未选择任何座位");
-	}
+	else
+		alertInfo("你还未选择任何座位");
 })
 
 
+
 function alertInfo(info){
-			$("#alertInfo").html(info);
-			$("#alertFrame").css("display", "inherit");
+	$("#alertInfo").html(info);
+	$("#alertFrame").css("display", "inherit");
+	$("#alertFrame").animate({
+		top: '40%',
+		opacity: '.9',
+	}, 1000, function(){
+		setTimeout(function(){
 			$("#alertFrame").animate({
-				top: '30%',
-				opacity: '.9',
-			}, 1000, function(){
-				setTimeout(function(){
-					$("#alertFrame").animate({
-						top: '20%',
-						opacity: '0',
-					}, 600, function(){
-						$("#alertFrame").css("display", "none");
-					})
-				}, 1000);
-			});
+				top: '25%',
+				opacity: '0',
+			}, 600, function(){
+				$("#alertFrame").css("display", "none");
+			})
+		}, 1500);
+	});
 }

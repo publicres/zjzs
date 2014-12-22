@@ -105,8 +105,11 @@ function generateUniqueCode(callback)
 }
 function presentTicket(msg,res,tick,act)
 {
-    var tmp=[renderTicketList(tick,act,true)];
-    res.send(template.getRichTextTemplate(msg,tmp));
+    var tmp="恭喜，抢票成功！\n";
+    tmp+=template.getHyperLink("点我查看电子票",urls.ticketInfo+"?ticketid="+tick.unique_id);
+    if (act.need_seat!=0)
+        tmp+="\n注意:该活动需在抢票结束前选座(区)，请进入电子票选择。";
+    res.send(template.getPlainTextTemplate(msg,tmp));
 }
 function fetchRemainTicket(key,callback)
 {
@@ -150,7 +153,8 @@ function getTimeFormat(timeInMS)
 
     sec-=min*60;
     min-=hou*60;
-
+    if (hou+min+sec==0)
+        return "1秒";
     return (hou>0?hou+"小时":"")+(min>0?min+"分":"")+(sec>0?sec+"秒":"");
 }
 
@@ -412,6 +416,14 @@ exports.faire_list_ticket=function(msg,res)
                 {
                     actMap[docs1[i]._id]=docs1[i];
                 }
+
+                var tmpEle;
+                tmpEle={};
+                tmpEle[template.rich_attr.title]="\n我的票夹\n";
+                tmpEle[template.rich_attr.description]=
+                    "以下列表中是您抢到的票。(如果超过9个则可能有省略)";
+
+                list2Render.push(tmpEle);
                 for (var i=0;i<docs.length;i++)
                 {
                     list2Render.push(renderTicketList(docs[i],actMap[docs[i].activity],false));

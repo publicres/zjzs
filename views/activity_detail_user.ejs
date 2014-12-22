@@ -33,17 +33,17 @@
         <article id="container" class="ticket">
             <section class="info" style="padding-bottom: 3em;" id="huahua">
                 <figure>
-                    <div class="mask" style="background-repeat: repeat;"></div>
-                    <div id="activity_title_image" style="background-size: 100%;" class="m-cover"></div>
+                    <div class="mask" style="background-repeat: repeat;z-index:1000"></div>
+                    <div id="activity_title_image" style="background-size: 100%;z-index:999" class="m-cover"></div>
                 </figure>
-                <figure>
+                <figure style="z-index:1000">
                     <img id="activity_main_image">
-                    <figcaption>
-                        <p class="time">Tsinghua University</p>
-                        <h1 id="activity_title"></h1>
+                    <figcaption style="line-height:inherit">
+                        <p class="time" style="line-height:1.6em">Tsinghua University</p>
+                        <h1 id="activity_title" style="line-height:1.6em"></h1>
                         <div class="bars">
-                            <span id="activity_seat_type"><i class="iconfont"></i></span>
-                            <span id="activity_ticket_status"><i class="iconfont"></i></span>
+                            <img src="img/clock.png" style="width:12px;margin: 0 0 0 6px;border: 0">
+                            <span id="ticket_getting" style="color:#dd001e;"></span>
                         </div>
                     </figcaption>
                 </figure>
@@ -63,7 +63,8 @@
         </article>
     </div>
 <script type="text/javascript">
-/********需要从后台动态添加的信息**********/
+
+/**/
     var activity_time_raw=<%= act_start %>;//活动时间(毫秒)
     var activity_book_ticket_time_raw=<%= act_book_start %>;;//抢票时间
     var activity_end_time_raw=<%= act_end %>;
@@ -82,7 +83,7 @@
     var activity_remain_ticket = <%= rem_tik %>;
     var activity_place = "<%= act_place %>";
     var act_key= "<%= act_key %>";
-/**/
+
 
 </script>
 <script type="text/javascript" src="js/activity_detail.js">
