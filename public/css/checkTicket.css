@@ -167,11 +167,13 @@ dd .title{
 .noteText{
 	margin-top: 10%;
 	width: 100%;
-	margin-left: 10%;
+	/*margin-left: 10%;*/
 }
 
 #noteLink{
-	width: 100%;
+	width: 98%;
+	height: 100%;
+	margin-right: 0;
 }
 
 #header_blank{
