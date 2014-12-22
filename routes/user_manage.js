@@ -18,6 +18,9 @@ var ACTIVITY_DB = model.activities;
 var TICKET_DB = model.tickets;
 var SEAT_DB = model.seats;
 
+var seat_row_2 = 8;
+var seat_col_2 = 40;
+
 router.get("/", function(req, res)
 {
 	res.redirect("/users/manage/list");
@@ -108,7 +111,7 @@ router.get("/export", function(req, res){
 		var seatFlag;
 		var conf ={};
 
-		payFlag = false;
+		payFlag = (docs[0].need_seat == 2);
 		seatFlag = docs[0].need_seat;
 
 		conf.cols = [{caption:'学号', type:'string'}];
@@ -131,7 +134,27 @@ router.get("/export", function(req, res){
 				item.push(docs[i]["stu_id"]);
 				if (payFlag) //需要支付
 				{
-
+					if (docs[i].status == 1)
+					{
+						if (docs[i].cost == 0)
+							item.push("免费票");
+						else
+							item.push("未支付");
+						item.push("未入场");
+					}
+					else if (docs[i].status == 2)
+					{
+						item.push("已支付");
+						item.push("未入场");
+					}
+					else
+					{
+						if (docs[i].cost == 0)
+							item.push("免费票");
+						else
+							item.push("已支付");
+						item.push("已入场");
+					}
 				}
 				else //不需要支付
 				{
@@ -161,8 +184,16 @@ router.get("/export", function(req, res){
 						item.push("E区");
 						break;
 					default:
-						item.push("未选座");
+						item.push("未选区");
 					}
+				}
+
+				if (seatFlag == 2) //精确选座的活动
+				{
+					if (docs[i].seat)
+						item.push(docs[i].seat);
+					else
+						item.push("未选座");
 				}
 
 				conf.rows.push(item);
@@ -276,6 +307,52 @@ router.get("/detail", function(req, res)
 						});
 					});
 				}
+				else if (activity.need_seat == 2){
+					lock.acquire(SEAT_DB, function(){
+						db[SEAT_DB].find({activity:idObj},function(err,docs){
+							if (err || docs.length != 1)
+							{
+								res.send("这个活动的票是选座的，但数据库找不到选座票数信息，或有多个票数信息！");
+								lock.release(SEAT_DB);
+								lock.release(ACTIVITY_DB);
+								return;
+							}
+							var seatArray = [];
+							var rowNum = 65;
+							var ch;
+							var colNum;
+							for (i = 0; i < seat_row_2; i++)
+							{
+								seatArray[i] = [];
+								ch = String.fromCharCode(rowNum);
+								colNum = 1;
+								for (j = 0; j < seat_col_2; j++)
+								{
+									if (j == 8 || j == 31)
+										seatArray[i][j] = 0;
+									else if (i == 0 && (j < 3 || j > 36))
+										seatArray[i][j] = 0;
+									else if (i == 1 && (j < 2 || j > 37))
+										seatArray[i][j] = 0;
+									else if (i == 2 && (j < 1 || j > 38))
+										seatArray[i][j] = 0;
+									else
+									{
+										seatArray[i][j] = docs[0][ch + colNum] + 1;
+										colNum++;
+									}
+								}
+								rowNum++;
+							}
+							activity["seat_map"] = JSON.stringify(seatArray);
+							activity["price"] = act.price;
+							res.render("activity_detail", {activity:activity});
+							lock.release(SEAT_DB);
+							lock.release(ACTIVITY_DB);
+							return;
+						});
+					});
+				}
 				else
 				{
 					lock.release(ACTIVITY_DB);
@@ -298,6 +375,8 @@ router.post("/detail", function(req, res)
 	{
 		if (key == "total_tickets")
 			activity["remain_tickets"] = req.body[key];
+		else if (key == "seat_map")
+			activity[key] = JSON.parse(req.body[key]);
 		else
 			activity[key] = req.body[key];
 	}
@@ -324,6 +403,7 @@ router.post("/detail", function(req, res)
 		lock.acquire(ACTIVITY_DB, function(){
 			db[ACTIVITY_DB].find({key:activity["key"], $or:[{status:0},{status:1}]},function(err,docs){
 				var a, b, c, d, e;
+				var seatDBmap = {};
 				if (err || docs.length != 0)
 				{
 					res.send("404#新建活动失败，已经有同代称的活动！");
@@ -370,7 +450,8 @@ router.post("/detail", function(req, res)
 						lock.release(ACTIVITY_DB);
 						return;
 					}
-					if (activity["need_seat"] == 1)
+					
+					if (activity["need_seat"] == 1) //综体
 					{
 						a = parseInt(activity["A_area"]);
 						b = parseInt(activity["B_area"]);
@@ -402,6 +483,45 @@ router.post("/detail", function(req, res)
 						delete activity.D_area;
 						delete activity.E_area;
 					}
+					
+					if (activity["need_seat"] == 2) //新清
+					{
+						var i, j;
+						var rowNum = 65;
+						var colNum;
+						var ch;
+						var totalCount = 0;
+						if (activity["price"] == undefined)
+						{
+							res.send("404#选座活动需要一个票价！请重新检查。");
+							lock.release(ACTIVITY_DB);
+							return;
+						}
+						for (i = 0; i < seat_row_2; i++)
+						{
+							ch = String.fromCharCode(rowNum);
+							colNum = 1;
+							for (j = 0; j < seat_col_2; j++)
+							{
+								if (activity.seat_map[i][j] == 0)
+									continue;
+								seatDBmap[ch + colNum] = activity.seat_map[i][j] - 1;
+								colNum++;
+								if (activity.seat_map[i][j] == 2)
+									totalCount++;
+							}
+							rowNum++;
+						}
+
+						if (totalCount != activity["remain_tickets"])
+						{
+							res.send("404#选座票数和不等于总票数，没有录入数据库！请重新检查。");
+							lock.release(ACTIVITY_DB);
+							return;
+						}
+						delete activity.seat_map;
+					}
+					
 					var st = activity["start_time"];
 					var be = activity["book_end"];
 					if (!(moment([moment(be).year(), moment(be).month(), moment(be).date()]).isBefore(
@@ -414,7 +534,7 @@ router.post("/detail", function(req, res)
 					if (activity["description"])
 						activity["description"] = activity["description"].replace(/\r?\n/g, "\\n");
 					db[ACTIVITY_DB].insert(activity, function(){
-						if (activity["need_seat"] == 1)
+						if (activity["need_seat"] != 0)
 						{
 							db[ACTIVITY_DB].find({key:activity["key"], $or:[{status:0},{status:1}]},
 							function(err,docs){
@@ -424,7 +544,7 @@ router.post("/detail", function(req, res)
 									lock.release(ACTIVITY_DB);
 									return;
 								}
-								else
+								else if (activity["need_seat"] == 1)
 								{
 									var ar = {activity: docs[0]["_id"],
 											  A_area:a, B_area:b, C_area:c, D_area:d, E_area:e};
@@ -438,6 +558,23 @@ router.post("/detail", function(req, res)
 											cache.clearCache();
 										}
 										res.send("200#新建活动成功(分区票务)！");
+										lock.release(ACTIVITY_DB);
+										return;
+									});
+								}
+								else
+								{
+									seatDBmap["activity"] = docs[0]["_id"];
+									db[SEAT_DB].insert(seatDBmap, function(){
+										if (activity.status == 1)
+										{
+											if (urls.autoRefresh)
+											{
+												act_info.getCurrentActivity(cm.autoClearOldMenus);
+											}
+											cache.clearCache();
+										}
+										res.send("200#新建活动成功(选座票务)！");
 										lock.release(ACTIVITY_DB);
 										return;
 									});
@@ -477,6 +614,7 @@ router.post("/detail", function(req, res)
 				if (docs[0].status == 0) //修改暂存的活动
 				{
 					var a, b, c, d, e;
+					var seatDBmap = {};
 					if (!(activity["name"] && activity["key"] && activity["place"] && activity["description"] &&
 						activity["remain_tickets"] != undefined && activity["pic_url"] && activity["start_time"] &&
 						activity["end_time"] && activity["book_start"] && activity["book_end"] &&
@@ -516,7 +654,7 @@ router.post("/detail", function(req, res)
 						lock.release(ACTIVITY_DB);
 						return;
 					}
-					if (activity["need_seat"] == 1)
+					if (activity["need_seat"] == 1) //综体
 					{
 						a = parseInt(activity["A_area"]);
 						b = parseInt(activity["B_area"]);
@@ -548,6 +686,45 @@ router.post("/detail", function(req, res)
 						delete activity.D_area;
 						delete activity.E_area;
 					}
+
+					if (activity["need_seat"] == 2) //新清
+					{
+						var i, j;
+						var rowNum = 65;
+						var colNum;
+						var ch;
+						var totalCount = 0;
+						if (activity["price"] == undefined)
+						{
+							res.send("404#选座活动需要一个票价！请重新检查。");
+							lock.release(ACTIVITY_DB);
+							return;
+						}
+						for (i = 0; i < seat_row_2; i++)
+						{
+							ch = String.fromCharCode(rowNum);
+							colNum = 1;
+							for (j = 0; j < seat_col_2; j++)
+							{
+								if (activity.seat_map[i][j] == 0)
+									continue;
+								seatDBmap[ch + colNum] = activity.seat_map[i][j] - 1;
+								colNum++;
+								if (activity.seat_map[i][j] == 2)
+									totalCount++;
+							}
+							rowNum++;
+						}
+
+						if (totalCount != activity["remain_tickets"])
+						{
+							res.send("404#选座票数和不等于总票数，没有录入数据库！请重新检查。");
+							lock.release(ACTIVITY_DB);
+							return;
+						}
+						delete activity.seat_map;
+					}
+
 					var st = activity["start_time"];
 					var be = activity["book_end"];
 					if (!(moment([moment(be).year(), moment(be).month(), moment(be).date()]).isBefore(
@@ -613,6 +790,43 @@ router.post("/detail", function(req, res)
 										}
 									});
 								}
+								else if (activity["need_seat"] == 2)
+								{
+									seatDBmap["activity"] = idObj;
+									db[SEAT_DB].update({activity:idObj},seatDBmap,{multi:false},
+									function(err,result){
+										if (err || result.n == 0)
+										{
+											db[SEAT_DB].insert(seatDBmap, function(){
+												if (activity.status == 1)
+												{
+													if (urls.autoRefresh)
+													{
+														act_info.getCurrentActivity(cm.autoClearOldMenus);
+													}
+													cache.clearCache();
+												}
+												res.send("200#修改活动成功(选座票务)！");
+												lock.release(ACTIVITY_DB);
+												return;
+											});
+										}
+										else
+										{
+											if (activity.status == 1)
+											{
+												if (urls.autoRefresh)
+												{
+													act_info.getCurrentActivity(cm.autoClearOldMenus);
+												}
+												cache.clearCache();
+											}
+											res.send("200#修改活动成功(选座票务)！");
+											lock.release(ACTIVITY_DB);
+											return;
+										}
+									});
+								}
 								else
 								{
 									if (activity.status == 1)
@@ -633,6 +847,8 @@ router.post("/detail", function(req, res)
 				}
 				else //修改已经发布的活动
 				{
+					var a, b, c, d, e;
+					var seatDBmap = {};
 					if (activity.status == 0)
 					{
 						res.send("404#已发布的活动不允许暂存，没有录入数据库！请重新检查。");
@@ -722,6 +938,18 @@ router.post("/detail", function(req, res)
 								lock.release(ACTIVITY_DB);
 								return;
 							}
+							if (activity["price"])
+							{
+								res.send("404#抢票已开始，不允许更改票价！请重新检查。");
+								lock.release(ACTIVITY_DB);
+								return;
+							}
+							if (activity["seat_map"])
+							{
+								res.send("404#抢票已开始，不允许更改座位情况！请重新检查。");
+								lock.release(ACTIVITY_DB);
+								return;
+							}
 							if (activity["description"])
 								activity["description"] = activity["description"].replace(/\r?\n/g, "\\n");
 							db[ACTIVITY_DB].update({_id:idObj},{$set: activity},{multi:false},function(err,result){
@@ -764,7 +992,7 @@ router.post("/detail", function(req, res)
 								lock.release(ACTIVITY_DB);
 								return;
 							}
-							if (activity["need_seat"] == 1)
+							if (activity["need_seat"] == 1) //综体
 							{
 								a = parseInt(activity["A_area"]);
 								b = parseInt(activity["B_area"]);
@@ -796,6 +1024,45 @@ router.post("/detail", function(req, res)
 								delete activity.D_area;
 								delete activity.E_area;
 							}
+
+							if (activity["need_seat"] == 2) //新清
+							{
+								var i, j;
+								var rowNum = 65;
+								var colNum;
+								var ch;
+								var totalCount = 0;
+								if (activity["price"] == undefined)
+								{
+									res.send("404#选座活动需要一个票价！请重新检查。");
+									lock.release(ACTIVITY_DB);
+									return;
+								}
+								for (i = 0; i < seat_row_2; i++)
+								{
+									ch = String.fromCharCode(rowNum);
+									colNum = 1;
+									for (j = 0; j < seat_col_2; j++)
+									{
+										if (activity.seat_map[i][j] == 0)
+											continue;
+										seatDBmap[ch + colNum] = activity.seat_map[i][j] - 1;
+										colNum++;
+										if (activity.seat_map[i][j] == 2)
+											totalCount++;
+									}
+									rowNum++;
+								}
+
+								if (totalCount != activity["remain_tickets"])
+								{
+									res.send("404#选座票数和不等于总票数，没有录入数据库！请重新检查。");
+									lock.release(ACTIVITY_DB);
+									return;
+								}
+								delete activity.seat_map;
+							}
+
 							if (activity["description"])
 								activity["description"] = activity["description"].replace(/\r?\n/g, "\\n");
 							db[ACTIVITY_DB].update({_id:idObj},{$set: activity},{multi:false},function(err,result){
@@ -837,6 +1104,43 @@ router.post("/detail", function(req, res)
 												cache.clearCache();
 											}
 											res.send("200#修改活动成功(分区票务)！");
+											lock.release(ACTIVITY_DB);
+											return;
+										}
+									});
+								}
+								else if (activity["need_seat"] == 2)
+								{
+									seatDBmap["activity"] = idObj;
+									db[SEAT_DB].update({activity:idObj},seatDBmap,{multi:false},
+									function(err,result){
+										if (err || result.n == 0)
+										{
+											db[SEAT_DB].insert(seatDBmap, function(){
+												if (activity.status == 1)
+												{
+													if (urls.autoRefresh)
+													{
+														act_info.getCurrentActivity(cm.autoClearOldMenus);
+													}
+													cache.clearCache();
+												}
+												res.send("200#修改活动成功(选座票务)！");
+												lock.release(ACTIVITY_DB);
+												return;
+											});
+										}
+										else
+										{
+											if (activity.status == 1)
+											{
+												if (urls.autoRefresh)
+												{
+													act_info.getCurrentActivity(cm.autoClearOldMenus);
+												}
+												cache.clearCache();
+											}
+											res.send("200#修改活动成功(选座票务)！");
 											lock.release(ACTIVITY_DB);
 											return;
 										}
