@@ -183,106 +183,232 @@ dd .title{
 /******************* 综体分区引导  *********************
 ******************************************************/
 #front{
-	background-image: url(../img/seat/wutai.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 5px;
+	position: absolute;
 	width: 50%;
+	margin-top: -15%;
+	background: rgb(0,0,0);
+	border-top-left-radius: 3em 4em;
+	border-top-right-radius: 3em 4em;
+	border-bottom-right-radius: 3em 0.5em;
+	border-bottom-left-radius: 3em 0.5em;
+	color: white;
+	text-align: center;
 }
 
+#front div{
+	position: relative;
+}
 
 #Zongti{
-	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 30px;
 	position: relative;
-	margin-bottom: 30px;
-	text-align: center;
+	margin-top: 25%;
+	margin-right: auto;
+	margin-left: auto;
+	width: 80%;
+	margin-bottom: 1em;
 }
+
+
 
 #Zongti a{
-	position: relative;
-	font-size: 1em;
+	position: absolute;
+	font-size: 10px;
 	font-weight: bold;
 	color: rgb(20, 20, 20);
-}
-
-#block_A
-{
-	background-image: url(../img/seat/block_A.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	height: 44%;
-	position: absolute;
-	text-align: center;
-}
-
-#block_B
-{
-	background-image: url(../img/seat/block_B.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	height: 70%;
-	position: absolute;
-}
-
-#block_C
-{
-	background-image: url(../img/seat/block_C.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	height: 70%;
-	right: 0;
-	position: absolute;
-}
-
-#Friend_block
-{
-	background-image: url(../img/seat/block_Friend.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	height: 6.67%;
-	position: absolute;
-}
-
-#block_D
-{
-	background-image: url(../img/seat/block_D.png);
-	background-size: contain;
-	background-repeat: no-repeat;
-	height: 22%;
-	position: absolute;
-}
-
-#block_E
-{
-	background-image: url(../img/seat/block_E.png);
-	background-size: 100% 100%;
-	background-repeat: no-repeat;
-	width: 100%;
-	position: absolute;
+	opacity: 0.8;
+	white-space:nowrap; 
+	overflow:hidden; 
+	text-overflow:ellipsis;
 }
 
 #block_A a{
 	top:35%;
+	left: 46%;
 }
 
 #block_B a{
-	top: 65%;
+	top: 45%;
+	left: 34%;
 }
 
 #block_C a{
-	top: 65%;
+	top: 45%;
+	left: 37%;
 }
 
 
 #block_D a{
 	top: 30%;
+	left: 45%;
 }
 
 #block_E a{
-	top: 31%;
+	top: 30%;
+	left: 48%;
+}
+
+#block_A{
+	border-style: solid;
+	border-color: #21dcf2;
+	background: #09a9a6;
+	position: absolute;
+	height: 44%;
+	margin: auto;
+	border-bottom-right-radius: 3em 2em;
+	border-bottom-left-radius: 3em 2em;
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+}
+
+[id^=area_A]{
+	top:4%;
+	position: absolute;
+	background: #30dfe0;
+	border-radius: 0.2em;
+}
+
+#area_A1{
+	height: 55%;
+	width: 45%;
+}
+
+#area_A2{
+	height: 80%;
+	width: 20%;
+	left: 4%;
+}
+
+#area_A3{
+	height: 80%;
+	width: 20%;
+	right: 4%;
+}
+
+#area_A4{
+	height: 30%;
+	width: 45%;
+}
+
+#block_B{
+	border-width: 0.3em;
+	border-style: solid;
+	border-color: #21dcf2;
+	background: #09a9a6;
+	position: absolute;
+	border-radius: 0.5em;
+	height: 70%;
+	text-align: center;
+}
+
+[id^=area_B], [id^=area_C]{
+	margin:auto;
+	margin-top: 10%;
+	background: #30dfe0;
+	border-radius: 0.2em;
+	height: 30%;
+	width: 75%;
+}
+
+
+
+#block_C{
+	border-width: 0.3em;
+	border-style: solid;
+	border-color: #21dcf2;
+	background: #09a9a6;
+	position: absolute;
+	border-radius: 0.5em;
+	right: 0;
+	height: 70%;
+}
+
+#block_D
+{
+	border-width: 0.3em;
+	border-style: solid;
+	border-color: #21dcf2;
+	background: #09a9a6;
+	height: 20%;
+	position: absolute;
+	border-top-left-radius: 3em 4em;
+	border-top-right-radius: 3em 4em;
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+}
+
+
+[id^=area_D]{
+	position: absolute;
+	top: 13%;
+	background: #30dfe0;
+	border-radius: 0.2em;
+	height: 76%;
+	width: 19.5%;
+}
+
+#area_D1{
+	border-top-left-radius: 3em 4em;
+	border-bottom-left-radius: 0.5em;
+	left: 6%;
+
+
+
+}
+
+#area_D2{
+	border-top-right-radius: 3em 4em;
+	border-bottom-right-radius: 0.5em;
+	right: 6%;
+}
+
+#area_D3{
+	left: 28.7%;
+}
+
+#area_D4{
+	right: 28.7%;
+}
+
+#block_E
+{
+	border-width: 0.3em;
+	border-style: solid;
+	border-color: #21dcf2;
+	background: #09a9a6;
+	border-radius: 0.5em;
+	width: 95%;
+	position: absolute;
+
+}
+
+[id^=area_E]{
+	position: absolute;
+	top: 14%;
+	background: #30dfe0;
+	border-radius: 0.2em;
+	height: 70%;
+	width: 29%;
+}
+
+#area_E1{
+	left: 3.5%;
+}
+
+#area_E2{
+	left: 35%;
+}
+
+#area_E3{
+	right: 3.5%;
+}
+
+#Friend_block
+{
+	border-radius: 0.5em;
+	height: 6.67%;
+	position: absolute;
+	background: #353637;
+	color: #646565;
+	text-align: center;
+	line-height: 145%;
 }

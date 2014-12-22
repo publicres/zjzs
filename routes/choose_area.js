@@ -142,7 +142,10 @@ router.post("/", function(req, res)
             if (err || result.n==0)
             {
                 //WARNING!
-                res.redirect(urls.choosearea+"?ticketid="+ticketID+"&err=1");
+                if (req.query.simple!=null)
+                    res.redirect(urls.choosearea+"?simple=1&ticketid="+ticketID+"&err=1");
+                else
+                    res.redirect(urls.choosearea+"?ticketid="+ticketID+"&err=1");
                 return;
             }
             db[TICKET_DB].update({unique_id: req.query.ticketid, status:{$ne:0}},

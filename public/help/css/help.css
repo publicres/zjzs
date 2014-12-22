@@ -99,7 +99,7 @@
 }
 
 #titleBig{
-	height: 2.1em;
+	height: 2.5em;
 	display: inline-block;
 	margin-right: 0.5em;
 	/*background-color: #DD001E;*/
@@ -111,14 +111,14 @@
 ********************        内容栏       *******************/
 .content{
 	width: 80%;
-	margin-top: 5px;
+	margin-top: 10px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 8px;
+	margin-bottom: 10px;
 
 
 	border-radius: 8px;
-	padding: 5px;
+	padding: 10px;
 	
 	border-radius: 5px;
 	border: dotted;
@@ -131,10 +131,9 @@
 }
 
 .content .text{
-	margin: 5px;
+	margin: 10px;
 	font-size: .8em;
 	color: #fff;
-	line-height: 1.4em;
 }
 
 
@@ -151,20 +150,16 @@
 
 #finger{
 	opacity: 1;
-	background: url(../img/finger.png) no-repeat;
+	background: url(../img/finger.gif) no-repeat;
 }
-#fingerLight{
-	opacity: 0;
-	background: url(../img/fingerLight.png) no-repeat;
-}
-#finger, #fingerLight{
+
+#finger{
 	position: absolute;
 	bottom: -2em;
 	right: 0;
-	float: right;
 	background-size: contain;
-	width: 8em;
-	height: 8em;
+	width: 5em;
+	height: 5em;
 }
 #thanksInfo{
 	opacity: 0;
