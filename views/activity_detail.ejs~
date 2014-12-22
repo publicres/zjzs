@@ -58,7 +58,7 @@
         <noscript>请开启JavaScript后重试。</noscript>
     </div>
     <div class="container" id="detail-form" style="display: none;">
-        <form class="form-horizontal" role="form" method="post" action="/users/manage/detail"  id="activity-form">
+        <form class="form-horizontal" role="form" method="post" action="/users/manage/test"  id="activity-form">
             <div class="form-group">
                 <label for="input-name" class="col-sm-2 control-label" id="label-input-name">活动名称</label>
                 <div class="col-sm-10">

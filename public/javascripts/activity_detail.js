@@ -31,6 +31,8 @@ function disableDatetimePicker(dom) {
     dom.children('.input-group-addon').css('cursor', 'no-drop').children().css('cursor', 'no-drop');
 }
 */
+
+
 var dateInterfaceMap = {
     'year': 'getFullYear',
     'month': 'getMonth',
@@ -68,6 +70,9 @@ var dateInterfaceMap = {
     },
     'button': function(dom, value) {
         ;
+    },
+    'arrange_seat': function(dom, value) {
+        RenderMap();
     }
 }, keyMap = {
     'name': 'value',
@@ -82,7 +87,9 @@ var dateInterfaceMap = {
     'total_tickets': 'value',
     'need_seat': 'value',
     'area_arrange': 'arrange_area',
-    'uploadPic': 'button'
+    'uploadPic': 'button',
+    'seat_arrange': 'arrange_seat',
+    'price': 'value'
 }, lockMap = {
     'value': function(dom, lock) {
         dom.prop('disabled', lock);
@@ -112,6 +119,29 @@ var dateInterfaceMap = {
     },
     'button': function(dom, lock) {
         dom.prop('disabled', lock);
+    },
+    'arrange_seat': function(dom, lock) {
+        if (lock == true) {
+            var table = document.getElementById("tb_Seat");
+            var i, j;
+            if (table != null) {
+                for (i = 0; i < table.rows.length; i ++) {
+                    for (j = 0; j < table.rows[i].cells.length; j ++) {
+                        table.rows[i].cells[j].onclick = null;
+                    }
+                }
+            }
+        }
+
+        //dom.prop('disabled', lock);
+
+        // var table = $('#tb_Seat');
+        // var parts = table.children(), i, len, part;
+        // for (i = 0, len = parts.length; i < len; i++) {
+        //     part = $(parts[i]).children();
+        //     part.prop('disabled', lock);
+        // }
+        // dom.prop('disabled', lock);
     }
 };
 
@@ -134,6 +164,9 @@ function updateActivity(nact) {
 
 function initializeForm(activity) {
     var key;
+    if (!(activity.id && activity.need_seat == 2)) {
+        activity.seat_map = default_seat_map;
+    }
     for (key in keyMap) {
         actionMap[keyMap[key]]($('#input-' + key), activity[key]);
     }
@@ -142,16 +175,35 @@ function initializeForm(activity) {
         if (activity.need_seat == 1) {
             $('#div-area_arrange').show();
             $('#div-total_tickets').hide();
+            $('#div-seat_arrange').hide();
+            $('#div-price').hide();
         }
         else if (activity.need_seat == 0) {
             $('#div-area_arrange').hide();
             $('#div-total_tickets').show();
+            $('#div-seat_arrange').hide();
+            $('#div-price').hide();
+        }
+        else if (activity.need_seat == 2) {
+            $('#div-area_arrange').hide();
+            $('#div-total_tickets').hide();
+            $('#div-seat_arrange').show();
+            $('#div-price').show();
+            tb_Seat = $("#input-seat_arrange").width();
+            seat = $("[class^=seat]");
+            seat.width(tb_Seat/41);
+            seat.height(seat.width());
+            seat_w = seat.width();
+            seat_h = seat.height();
+            
+            $('td').height(seat_h);
         }
         else {
             $('#div-area_arrange').hide();
             $('#div-total_tickets').hide();
+            $('#div-seat_arrange').hide();
+            $('#div-price').hide();
         }
-        console.log(activity.need_seat);
     }
     if (!activity.id) {
         $('#input-name').val('');
@@ -351,6 +403,12 @@ function lockByStatus(status, book_start, start_time, end_time) {
             },
             'uploadPic': function() {
                 return (new Date() >= getDateByObj(start_time));
+            },
+            'seat_arrange': function() {
+                return (new Date() >= getDateByObj(book_start));
+            },
+            'price': function() {
+                return (new Date() >= getDateByObj(book_start));
             }
         },
         '99': {
@@ -366,7 +424,9 @@ function lockByStatus(status, book_start, start_time, end_time) {
             'need_seat': true,
             'description': true,
             'pic_url': true,
-            'uploadPic': true
+            'uploadPic': true,
+            'seat_arrange': true,
+            'price': true
         }
     }, key;
     for (key in keyMap) {
@@ -508,17 +568,23 @@ function beforeSubmit(formData, jqForm, options) {
         'book_start': '订票开始时间',
         'book_end': '订票结束时间',
         'need_seat': '座位分配设置',
-        'area_arrange': '分区座位分配'
+        'area_arrange': '分区座位分配',
+        'price': '票价'
     }, lackArray = [], dateArray = [
         'start_time', 'end_time', 'book_start', 'book_end'
     ];
     var d=document.getElementById("input-need_seat").value;
     for (i = 0, len = formData.length; i < len; ++i) {
-        if (!formData[i].value && formData[i].name != 'total_tickets') {
+        if (!formData[i].value && formData[i].name != 'total_tickets' && formData[i].name != 'price') {
             lackArray.push(nameMap[formData[i].name]);
         }
         else if (!formData[i].value && formData[i].name == 'total_tickets') {
             if (d == 0) {
+                lackArray.push(nameMap[formData[i].name]);
+            }
+        }
+        else if (!formData[i].value && formData[i].name == 'price') {
+            if (d == 2) {
                 lackArray.push(nameMap[formData[i].name]);
             }
         }
@@ -530,12 +596,39 @@ function beforeSubmit(formData, jqForm, options) {
             }
         }
     }
+    //arange area
     if (d == 1) {
         if (! $('#input-area_arrange').prop('disabled')) {
             if (! wrapAreaArrange($('#input-area_arrange'), formData)) {
                 lackArray.push(nameMap['area_arrange']);
             }
         }
+    }
+    //arrange seat
+    if (d == 2) {
+        if (! $('#input-need_seat').prop('disabled')) {
+            formData.push({
+                name: 'seat_map',
+                required: false,
+                value: JSON.stringify(activity.seat_map)
+            });
+            var x, y;
+            var sum = 0;
+            for (x = 0; x < line; x ++) {
+                for (y = 0; y < column; y ++) {
+                    if (activity.seat_map[x][y] == 2) {
+                        sum ++;
+                    }
+                }
+            }
+            for (x = 0; x < formData.length; x++) {
+                if (formData[x].name == 'total_tickets') {
+                    formData[x].value = sum;
+                }
+                console.log(formData[x].name);
+            }
+        }
+        
     }
     if (lackArray.length > 0) {
         var d = $('#resultHolder');
@@ -687,13 +780,33 @@ function inputNeedSeatChange(){
     if (d == 1) {
         $('#div-area_arrange').show();
         $('#div-total_tickets').hide();
+        $('#div-seat_arrange').hide();
+        $('#div-price').hide();
     }
     else if (d == 0) {
         $('#div-area_arrange').hide();
         $('#div-total_tickets').show();
+        $('#div-seat_arrange').hide();
+        $('#div-price').hide();
+    }
+    else if (d == 2) {
+        $('#div-area_arrange').hide();
+        $('#div-total_tickets').hide();
+        $('#div-seat_arrange').show();
+        $('#div-price').show();
+        tb_Seat = $("#input-seat_arrange").width();
+        seat = $("[class^=seat]");
+        seat.width(tb_Seat/41);
+        seat.height(seat.width());
+        seat_w = seat.width();
+        seat_h = seat.height();
+        
+        $('td').height(seat_h);
     }
     else {
         $('#div-area_arrange').hide();
         $('#div-total_tickets').hide();
+        $('#div-seat_arrange').hide();
+        $('#div-price').hide();
     }
 }
