@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>紫荆之声-抢票选座</title>
+	<meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="style/css" href="css/seat_litang.css">
+	<script src="js/touch.min.js"></script>
+	<script src="js/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+	<div id = "front"></div>
+	<div id = "seat_Intro">
+		<span>
+		<i class = "sign_Stu"></i>
+		<a>学生特惠票</a>
+		</span>
+		<span>
+		<i class = "sign_Normal"></i>
+		<a>普通票</a>
+		</span>
+		<span>
+		<i class = "sign_Cannot"></i>
+		<a>不可选</a>
+		</span>
+	</div>
+	<div id = "tb_Container">
+		<div id = "floor1">
+			<table id = "tb_Seat">
+				<tr id = "A"></tr>
+				<tr id = "B"></tr>
+				<tr id = "C"></tr>
+				<tr id = "D"></tr>
+				<tr id = "E"></tr>
+				<tr id = "F"></tr>
+				<tr id = "G"></tr>
+				<tr id = "H"></tr>
+			</table>
+		</div>
+	</div>
+	<div id = "instruction">
+		您可以通过双指缩放以及拖拽来移动座位图，以便选择心仪的座位。
+	</div>
+	<div id = "info_Area">
+		<div id = "item">
+			<ul>
+				<li>选座截止时间：</li>
+				<li>当前活动状态：</li>
+				<li>您的座位详情：</li>
+			</ul>
+		</div>
+		<div id = "info">
+			<ul>
+				<li id = "book_time"></li>
+				<li id = "ticket_state">可选座/可订票</li>
+				<li id = "seat_info">暂未选座</li>
+			</ul>
+		</div>
+	</div>
+	<div id = "buttom">
+		<div id = "buttom_frame">
+			<i class = "icon-heart-empty buttom_icon" ></i>
+			<a>提交选座信息</a>
+		</div>
+	</div>
+	<div id = "alertFrame">
+		<div id = "alertInfo">
+
+		</div>
+	</div>
+	<div id = "submitArea" style="display:none;"></div>
+</body>
+	<script>
+		//test
+		var ticket_id = "<%= tid %>";
+		var book_time = "<%= bookddl%>";
+		var stu_ticketLeft = JSON.parse("<%- seatMap %>");
+		var normal_ticketLeft = [];
+		normal_ticketLeft[0] = [];
+		normal_ticketLeft[1] = [];
+		normal_ticketLeft[2] = [];
+		normal_ticketLeft[3] = [];
+		normal_ticketLeft[4] = [];
+		normal_ticketLeft[5] = [];
+		normal_ticketLeft[6] = [];
+		normal_ticketLeft[7] = [];
+		stateCode = <%= errorid %>;
+	</script>
+	<script src="js/floor_litang.js" type="text/javascript" charset="utf-8"></script>
+</html>
