@@ -256,7 +256,7 @@ exports.faire_get_ticket=function(msg,res)
                                 activity:   actID,
                                 status:     1,
                                 seat:       "",
-                                cost:       0
+                                cost:       (staticACT.need_seat==2?parseInt(staticACT.price):0)
                             }, function()
                             {
                                 usr_lock[stuID]=null;
