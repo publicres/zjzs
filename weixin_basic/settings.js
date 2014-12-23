@@ -51,6 +51,12 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                     "name": "投票",
                     "key": WEIXIN_EVENT_KEYS['info_vote'],
                     "sub_button": []
+                },
+                {
+                    "type": "click",
+                    "name": "近期抢票",
+                    "key": WEIXIN_EVENT_KEYS['ticket_book_what'],
+                    "sub_button": []
                 }
             ]
         },
@@ -104,13 +110,15 @@ exports.getCustomMenuWithBookActs = function(actsbtn){
         book_btn['key'] = WEIXIN_EVENT_KEYS['ticket_no_book_recommand']
     }
     book_btn['sub_button'] = actsbtn;
-    book_btn['sub_button'].push(objBW);
+    //book_btn['sub_button'].push(objBW);
     return tmpmenu;
 }
 
+/*
 objBW = {
             "type": "click",
             "name": "近期活动",
             "key": WEIXIN_EVENT_KEYS['ticket_book_what'],
             "sub_button": []
         }
+*/
