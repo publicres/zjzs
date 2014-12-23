@@ -885,12 +885,6 @@ router.post("/detail", function(req, res)
 						lock.release(ACTIVITY_DB);
 						return;
 					}
-					if (activity["book_start"])
-					{
-						res.send("404#已发布的活动不允许修改抢票开始时间!");
-						lock.release(ACTIVITY_DB);
-						return;
-					}
 					if (moment(activity["start_time"]).isBefore())
 					{
 						res.send("404#活动开始时间早于当前时间！请重新检查。");
@@ -922,6 +916,12 @@ router.post("/detail", function(req, res)
 						}
 						if (moment(docs[0]["book_start"]).isBefore()) //抢票已经开始
 						{
+							if (activity["book_start"])
+							{
+								res.send("404#抢票已开始，不允许修改抢票开始时间!");
+								lock.release(ACTIVITY_DB);
+								return;
+							}
 							if (moment(activity["book_end"]).isBefore(docs[0]["book_start"]))
 							{
 								res.send("404#抢票结束时间早于开始时间！请重新检查。");
