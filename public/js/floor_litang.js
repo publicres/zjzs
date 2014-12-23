@@ -3,7 +3,7 @@
 	setSize();
 
 	//设置信息
-	$('#book_time').html(book_time + "起");
+	$('#book_time').html(book_time);
 
 	var space = "ABCDEFGH";
 
