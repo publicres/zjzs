@@ -100,7 +100,7 @@ exports.faire_bookable_activity=function(msg,res)
             if (tmpEle[template.rich_attr.description].length>100)
             {
                 tmpEle[template.rich_attr.description].length=100;
-                tmpEle+="...";
+                tmpEle[template.rich_attr.description]+="...";
             }
             tmpEle[template.rich_attr.url]=urls.activityInfo+"?actid="+docs[i].id;
             tmpEle[template.rich_attr.picture]=docs[i].pic_url;
