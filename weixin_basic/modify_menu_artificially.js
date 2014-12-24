@@ -1,6 +1,10 @@
 var https = require('https');
 var urls=require("../address_configure");
-exports.createMenu = createMenu
+var at = require('./access_token')
+
+/*modify menu artificially*/
+at.getAccessToken(createMenu);
+
 
 var WEIXIN_EVENT_KEYS = {
     'info_news': 'V1001_SCHOOL_NEWS',
