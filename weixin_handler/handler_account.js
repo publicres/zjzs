@@ -97,6 +97,11 @@ exports.faire_bookable_activity=function(msg,res)
             tmpEle={};
             tmpEle[template.rich_attr.title]=docs[i].name;
             tmpEle[template.rich_attr.description]=docs[i].description.replace(/\\n/g,"\n");
+            if (tmpEle[template.rich_attr.description].length>100)
+            {
+                tmpEle[template.rich_attr.description].length=100;
+                tmpEle+="...";
+            }
             tmpEle[template.rich_attr.url]=urls.activityInfo+"?actid="+docs[i].id;
             tmpEle[template.rich_attr.picture]=docs[i].pic_url;
             showList.push(tmpEle);
