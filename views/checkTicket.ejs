@@ -36,18 +36,28 @@
                 <p class="text" id="ticket_time">日期：</p>
                 <p class="text" id="ticket_seat" style="display:none">座位：</p>
                 <p class="text" id="ticket_cancel">退票方式：回复 "退票"+"新年音乐会"</p>
+
                 <br>
                 <b></b>
             </dd>
 
             <a></a>
             <dd>
-                <p id="ticket_ddl" class="text" >选座截止时间</p>
+                <div id="ticketPayInfo" style="display:none">
+                    <div class="timeLeft">
+
+                    </div>
+                    <p id="ticketPrice" class="text"> </p>
+                    <p class="text"> 换票方式： 凭二维码现场支付并换取纸质票</p>
+                    <p id="bookHall" class="text"> </p>
+                </div>
+                <p id="ticket_ddl" class="text" >选票截止时间</p>
                 <div id="qrcodeWrap">
                     <div id="qrcode"></div>
                     <div id="noteMessage" style="display:none;">
-                        <div class="noteText">请选座位</div>
-                        <!-- 请选座位 -->
+                        <a id="noteLink" class="seatButton" style="background:none;color:#000">
+                            <div class="noteText">请选座位</div>
+                        </a>
                     </div>
                 </div>
 
@@ -56,9 +66,14 @@
         </dl>
     </section>
 
+    <div id="alertFrame">
+        <div id="alertInfo">
+        </div>
+    </div>
+
     <!--座位引导综体部分-->
     <section id="guideMap-zt" style="display:none">
-        <div id = "front">
+        <div id="front">
             <div>舞&nbsp;&nbsp;&nbsp;台</div>
         </div>
         <div id = "Zongti">
@@ -106,15 +121,11 @@
     <!--选座链接部分-->
     <section class="info" id="seatEntrance" style="display:none;">
         <div class="btn" style="height:58px">
-          <a id="seatButton" href=""><i class="icon-cart"></i>进入选座</a>
+          <a class="seatButton" href=""><i class="icon-cart"></i>进入选座</a>
         </div>
     </section>
-
     <!--为button留出空间-->
     <div id="needButton" style="height:30px; display:none"></div>
-
-    <!--为WP用户设置-->
-    <div id="isIE" style="height:100px; display:none"></div>
 </body>
 
 
@@ -132,6 +143,9 @@
     ticket.seatddl = "<%= act_book_end %>";
     ticket.needseat = <%= act_need_seat %>;
     var netWorkType;
+
+    ticket.price = <%= ticket_price %>;
+    ticket.hall = "清华学堂售票窗口";
 
 </script>
 <script src="js/netWorkType.js" type="text/javascript" charset="utf-8"></script>

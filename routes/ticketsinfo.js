@@ -103,6 +103,7 @@ router.get('/', function(req, res) {
                         act_need_seat: docs1[0].need_seat,
                         seat: tiSeat,
                         ticket_status:ticket_status,
+                        ticket_price:docs[0].cost,
                         act_book_end: getTime(be)
                     });
 

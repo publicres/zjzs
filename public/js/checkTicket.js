@@ -20,14 +20,15 @@ window.onload = function(){
 
 function isIE(){
     var a1 = navigator.userAgent;
-    var yesIE = a1.search(/Trident/i);
+    var yesIE = a1.search(/Trident/i); 
     if(yesIE > 0){
         return true;
     }
     else{
         return false;
     }
-}
+
+}  
 
 function transferTicketId(){
     var str = ticket.id.substring(0,12);
@@ -44,6 +45,11 @@ function initETicket(){
     if(ticket.needseat > 0){
         $("#ticket_seat").css("display", "");
     }
+    //如果是新清演出票的话
+    if(ticket.needseat == 2 && ticket.status == 2){
+        alertInfo("请您于两天内及时换票");
+        $("#ticketPayInfo").css("display", "");
+    }
 
     //仅在综体区有座位引导
     if(ticket.needseat == 1 && ticket.status > 1){
@@ -51,6 +57,7 @@ function initETicket(){
         $("#mapGuide").css("display", "");
         $("#blockNotify").css("display", "");
     }
+
 
     $("#qrcodeWrap").width(width*0.65)
     $('#qrcode').qrcode({
@@ -97,28 +104,34 @@ function setValue(){
     $("#ticket_status").html(statusList[status]);
     $("#ticket_cancel").html("退票方式：回复 '退票 "+ ticket.name + "'");
     $("#ticket_order").html("票号："+ ticketIdTransferd);
+    if(ticket.needseat == 2 && ticket.status == 2){
+        $("#ticketPrice").html("票价："+ticket.price+"元");
+        $("#bookHall").html("换票地点："+ticket.hall);
+    }
 }
 
 function waitSeatSelection(){
-    $("#qrcode").css("-webkit-filter", "blur(1px)");
+    $("#qrcode").attr("class", "blur");
     $("#qrcode").css("opacity", "0.5");
     $("#noteMessage").css("display", "");
 
+    $(".noteText").css('margin-top', ($('#noteMessage').height()-$('.noteText').height())/2+'px');
+  
     var widthCurrent = 0.4*width;
     $("#seatEntrance").css("display", "");
     $("#needButton").css("display", "");
     $("#ticket_ddl").css("display", "");
-
+    
 
     if (netWorkType == "network_type:wifi" && ticket.needseat == 1){
-        $("#seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
+        $(".seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
     }
     else if(ticket.needseat == 1){
-        $("#seatButton").attr("href", "/choosearea?simple=1&ticketid="+ticket.id);
+        $(".seatButton").attr("href", "/choosearea?simple=1&ticketid="+ticket.id);
     }
 
     if(ticket.needseat == 2)
-        $("#seatButton").attr("href", "/chooseseat?ticketid="+ticket.id);
+        $(".seatButton").attr("href", "/chooseseat?ticketid="+ticket.id);
 }
 
 $("#eTicket").click(function(){
@@ -132,11 +145,16 @@ $("#eTicket").click(function(){
     if(status < 2){
         $("#seatEntrance").css("display", "");
     }
-
+    
     $(".cz_order").css("display", "");
 });
 
 $("#mapGuide").click(function(){
+    var w = ticket.seat.substring(0,1);
+    if((w > 'E' || w < 'A') && ticket.status == 2){
+        alertInfo("系统24小时内为您分配座位。");    
+    }
+
     if(ticket.needseat == 1){
         $("#guideMap-zt").css("display", "");
     }
@@ -222,4 +240,23 @@ function initMapZt(){
 
     $("[id^=block] a").css("font-size", 0.04*document.body.clientWidth);
     $("#info_Area").css("font-size", 0.03*document.body.clientWidth);
+}
+
+
+function alertInfo(info){
+    $("#alertInfo").html(info);
+    $("#alertFrame").css("display", "inherit");
+    $("#alertFrame").animate({
+        top: '50%',
+        opacity: '.9',
+    }, 1000, function(){
+        setTimeout(function(){
+            $("#alertFrame").animate({
+                top: '20%',
+                opacity: '0',
+            }, 600, function(){
+                $("#alertFrame").css("display", "none");
+            })
+        }, 1000);
+    });
 }

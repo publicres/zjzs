@@ -1,0 +1,39 @@
+.transformer
+{
+    transition: 0.5s;
+    -moz-transition: 0.5s;    /* Firefox 4 */
+    -webkit-transition:0.5s;  /* Safari 和 Chrome */
+    -o-transition: 0.5s;
+}
+
+.downPad
+{
+    position: relative;
+    margin-top:30px;
+}
+
+#stuid
+{
+    font-size: 1.5em;
+}
+
+.eq
+{
+    font-family: "consolas","courier new","monospace";   
+}
+
+.shadowBlue
+{
+    border:1px solid rgba(81, 203, 238, 1);
+    box-shadow: 0 0 7px rgba(81, 203, 238, 1);
+    -webkit-box-shadow: 0 0 7px rgba(81, 203, 238, 1);
+    -moz-box-shadow: 0 0 7px rgba(81, 203, 238, 1);
+}
+
+.shadowRed
+{
+    border:1px solid rgba(255, 0, 0, 1);
+    box-shadow: 0 0 7px rgba(255, 0, 0, 1);
+    -webkit-box-shadow: 0 0 7px rgba(255, 0, 0, 1);
+    -moz-box-shadow: 0 0 7px rgba(255, 0, 0, 1);
+}
