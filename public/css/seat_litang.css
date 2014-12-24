@@ -114,25 +114,26 @@ td
 
 .seat_Stu, .sign_Stu
 {
-	background-image: url(../img/seat/seat_stu.png);
-/*	background-color: red;
-*/}
+/*	background-image: url(../img/seat/seat_stu.png);*/
+	background-color: rgb(101,195,226);
+}
 
 .seat_Normal, .sign_Normal
 {
-	background-image: url(../img/seat/seat_normal.png);
-	/*background-color: blue;*/
+/*	background-image: url(../img/seat/seat_normal.png);*/
+	background-color: rgb(251,103,103);
 }
 
 .seat_Cannot, .sign_Cannot
 {
-	background-image: url(../img/seat/seat_cannot.png);
-/*	background-color: white;
-*/}
+/*	background-image: url(../img/seat/seat_cannot.png);*/
+	background-color: rgb(164, 164, 164);
+}
 
 .seat_Null
 {
-	background-image: url(../img/seat/seat_null.png);
+/*	background-image: url(../img/seat/seat_null.png);*/
+	background-color: rgb(30,35,41);
 }
 
 .seat_Selected{

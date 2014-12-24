@@ -78,14 +78,15 @@ function setSize() {
 
 	tb_Seat = $("#floor1").width();
 	seat = $("[class^=seat]");
-	seat.width(tb_Seat/41);
+	seat.width(tb_Seat/48);
 	seat.height(seat.width());
 	seat_w = seat.width();
 	seat_h = seat.height();
+	seat.css("margin", 0.1*seat.width());
 
 	$('td').height(seat_h);
 
-	$('#tb_Container').height(0.4*$('#tb_Container').width());
+	$('#tb_Container').height(0.6*$('#tb_Container').width());
 
 	tb_Container = $('#tb_Container').width();
 	sign = $("[class^=sign]");
