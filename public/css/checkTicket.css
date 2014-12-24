@@ -113,11 +113,15 @@ dd .title{
 
 .text{
 	margin-left: 1em;
-	font-size: 1.2em;
+	font-size: 1.1em;
 }
 
 #ticketPayInfo{
 	font-size: 1em;
+}
+
+#ticket_order{
+	font-size: 1.1em;
 }
 
 /******************* 二维码视图  *********************
