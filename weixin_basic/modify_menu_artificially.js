@@ -1,26 +1,20 @@
+var https = require('https');
 var urls=require("../address_configure");
-
-exports.WEIXIN_TOKEN = 'F8ZFW1Cyzr5z6nNoJ5uZhA8iXEbe1hvX';
-
-exports.WEIXIN_APPID = 'wxba2385bd8746d139';
-
-exports.WEIXIN_SECRET = 'e6f9aea61c5511cb2adb0543e1f2f206';
+exports.createMenu = createMenu
 
 var WEIXIN_EVENT_KEYS = {
-	'info_news': 'V1001_SCHOOL_NEWS',
-	'info_organization': 'V1001_OGNIZATION',
-	'info_job': 'V1001_JOB',
-	'info_vote': 'TSINGHUA_VOTE',
+    'info_news': 'V1001_SCHOOL_NEWS',
+    'info_organization': 'V1001_OGNIZATION',
+    'info_job': 'V1001_JOB',
+    'info_vote': 'TSINGHUA_VOTE',
     'ticket_book_what': 'TSINGHUA_BOOK_WHAT',
     'ticket_get': 'TSINGHUA_TICKET',
     'account_bind': 'TSINGHUA_BIND',
     'account_unbind': 'TSINGHUA_UNBIND',
     'help': 'TSINGHUA_HELP',
     'ticket_no_book_recommand': 'TSINGHUA_NO_BOOK_ACTS',
-    'ticket_no_activity': 'NO_ACTIVITY',
+    'ticket_lottery': 'TSINGHUA_LOTTERY'
 };
-
-exports.WEIXIN_EVENT_KEYS = WEIXIN_EVENT_KEYS;
 
 var WEIXIN_COSTUM_MENU_TEMPLATE = {
     "button": [
@@ -34,10 +28,10 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                     "sub_button": []
                 },
                 {
-                	"type": "click",
-                	"name": "就业",
-                	"key": WEIXIN_EVENT_KEYS['info_job'],
-                	"sub_button": []
+                    "type": "click",
+                    "name": "就业",
+                    "key": WEIXIN_EVENT_KEYS['info_job'],
+                    "sub_button": []
                 },
                 {
                     "type": "click",
@@ -60,13 +54,13 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
             ]
         },
         {
-            "name": "抢票",
+            "name": "抽奖",
             "type": "click",
-            "key": WEIXIN_EVENT_KEYS['ticket_no_activity'],
+            "key": WEIXIN_EVENT_KEYS['ticket_lottery'],
             "sub_button": []
         },
-		{
-			"name": "个人中心",
+        {
+            "name": "个人中心",
             "sub_button": [
                 {
                     "type": "click",
@@ -92,32 +86,33 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                     "url":  urls.help
                 }
             ]
-		}
+        }
     ]
 };
-exports.WEIXIN_COSTUM_MENU_TEMPLATE = WEIXIN_COSTUM_MENU_TEMPLATE;
 
-exports.WEIXIN_BOOK_HEADER = 'I_WANNA_BOOK_';
+var menuStr = JSON.stringify(WEIXIN_COSTUM_MENU_TEMPLATE);
 
-exports.getCustomMenuWithBookActs = function(actsbtn){
-    var menuStr = JSON.stringify(WEIXIN_COSTUM_MENU_TEMPLATE);
-    var tmpmenu = eval('(' + menuStr + ')');
-    book_btn = tmpmenu['button'][1];
+var options_creatMenu = {
+     hostname: 'api.weixin.qq.com',
+     port: '443',
+     path: '/cgi-bin/menu/create?access_token=',
+     method: 'POST',
+     headers: {
+         'Content-Type': 'application/x-www-form-urlencoded',
+         //'Content-Length': '' + Buffer.byteLength(menuStr)
+     }
+};
 
-    if(actsbtn[0] == undefined){
-        book_btn['type'] = 'click';
-        book_btn['key'] = WEIXIN_EVENT_KEYS['ticket_no_book_recommand']
-    }
-    book_btn['sub_button'] = actsbtn;
-    //book_btn['sub_button'].push(objBW);
-    return tmpmenu;
+function createMenu(access_token){
+    options_creatMenu.path = options_creatMenu.path + access_token;
+
+    var post = https.request(options_creatMenu, function (response) {
+        response.on('data', function(d) {
+            process.stdout.write(d);
+        });
+    }).on('error', function(e) {
+        console.error(e);
+    });
+    post.write(menuStr);
+    post.end();
 }
-
-/*
-objBW = {
-            "type": "click",
-            "name": "近期活动",
-            "key": WEIXIN_EVENT_KEYS['ticket_book_what'],
-            "sub_button": []
-        }
-*/

@@ -2,8 +2,17 @@ var set = require("./settings.js")
 var cm = require("./custom_menu.js")
 var at = require('./access_token')
 var act_info = require('./activity_info')
+var mma = require('./modify_menu_artificially')
 
 act_info.getCurrentActivity(cm.autoClearOldMenus);
+
+
+/*modify menu artificially*/
+//at.getAccessToken(mma.createMenu)
+
+
+
+
 //at.getAccessToken(cm.createMenu)
 //at.getAccessToken(cm.getMenu)
 //at.getAccessToken(cm.deleteMenu)
@@ -24,3 +33,5 @@ btn = [{
 cm.modifyMenu(btn);
 at.getAccessToken(cm.createMenu)
 */
+
+

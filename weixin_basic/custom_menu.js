@@ -1,7 +1,6 @@
 var https = require('https');
 var set = require('./settings')
 var at = require('./access_token')
-var act_info = require('./activity_info')
 
 exports.createMenu = createMenu
 exports.getMenu = getMenu
