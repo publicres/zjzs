@@ -18,6 +18,10 @@ sweeper(function()
         {
             cm.isExit=true;
             act_info.getCurrentActivity(cm.autoClearOldMenus);
-        }    
+        }
+        else
+        {
+            process.exit(0);
+        }
     });
 });
