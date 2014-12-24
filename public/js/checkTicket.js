@@ -46,7 +46,7 @@ function initETicket(){
         $("#ticket_seat").css("display", "");
     }
     //如果是新清演出票的话
-    if(ticket.needseat == 2 && ticket.status == 2){
+    if(ticket.needseat == 2 && ticket.status == 2 && !ticket.isPaid){
         alertInfo("请您于两天内及时换票");
         $("#ticketPayInfo").css("display", "");
     }
@@ -95,13 +95,23 @@ function setValue(){
     var status = ticket.status;
     if(status > 3 || status < 1)
         status = 0;
+    
+    if(ticket.needseat == 2 && ticket.status == 2 && !ticket.isPaid){
+        $("#ticket_status").html("等待支付");
+    }
+    else if(ticket.needseat == 2 && ticket.status >= 2 && ticket.isPaid){
+        $("#ticket_status").html("已支付");
+    }
+    else{
+        $("#ticket_status").html(statusList[status]);
+    }
 
     $("#ticket_time").html("日期："+ticket.time);
     $("#ticket_title").html(ticket.title);
     $("#ticket_ddl").html("选座截止时间： "+ticket.seatddl);
     $("#ticket_seat").html("座位："+seat);
     $("#ticket_place").html("场馆："+ticket.place);
-    $("#ticket_status").html(statusList[status]);
+    
     $("#ticket_cancel").html("退票方式：回复 '退票 "+ ticket.name + "'");
     $("#ticket_order").html("票号："+ ticketIdTransferd);
     if(ticket.needseat == 2 && ticket.status == 2){

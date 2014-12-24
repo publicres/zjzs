@@ -1,5 +1,5 @@
 /* 
-*	fonts are from fontello.com 
+*	fonts are fromt fontello.com 
 *	author: Yanzhe Yang;
 * 	time:　	2014/12/8;
 */
@@ -30,7 +30,9 @@ body{
   width: 1em;
   margin-right: .2em;
   text-align: center;
+  /* opacity: .8; */
  
+  /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
 }
@@ -77,6 +79,7 @@ body{
 	color: #8C8C8C;
 	line-height: 40px;
 	width: 100%;
+	font-size: 1.2em;
 }
 
 #eTicket, #mapGuide{
@@ -110,6 +113,11 @@ dd .title{
 
 .text{
 	margin-left: 1em;
+	font-size: 1.2em;
+}
+
+#ticketPayInfo{
+	font-size: 1em;
 }
 
 /******************* 二维码视图  *********************
@@ -211,6 +219,10 @@ dd .title{
 	margin-right: 20px;
 	opacity: 0.5;
 }
+
+/******************* 新清演出票倒计时部分  *********************
+******************************************************/
+
 
 /******************* 提示框样式  *********************
 ******************************************************/

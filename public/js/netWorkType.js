@@ -6,7 +6,7 @@ function onBridgeReady(){
  	    	netWorkType = e.err_msg;
             if (netWorkType == "network_type:wifi" && ticket.needseat == 1)
             {
-                $("#seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
+                $(".seatButton").attr("href", "/choosearea?ticketid="+ticket.id);
             }
  	    });
 }

@@ -104,6 +104,7 @@ router.get('/', function(req, res) {
                         seat: tiSeat,
                         ticket_status:ticket_status,
                         ticket_price:docs[0].cost,
+                        has_paid:(docs[0].cost==0 || ticketstatus==2),
                         act_book_end: getTime(be)
                     });
 

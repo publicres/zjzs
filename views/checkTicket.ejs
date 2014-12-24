@@ -44,11 +44,9 @@
             <a></a>
             <dd>
                 <div id="ticketPayInfo" style="display:none">
-                    <div class="timeLeft">
-
-                    </div>
+                    <br>
                     <p id="ticketPrice" class="text"> </p>
-                    <p class="text"> 换票方式： 凭二维码现场支付并换取纸质票</p>
+                    <p class="text"> 换票方式： 凭二维码支付并换取纸质票</p>
                     <p id="bookHall" class="text"> </p>
                 </div>
                 <p id="ticket_ddl" class="text" >选票截止时间</p>
@@ -128,7 +126,6 @@
     <div id="needButton" style="height:30px; display:none"></div>
 </body>
 
-
 <script>
     //测试用
     var ticket = new Object();
@@ -146,6 +143,7 @@
 
     ticket.price = <%= ticket_price %>;
     ticket.hall = "清华学堂售票窗口";
+    ticket.isPaid = <%= has_paid %>;
 
 </script>
 <script src="js/netWorkType.js" type="text/javascript" charset="utf-8"></script>
