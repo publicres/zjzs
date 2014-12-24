@@ -128,3 +128,33 @@ exports.faire_get_help=function(msg,res)
 
     res.send(template.getRichTextTemplate(msg,showList));
 }
+//============================================
+exports.check_apply_exp=function(msg)
+{
+    if (msg.MsgType[0]==="text")
+        if (msg.Content[0]==="获取实验账号")
+            return true;
+    return false;
+}
+exports.faire_apply_exp=function(msg,res)
+{
+
+    var openID=msg.FromUserName[0];
+    handler_ticket.verifyStu(openID,function()
+    {
+        lock.acquire(USER_DB,function()
+        {
+            db[USER_DB].update({stu_id:"2333333333",status:1},
+            {
+                $set:{weixin_id:openID}
+            },{upsert:true},function()
+            {
+                lock.release(USER_DB);
+                res.send(template.getPlainTextTemplate(msg,"获取实验账号成功"));
+            });
+        });
+    },function()
+    {
+        res.send(template.getPlainTextTemplate(msg,"该账号已经绑定。"));
+    });
+}

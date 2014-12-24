@@ -17,6 +17,7 @@ var pattern =
     [usersHandler.check_bind_accout,        usersHandler.faire_bind_accout],
     [usersHandler.check_unbind_accout,      usersHandler.faire_unbind_accout],
     [usersHandler.check_bookable_activity,  usersHandler.faire_bookable_activity],
+    [usersHandler.check_apply_exp,          usersHandler.faire_apply_exp],
     [usersHandler.check_get_help,           usersHandler.faire_get_help]
 ]
 
