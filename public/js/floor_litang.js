@@ -74,7 +74,7 @@ function setSize() {
 	front = $('#front');
 	front.height(0.25*front.width());
 
-	$('#seat_Intro').css("font-size", 0.035*document.body.clientWidth);
+	$('#seat_Intro').css("font-size", 0.04*document.body.clientWidth);
 
 	tb_Seat = $("#floor1").width();
 	seat = $("[class^=seat]");
@@ -90,8 +90,8 @@ function setSize() {
 
 	tb_Container = $('#tb_Container').width();
 	sign = $("[class^=sign]");
-	sign.width(tb_Container/20);
-	sign.height(0.8 * tb_Container/20);
+	sign.width(0.035*document.body.clientWidth);
+	sign.height(0.035*document.body.clientWidth);
 
 	a = $('#buttom');
 	a.height(a.width()*0.2)
