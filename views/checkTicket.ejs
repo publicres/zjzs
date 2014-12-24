@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=no">
     <title>我的票夹</title>
-
+    
     <link href="css/style.min.css" type="text/css" rel="stylesheet">
     <link href="css/checkTicket.css" type="text/css" rel="stylesheet">
     <script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
@@ -36,32 +36,36 @@
                 <p class="text" id="ticket_time">日期：</p>
                 <p class="text" id="ticket_seat" style="display:none">座位：</p>
                 <p class="text" id="ticket_cancel">退票方式：回复 "退票"+"新年音乐会"</p>
+
                 <br>
                 <b></b>
             </dd>
-
+            
             <a></a>
             <dd>
-                <p id="ticket_ddl" class="text" >选座截止时间</p>
+                <p id="ticket_ddl" class="text" >选票截止时间</p>
                 <div id="qrcodeWrap">
                     <div id="qrcode"></div>
                     <div id="noteMessage" style="display:none;">
                         <a id="noteLink" class="seatButton" style="background:none;color:#000">
                             <div class="noteText">请选座位</div>
                         </a>
-                        <!-- <div class="noteText">请选座位</div> -->
-                        <!-- 请选座位 -->
                     </div>
                 </div>
-
+                
                 <b></b>
             </dd>
         </dl>
     </section>
 
+    <div id="alertFrame">
+        <div id="alertInfo">
+        </div>
+    </div>
+
     <!--座位引导综体部分-->
     <section id="guideMap-zt" style="display:none">
-        <div id = "front">
+        <div id="front">
             <div>舞&nbsp;&nbsp;&nbsp;台</div>
         </div>
         <div id = "Zongti">
@@ -112,36 +116,22 @@
           <a class="seatButton" href=""><i class="icon-cart"></i>进入选座</a>
         </div>
     </section>
-
-    <!--由于某种特殊的原因，上述在WP不显示，特为其准备如下-->
-    <!-- <section class="btnIE" style="display:none;">
-        <div id="contentBtnIE" style="height:40px;">
-              <a class="seatButton" href=""><i class="icon-cart"></i>进入选座</a>
-        </div>
-    </section> -->
     <!--为button留出空间-->
     <div id="needButton" style="height:30px; display:none"></div>
-
-    <!--为WP用户设置-->
-    <!-- <div id="isIE" style="height:200px; display:none"></div> -->
-
 </body>
 
-
 <script>
-    //测试用
     var ticket = new Object();
     ticket.id = "<%= tid %>";
     ticket.title="<%= act_name %>";
-    ticket.name = "<%= act_key %>";      //退票的活动代称
+    ticket.name = "<%= act_key %>";             //退票的活动代称
     ticket.place = "<%= act_place %>";
     ticket.time = "<%= act_begintime %>";
-    ticket.seat = "<%= seat %>";              //ticket.seat = "A区";
+    ticket.seat = "<%= seat %>";                //ticket.seat = "A区";
     ticket.qrcode_img="<%= act_photo %>";
-    ticket.status = <%= ticket_status %>;              //status=1, "等待选座"， status=2, "等待检票", status=3, "已检票"
+    ticket.status = <%= ticket_status %>;       //status=1, "等待选座"， status=2, "等待检票", status=3, "已检票"
     ticket.seatddl = "<%= act_book_end %>";
     ticket.needseat = <%= act_need_seat %>;
-    var netWorkType;
 
 </script>
 <script src="js/netWorkType.js" type="text/javascript" charset="utf-8"></script>

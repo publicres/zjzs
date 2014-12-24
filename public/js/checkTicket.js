@@ -142,6 +142,12 @@ $("#eTicket").click(function(){
 });
 
 $("#mapGuide").click(function(){
+    //等待系统随机分配座位的提醒
+    var w = ticket.seat.substring(0,1);
+    if((w > 'E' || w < 'A') && ticket.status == 2){
+        alertInfo("系统24小时内为您分配座位。");    
+    }
+
     if(ticket.needseat == 1){
         $("#guideMap-zt").css("display", "");
     }
@@ -158,6 +164,25 @@ $("#mapGuide").click(function(){
 
     initMapZt();
 });
+
+function alertInfo(info){
+    $("#alertInfo").html(info);
+    $("#alertFrame").css("display", "inherit");
+    $("#alertFrame").animate({
+        top: '50%',
+        opacity: '.9',
+    }, 1000, function(){
+        setTimeout(function(){
+            $("#alertFrame").animate({
+                top: '20%',
+                opacity: '0',
+            }, 600, function(){
+                $("#alertFrame").css("display", "none");
+            })
+        }, 1000);
+    });
+}
+
 
 //author: 林聪
 //function: 设置图片的长宽比，可适
