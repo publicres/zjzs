@@ -1,4 +1,6 @@
-﻿$(document).ready(function() {
+﻿var width, height;
+
+$(document).ready(function() {
 	addSeat();
 	setSize();
 
@@ -78,15 +80,22 @@ function setSize() {
 
 	tb_Seat = $("#floor1").width();
 	seat = $("[class^=seat]");
-	seat.width(tb_Seat/48);
+	seat.width(tb_Seat/53);
 	seat.height(seat.width());
 	seat_w = seat.width();
 	seat_h = seat.height();
-	seat.css("margin", 0.1*seat.width());
+	seat.css("margin", 0.15*seat.width());
 
 	$('td').height(seat_h);
 
-	$('#tb_Container').height(0.6*$('#tb_Container').width());
+	if (document.body.clientWidth < document.body.clientHeight) {
+		$('#tb_Container').height(0.6*$('#tb_Container').width());
+	}
+	else {
+		$('#tb_Container').height(0.3*$('#tb_Container').width());
+	}
+	width = document.body.clientWidth;
+	height = document.body.clientHeight;
 
 	tb_Container = $('#tb_Container').width();
 	sign = $("[class^=sign]");
@@ -223,6 +232,15 @@ function action() {
 
 	bind_tap();
 }
+
+
+//按照时间调整座位大小
+setInterval(function() {
+	if (document.body.clientWidth != width || document.body.clientHeight != height) {
+		setSize();
+	}
+}, 100);
+
 
 //消息框
 switch (stateCode){
