@@ -99,6 +99,7 @@ td
 	white-space: nowrap;
 	height: auto;
 	position: relative;
+	float: left;
 	zoom: 1;
 	text-align: center;
 }
