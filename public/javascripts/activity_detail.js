@@ -376,7 +376,9 @@ function lockByStatus(status, book_start, start_time, end_time) {
             'place': function() {
                 return (new Date() >= getDateByObj(start_time));
             },
-            'book_start': true,
+            'book_start': function() {
+                return (new Date() >= getDateByObj(book_start));
+            },
             'book_end': function() {
                 return (new Date() >= getDateByObj(start_time));
             },
@@ -466,7 +468,7 @@ function showPublishByStatus(status, linetime) {
 
 function showPubTipsByStatus(status){
     if(status < 1){
-        $('#publishBtn').tooltip({'title': '发布后不能修改“活动名称”、“活动代称”和“订票开始时间”'});
+        $('#publishBtn').tooltip({'title': '发布后不能修改“活动名称”、“活动代称”'});
         $('#saveBtn').tooltip({'title': '暂存后可以“继续修改”'});
     }
 }
