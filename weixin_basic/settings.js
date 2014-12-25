@@ -10,7 +10,7 @@ var WEIXIN_EVENT_KEYS = {
 	'info_news': 'V1001_SCHOOL_NEWS',
 	'info_organization': 'V1001_OGNIZATION',
 	'info_job': 'V1001_JOB',
-	'info_vote': 'TSINGHUA_VOTE',
+	//'info_vote': 'TSINGHUA_VOTE',
     'ticket_book_what': 'TSINGHUA_BOOK_WHAT',
     'ticket_get': 'TSINGHUA_TICKET',
     'account_bind': 'TSINGHUA_BIND',
@@ -45,12 +45,12 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                     "key": WEIXIN_EVENT_KEYS['info_organization'],
                     "sub_button": []
                 },
-                {
+                /*{
                     "type": "click",
                     "name": "投票",
                     "key": WEIXIN_EVENT_KEYS['info_vote'],
                     "sub_button": []
-                },
+                },*/
                 {
                     "type": "click",
                     "name": "近期抢票",
