@@ -80,11 +80,11 @@ function setSize() {
 
 	tb_Seat = $("#floor1").width();
 	seat = $("[class^=seat]");
-	seat.width(tb_Seat/53);
+	seat.width(tb_Seat/41);
 	seat.height(seat.width());
 	seat_w = seat.width();
 	seat_h = seat.height();
-	seat.css("margin", 0.15*seat.width());
+	//seat.css("margin", 0.15*seat.width());
 
 	$('td').height(seat_h);
 
