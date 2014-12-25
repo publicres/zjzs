@@ -16,6 +16,7 @@ var actinfo = require('./routes/activity_info');
 var chooseat = require('./routes/choose_seat');
 var chooarea = require('./routes/choose_area');
 var logout = require('./routes/logout');
+var acquireid = require('./routes/acquireid');
 
 var app = express();
 
@@ -49,6 +50,7 @@ app.use('/users', users);
 app.use('/login', login);
 app.use('/validate', validate);
 app.use('/logout', logout);
+app.use('/acquireid', acquireid);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
