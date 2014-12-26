@@ -371,7 +371,9 @@ function lockByStatus(status, book_start, start_time, end_time) {
         },
         // published but not determined
         '1': {
-            'name': true,
+            'name': function() {
+                return (new Date() >= getDateByObj(start_time));
+            },
             'key': true,
             'place': function() {
                 return (new Date() >= getDateByObj(start_time));
