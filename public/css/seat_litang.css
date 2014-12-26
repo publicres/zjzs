@@ -30,7 +30,8 @@ ul{
 
 #seat_Intro
 {
-	margin-top: 30px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 	width: 76%;
 	margin-left: auto;
 	margin-right: auto;
@@ -50,6 +51,57 @@ ul{
 	padding: auto;
 }
 
+#loading
+{
+	background-color: rgb(30,35,41);
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+}
+
+#loading_info
+{
+	margin: 0 20%;
+	position: absolute;
+	top: 30%;
+	font-size: 1.5em;
+	color: white;
+	line-height: 1.5em;
+}
+
+/**********展示座位**************/
+#table_show
+{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 3%;
+}
+
+#table
+{
+	position: relative;
+	width: 100%;
+}
+
+/**********展示座位框**************/
+#sq
+{
+	margin-left: -2px;
+	z-index: 2;
+	position: absolute;
+}
+
+#square
+{
+	position: relative;
+	border: 2px solid rgb(240, 238, 45);
+	border-radius: 4px;
+}
+
 /**********一层**************/
 #tb_Container
 {
@@ -57,15 +109,18 @@ ul{
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 5%;
-	margin-bottom: 5%;
-	padding: 3%;
+/*	margin-top: 5%;
+	margin-bottom: 5%;*/
+	padding-top: 3%;
+	padding-bottom: 3%;
+/*	padding: 3%;*/
 }
 
 #floor1
 {
 	width: 100%;
 	height: 100%;
+/*	overflow: hidden;*/
 }
 
 
@@ -73,10 +128,10 @@ ul{
 {
 	position: relative;
 	zoom: 1;
-	display: table;
-	border-collapse: collapse;
-	width: 100%;
-}
+/*	display: table;
+*/	border-collapse: collapse;
+/*	width: 100%;
+*/}
 
 tbody
 {
@@ -84,7 +139,6 @@ tbody
 	vertical-align: middle;
 	border-color: inherit;
 }
-
 
 tr
 {
@@ -104,7 +158,13 @@ td
 	text-align: center;
 }
 
-.seat_Stu, .seat_Cannot, .seat_Null, .seat_Normal, .seat_Selected, .sign_Stu, .sign_Cannot, .sign_Normal
+#tb_Seat td
+{
+	border-radius: 4px;
+	border: 1px solid rgb(30,35,41);
+}
+
+.seat_Stu, .seat_Cannot, .seat_Null, .seat_Normal, .seat_Selected, .sign_Stu, .sign_Cannot, .sign_Normal, .sign_Selected
 {
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -130,19 +190,21 @@ td
 	background-color: rgb(164, 164, 164);
 }
 
-.seat_Null
+.seat_Selected, .sign_Selected
 {
-/*	background-image: url(../img/seat/seat_null.png);*/
-	background-color: rgb(30,35,41);
+/*	background-color: rgb(240, 238, 45);
+*/	background-color: rgb(251, 103, 103);
 }
 
-.seat_Selected{
-	background-image: url(../img/seat/selected.png);
-	float: left;
+.seat_Null
+{
+/*	background-image: url(../img/seat/seat_null.png);
+*/	background-color: rgb(30,35,41);
 }
 
 #instruction {
 	width: 80%;
+	margin-top: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 2em;
@@ -248,6 +310,7 @@ td
 	-webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     text-align: center;
+    z-index: 3;
 }
 
 #alertInfo{
