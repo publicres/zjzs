@@ -146,7 +146,7 @@ function setSize() {
 
 	tb_Seat = $("#tb_Container").width();
 	seat = $("#floor1 [class^=seat]");
-	seat.width(tb_Seat/20);
+	seat.width(tb_Seat/15);
 	seat.height(seat.width());
 	 $("#tb_Seat").width(seat.width()*50);
 	 $('#floor1 td').height(seat.width());
@@ -154,7 +154,7 @@ function setSize() {
 	// seat_h = seat.height();
 	// seat.css("margin", 0.15*seat.width());
 
-	$('#square').width(seat_w*17+3);
+	$('#square').width(seat_w*14+3);
 	$('#square').height(seat_h*8+14);
 	$('#sq').height($('#square').height());
 
@@ -202,7 +202,7 @@ function show_action() {
 	var sq = document.getElementById('sq');
 	var floor1 = document.getElementById('floor1');
 	var square = document.getElementById('square');
-	var dx, dx1, dx2, scale = 2.3;
+	var dx, dx1, dx2, scale = 3;
 	var begin, end;
 	// var time_square = 0, time_sq = 0;
 
@@ -223,18 +223,21 @@ function show_action() {
 		dx += ev.x;
 
 		dx = dx > 0 ? dx : 0;
-		dx = dx < ($('#sq').width()*1.33) ? dx : ($('#sq').width()*1.33);
+		dx = dx < ($('#sq').width()*2) ? dx : ($('#sq').width()*2);
 		// dy += ev.y;
 
 		dx1 = dx / scale;
 		dx2 = 0 - dx;
 
-		square.style.webkitTransition = "all 0.4s ease 0s";
 		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-		setTimeout("square.style.webkitTransition = ''",400);
-		floor1.style.webkitTransition = "all 0.4s ease 0s";
 	    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
-	    setTimeout("floor1.style.webkitTransition = ''",400);
+
+		// square.style.webkitTransition = "all 0.4s ease 0s";
+		// square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
+		// setTimeout("square.style.webkitTransition = ''",400);
+		// floor1.style.webkitTransition = "all 0.4s ease 0s";
+	 //    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
+	 //    setTimeout("floor1.style.webkitTransition = ''",400);
 	});
 
 	touch.on(sq, 'tap', function(ev) {
@@ -243,16 +246,19 @@ function show_action() {
 		begin = mouse_x - $('#square').width() / 2;
 		end = mouse_x + $('#square').width() / 2;
 
-		dx = begin < 0 ? 0 : (end < ($('#sq').width()*1.33) ? end : ($('#sq').width()*1.33));
+		dx = begin < 0 ? 0 : (end < ($('#sq').width()*2) ? end : ($('#sq').width()*2));
 		dx1 = dx / scale;
 		dx2 = 0 - dx;
 
-		square.style.webkitTransition = "all 0.4s ease 0s";
 		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-		setTimeout("square.style.webkitTransition = ''",400);
-		floor1.style.webkitTransition = "all 0.4s ease 0s";
 	    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
-	    setTimeout("floor1.style.webkitTransition = ''",400);
+
+		// square.style.webkitTransition = "all 0.4s ease 0s";
+		// square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
+		// setTimeout("square.style.webkitTransition = ''",400);
+		// floor1.style.webkitTransition = "all 0.4s ease 0s";
+	 //    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
+	 //    setTimeout("floor1.style.webkitTransition = ''",400);
 	});
 
 	// touch.on(sq, 'touchend', function(ev) {
@@ -293,18 +299,21 @@ function action() {
 		dx += ev.x;
 
 		dx = dx > 0 ? 0 : dx;
-		dx = dx < (0-$('#tb_Container').width()*1.33) ? (0-$('#tb_Container').width()*1.33) : dx;
+		dx = dx < (0-$('#tb_Container').width()*2) ? (0-$('#tb_Container').width()*2) : dx;
 		// dy += ev.y;
 
-		scale = 2.3;
+		scale = 3.05;
 		dx1 = (0 - dx) / scale;
 
-		square.style.webkitTransition = "all 0.4s ease 0s";
 		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-		setTimeout("square.style.webkitTransition = ''",400);
-		floor1.style.webkitTransition = "all 0.4s ease 0s";
 	    floor1.style.webkitTransform = "translate3d(" + dx + "px, " + 0 + "px, 0)";
-	    setTimeout("floor1.style.webkitTransition = ''",400);
+
+		// square.style.webkitTransition = "all 0.4s ease 0s";
+		// square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
+		// setTimeout("square.style.webkitTransition = ''",400);
+		// floor1.style.webkitTransition = "all 0.4s ease 0s";
+	 //    floor1.style.webkitTransform = "translate3d(" + dx + "px, " + 0 + "px, 0)";
+	 //    setTimeout("floor1.style.webkitTransition = ''",400);
 	});
 
 

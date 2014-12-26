@@ -90,7 +90,7 @@ ul{
 /**********展示座位框**************/
 #sq
 {
-	margin-left: -2px;
+	margin-left: -3px;
 	z-index: 2;
 	position: absolute;
 }
@@ -202,14 +202,14 @@ td
 */	background-color: rgb(30,35,41);
 }
 
-#instruction {
+/*#instruction {
 	width: 80%;
 	margin-top: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 2em;
 	color: rgb(150,150,150);
-}
+}*/
 
 #bottom {
 	position: fixed;
