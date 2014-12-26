@@ -49,6 +49,8 @@ function combine_time(t1, t2)
     var day=['Sun.','Mon.','Tue.','Wed.','Thur.','Fri.','Sat.'];
     var day1=day[t1.getDay()];
     var day2=day[t2.getDay()];
+    if (m1==12&&m2==1&&d1==31&&d2==1)
+        return "12月31日 "+h1+':'+mi1+'－'+"次日 "+h2+':'+mi2;
     if (y1!=y2)
         return y1+u+m1+u+d1+' '+h1+':'+mi1+'－'+y2+u+m2+u+d2+' '+h2+':'+mi2;
     if (m1!=m2)
