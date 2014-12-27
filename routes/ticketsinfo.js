@@ -20,7 +20,7 @@ function getTime(datet,isSecond)
     datet.getMinutes()
     return datet.getFullYear() + "年"
         + (datet.getMonth()+1) + "月"
-        + (datet.getDate()+1) + "日 "
+        + (datet.getDate()) + "日 "
         + addZero(datet.getHours()) + ":"
         + addZero(datet.getMinutes())
         + (isSecond===true? ":"+datet.getSeconds() : "");
