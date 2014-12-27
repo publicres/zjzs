@@ -229,15 +229,15 @@ function show_action() {
 		dx1 = dx / scale;
 		dx2 = 0 - dx;
 
-		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-	    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
-
-		// square.style.webkitTransition = "all 0.4s ease 0s";
 		// square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-		// setTimeout("square.style.webkitTransition = ''",400);
-		// floor1.style.webkitTransition = "all 0.4s ease 0s";
 	 //    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
-	 //    setTimeout("floor1.style.webkitTransition = ''",400);
+
+		square.style.webkitTransition = "all 0.4s ease 0s";
+		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
+		setTimeout("square.style.webkitTransition = ''",400);
+		floor1.style.webkitTransition = "all 0.4s ease 0s";
+	    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
+	    setTimeout("floor1.style.webkitTransition = ''",400);
 	});
 
 	touch.on(sq, 'tap', function(ev) {
@@ -246,19 +246,19 @@ function show_action() {
 		begin = mouse_x - $('#square').width() / 2;
 		end = mouse_x + $('#square').width() / 2;
 
-		dx = begin < 0 ? 0 : (end < ($('#sq').width()*2) ? end : ($('#sq').width()*2));
+		dx = begin < 0 ? 0 : (end < ($('#sq').width()*2) ? (end < $('#sq').width() ? end : (end * 1.55)) : ($('#sq').width()*2));
 		dx1 = dx / scale;
 		dx2 = 0 - dx;
 
-		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-	    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
-
-		// square.style.webkitTransition = "all 0.4s ease 0s";
 		// square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-		// setTimeout("square.style.webkitTransition = ''",400);
-		// floor1.style.webkitTransition = "all 0.4s ease 0s";
 	 //    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
-	 //    setTimeout("floor1.style.webkitTransition = ''",400);
+
+		square.style.webkitTransition = "all 0.4s ease 0s";
+		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
+		setTimeout("square.style.webkitTransition = ''",400);
+		floor1.style.webkitTransition = "all 0.4s ease 0s";
+	    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
+	    setTimeout("floor1.style.webkitTransition = ''",400);
 	});
 
 	// touch.on(sq, 'touchend', function(ev) {
@@ -305,15 +305,15 @@ function action() {
 		scale = 3.05;
 		dx1 = (0 - dx) / scale;
 
-		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-	    floor1.style.webkitTransform = "translate3d(" + dx + "px, " + 0 + "px, 0)";
-
-		// square.style.webkitTransition = "all 0.4s ease 0s";
 		// square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-		// setTimeout("square.style.webkitTransition = ''",400);
-		// floor1.style.webkitTransition = "all 0.4s ease 0s";
 	 //    floor1.style.webkitTransform = "translate3d(" + dx + "px, " + 0 + "px, 0)";
-	 //    setTimeout("floor1.style.webkitTransition = ''",400);
+
+		square.style.webkitTransition = "all 0.4s ease 0s";
+		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
+		setTimeout("square.style.webkitTransition = ''",400);
+		floor1.style.webkitTransition = "all 0.4s ease 0s";
+	    floor1.style.webkitTransform = "translate3d(" + dx + "px, " + 0 + "px, 0)";
+	    setTimeout("floor1.style.webkitTransition = ''",400);
 	});
 
 
