@@ -379,7 +379,7 @@ function message_and_submit() {
 		case 1: $("#alertInfo").html("你选择的区域已满<br>请重新选座");
 				break;
 		default:
-			$("#alertInfo").html("您可以用手势放大选座界面。");
+			$("#alertInfo").html("请拖动黄色线框并在下面选座。");
 	}
 
 
