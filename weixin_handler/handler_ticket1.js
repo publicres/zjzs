@@ -1,3 +1,6 @@
+//WARNING: it is the deprecated version of ticket handler
+//DONOT try to refer to it.
+
 var template = require('./reply_template');
 var model = require('../models/models');
 var lock = require('../models/lock');
