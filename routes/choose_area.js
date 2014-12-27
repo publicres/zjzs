@@ -9,6 +9,8 @@ var ACTIVITY_DB = model.activities;
 var SEAT_DB = model.seats;
 var db = model.db;
 
+var chooser_lock={};
+
 function checkValidity(req, res, callback)
 {
     if (req.query.ticketid == null)
@@ -16,11 +18,25 @@ function checkValidity(req, res, callback)
         res.send("ticketid is required!");
         return;
     }
+    if (chooser_lock[req.query.ticketid]!=null)
+    {
+        res.render("alert",
+        {
+            errorinfo: "您的选座请求正在处理中，请稍等...",
+            backadd:    urls.ticketInfo+"?ticketid="+req.query.ticketid
+        });
+        return;
+    } 
+    else
+    {
+        chooser_lock[req.query.ticketid]=true;
+    }   
     db[TICKET_DB].find({unique_id: req.query.ticketid, status:{$ne:0}}, function(err, docs)
     {
         if (docs.length == 0)
         {
             res.send("No such a ticket.");
+            chooser_lock[req.query.ticketid]=null;
             return;
         }
         else
@@ -29,6 +45,7 @@ function checkValidity(req, res, callback)
             if (docs[0].status!=1 && docs[0].status!=2)
             {
                 res.send("Wrong status.");
+                chooser_lock[req.query.ticketid]=null;
                 return;
             }
             if (docs[0].seat!="")
@@ -38,6 +55,7 @@ function checkValidity(req, res, callback)
                     errorinfo:  "已经选过座位啦！座位是"+docs[0].seat,
                     backadd:    urls.ticketInfo+"?ticketid="+req.query.ticketid
                 });
+                chooser_lock[req.query.ticketid]=null;
                 return;
             }
 
@@ -46,6 +64,7 @@ function checkValidity(req, res, callback)
                 if (docs1.length == 0)
                 {
                     res.send("No activity found.");
+                    chooser_lock[req.query.ticketid]=null;
                     return;
                 }
                 else
@@ -53,6 +72,7 @@ function checkValidity(req, res, callback)
                     if (docs1[0].need_seat!=1)
                     {
                         res.send("No need to choose area.");
+                        chooser_lock[req.query.ticketid]=null;
                         return;
                     }
                     var current=(new Date()).getTime();
@@ -63,6 +83,7 @@ function checkValidity(req, res, callback)
                             errorinfo: "抱歉，选座时间已过<br>请等待系统自动分配座位",
                             backadd:    urls.ticketInfo+"?ticketid="+req.query.ticketid
                         });
+                        chooser_lock[req.query.ticketid]=null;
                         return;
                     }
                     callback(req.query.ticketid, activityid, docs1[0].book_end);
@@ -94,6 +115,7 @@ router.get("/", function(req, res)
 {
     checkValidity(req,res,function(ticketID, activityID, bookend)
     {
+        chooser_lock[req.query.ticketid]=null;
         db[SEAT_DB].find({activity:activityID},function(err, docs)
         {
             if (err || docs.length==0)
@@ -141,6 +163,7 @@ router.post("/", function(req, res)
         {
             if (err || result.n==0)
             {
+                chooser_lock[req.query.ticketid]=null;
                 //WARNING!
                 if (req.query.simple!=null)
                     res.redirect(urls.choosearea+"?simple=1&ticketid="+ticketID+"&err=1");
@@ -155,12 +178,14 @@ router.post("/", function(req, res)
             {
                 if (err || result.n==0)
                 {
+                    chooser_lock[req.query.ticketid]=null;
                     //ROLL BACK, supposed never to be executed.
                     res.send("Fatal Failure!");
                     toModify[realName]=1;
                     db[SEAT_DB].update({activity: activityID},{$inc:toModify},{multi:false},function(){});
                     return;
                 }
+                chooser_lock[req.query.ticketid]=null;
                 res.redirect(urls.ticketInfo+"?ticketid="+ticketID);
             });
         });
