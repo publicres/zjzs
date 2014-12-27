@@ -22,7 +22,7 @@ function getTime(datet,isSecond)
     datet.getMinutes()
     return datet.getFullYear() + "-"
         + (datet.getMonth()+1) + "-"
-        + (datet.getDate()+1) + " "
+        + (datet.getDate()) + " "
         + addZero(datet.getHours()) + ":"
         + addZero(datet.getMinutes())
         + (isSecond===true? ":"+datet.getSeconds() : "");
