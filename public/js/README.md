@@ -21,6 +21,6 @@
     
 四、选座页面  Seat Selection Page
  
-      touch.min.js         缩放相关事件       
+      touch.min.js         触屏相关事件       
       floor_litang.js      对应选座设置及其他事件相应
     
