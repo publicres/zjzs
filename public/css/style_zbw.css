@@ -35,7 +35,44 @@
     line-height: 18px;
 }
 
-#activity_extra_info
+#main_area
 {
-    z-index: 1000;
+    padding-bottom: 3em;
+}
+
+#mask
+{
+    background-repeat: repeat;
+}
+
+#activity_title_image
+{
+    background-size: 100%;
+}
+
+#small_title
+{
+    line-height:1.6em;
+}
+
+#activity_title
+{
+    line-height:1.6em;
+}
+
+#title_area
+{
+    line-height:inherit;
+}
+
+#clock_image
+{
+    width:12px;
+    margin: 0 0 0 6px;
+    border: 0;
+}
+
+#ticket_getting
+{
+    color:#dd001e;
 }

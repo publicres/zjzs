@@ -7,14 +7,16 @@
     <meta content="telephone=no" name="format-detection">
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=no">
     <title></title>
-    <link type="text/css" href="css/style_zbw.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/style.min.css">
+    <link type="text/css" href="css/style_zbw.css" rel="stylesheet">
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript">
         window.onerror = function() {
             return true;
         }
     </script>
+    
 </head>
 
 <body>
@@ -23,7 +25,7 @@
         <section class="info" id="get_ticket">
             <div class="auto_hide bottom_mask"><!--style.css-->
             </div>
-            <div class="auto_hide btn" style="">
+            <div class="auto_hide btn">
                 <div class="bottom_button">
                     <h1 id="get_ticket_method_title"></h1>
                     <div id="get_ticket_method_content"></div>
@@ -31,19 +33,19 @@
             </div>
         </section>
         <article id="container" class="ticket">
-            <section class="info" style="padding-bottom: 3em;" id="huahua">
+            <section class="info" id="main_area">
                 <figure>
-                    <div class="mask" style="background-repeat: repeat;z-index:1000"></div>
-                    <div id="activity_title_image" style="background-size: 100%;z-index:999" class="m-cover"></div>
+                    <div class="mask" id="mask"></div>
+                    <div id="activity_title_image" class="m-cover"></div>
                 </figure>
-                <figure style="z-index:1000">
+                <figure>
                     <img id="activity_main_image">
-                    <figcaption style="line-height:inherit">
-                        <p class="time" style="line-height:1.6em">Tsinghua University</p>
-                        <h1 id="activity_title" style="line-height:1.6em"></h1>
+                    <figcaption id="title_area">
+                        <p class="time" id="small_title">Tsinghua University</p>
+                        <h1 id="activity_title"></h1>
                         <div class="bars">
-                            <img src="img/clock.png" style="width:12px;margin: 0 0 0 6px;border: 0">
-                            <span id="ticket_getting" style="color:#dd001e;"></span>
+                            <img src="img/clock.png" id="clock_image">
+                            <span id="ticket_getting"></span>
                         </div>
                     </figcaption>
                 </figure>
@@ -54,7 +56,7 @@
                         <h1 id="activity_detail_title"></h1>
                         <div id="activity_content"></div>
                     </div>
-                    <div class="body" id="get_ticket_2" style="">
+                    <div class="body" id="get_ticket_2">
                         <h1 id="activity_detail_title_2"></h1>
                         <div id="activity_content_2"></div>
                     </div>
@@ -63,8 +65,27 @@
         </article>
     </div>
 <script type="text/javascript">
-
-/**/
+/**
+    var activity_time_raw=12312312321;//活动时间(毫秒)
+    var activity_book_ticket_time_raw=(new Date()).getTime()+86400000;//抢票时间
+    var activity_end_time_raw=12312312321;
+    var activity_book_ticket_end_time_raw=(new Date()).getTime()+96400000;
+    var time_server=new Date();//服务器当前时间
+    
+    var activity_page_title="新年音乐会-活动详情";//页面标题名称
+    var activity_title="新年音乐会";//活动名称
+    var activity_seat_type=1;//0:不选座 1:选区 2:选座
+    var activity_detail_title="活动介绍";//可以填"演出详情"、"活动详情"等
+    var activity_content="　　这是清华大学的新年音乐会。这是清华大学的新年音乐会。这是清   华大学的新年音乐会。这是清华大学的新年音乐会。这是清华大学的新年音乐会。这是清华大学 的新年音乐会。这是清华大学的新年音乐会。这是清华大学的新年音乐会。这是清华大学的新年   音乐会。这是清华大学的新年音乐会。这是清华大学的新年音乐会。这是清华大学的新年音乐会 。这是清华大学的新年音乐会。这是清华大学的新年音乐会。这是清华大学的新年音乐会。这是   清华大学的新年音乐会。这是清华大学的新年音乐会。这是清华大学的新年音乐会。这是清华大 学的新年音乐会。这是清华大学的  新年音乐会。这是清华大学的新年音乐会。这是清华大学的新年音乐会。";
+    var activity_main_image="http://c.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=1b08a857b13533fae1bb9b7cc9ba967a/8601a18b87d6277f9cff136128381f30e824fcfd.jpg";//必须是竖着的图片
+    var activity_title_image=activity_main_image;
+    var activity_ticket_status=0;//0:未开始抢票 1:抢票中 2:抢票结束     3:抢票成功，点击查看 4:已领票
+    var activity_key = "音乐会";
+    var activity_remain_ticket = 123621;
+    var activity_place = "新清华学堂";
+    var act_key= "2345678900123844510394871032985";
+**/
+/********需要从后台动态添加的信息**********/
     var activity_time_raw=<%= act_start %>;//活动时间(毫秒)
     var activity_book_ticket_time_raw=<%= act_book_start %>;;//抢票时间
     var activity_end_time_raw=<%= act_end %>;
@@ -83,10 +104,11 @@
     var activity_remain_ticket = <%= rem_tik %>;
     var activity_place = "<%= act_place %>";
     var act_key= "<%= act_key %>";
-
+/**/
 
 </script>
-<script type="text/javascript" src="js/activity_detail.js">
-</script>
+<script type="text/javascript" src="js/activity_detail_time.js"></script>
+<script type="text/javascript" src="js/activity_detail_extra.js"></script>
+<script type="text/javascript" src="js/activity_detail_add.js"></script>
 </body>
 </html>
