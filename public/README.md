@@ -1,6 +1,6 @@
 # public: static folder
 
-file struct:
+File struct:
 
     css:            Some style files.
     js:             Relative event on web.
