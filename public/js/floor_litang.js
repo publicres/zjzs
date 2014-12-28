@@ -1,6 +1,7 @@
 ﻿var width, height;
 var seat_width;
 var mouse_x;
+var cx, dx;
 
 $(document).ready(function() {
 	document.onmousemove = function(e) {
@@ -202,7 +203,7 @@ function show_action() {
 	var sq = document.getElementById("sq");
 	var floor1 = document.getElementById("floor1");
 	var square = document.getElementById("square");
-	var cx, scale = 3;
+	var scale = 3;
 	var begin, end;
 	// var time_square = 0, time_sq = 0;
 
@@ -211,6 +212,7 @@ function show_action() {
 	});
 
 	touch.on('#square', 'drag', function(ev){
+		console.log(cx);
 		cx = cx || 0;
 		var offx = cx + ev.x;
 
@@ -222,6 +224,10 @@ function show_action() {
 		var offx2 = 0 - offx;
 		square.style.webkitTransform = "translate3d(" + offx1 + "px, " + 0 + "px, 0)";
 		floor1.style.webkitTransform = "translate3d(" + offx2 + "px, " + 0 + "px, 0)";
+
+		cx = offx;
+		dx = offx2;
+
 	});
 
 	touch.on('#square', 'dragend', function(ev){
@@ -234,9 +240,9 @@ function show_action() {
 		begin = mouse_x - $('#square').width() / 2;
 		end = mouse_x + $('#square').width() / 2;
 
-		cx = begin < 0 ? 0 : (end < ($('#sq').width()*2) ? (end < $('#sq').width() ? end : (end * 1.55)) : ($('#sq').width()*2));
-		cx1 = cx / scale;
-		cx2 = 0 - cx;
+		var offx = begin < 0 ? 0 : (end < ($('#sq').width()*2) ? (end < $('#sq').width() ? end : (end * 1.55)) : ($('#sq').width()*2));
+		cx1 = offx / scale;
+		cx2 = 0 - offx;
 
 		// square.style.webkitTransform = "translate3d(" + cx1 + "px, " + 0 + "px, 0)";
 	 //    floor1.style.webkitTransform = "translate3d(" + cx2 + "px, " + 0 + "px, 0)";
@@ -247,13 +253,16 @@ function show_action() {
 		floor1.style.webkitTransition = "all 0.4s ease 0s";
 	    floor1.style.webkitTransform = "translate3d(" + cx2 + "px, " + 0 + "px, 0)";
 	    setTimeout("floor1.style.webkitTransition = ''",400);
+
+	    cx = offx;
+	    dx = cx2;
 	});
 }
 
 function action() {
 	var floor1 = document.getElementById("floor1");
 	var square = document.getElementById("square");
-	var dx, scale = 3;
+	var scale = 3;
 	// var time = 0;
 
 	touch.on(floor1, 'touchstart', function(ev) {
@@ -274,6 +283,9 @@ function action() {
 		
 		floor1.style.webkitTransform = "translate3d(" + movx + "px, " + 0 + "px, 0)";
 		square.style.webkitTransform = "translate3d(" + movx1 + "px, " + 0 + "px, 0)";
+
+		cx = movx1;
+		dx = movx;
 	});
 
 	touch.on('#floor1', 'dragend', function(ev){
@@ -317,7 +329,7 @@ function action() {
 	function bind_tap(){
 	    var seat_list = $('[class^=seat]');
 	    for (var i = 0; i < seat_list.length; i++) {
-	        touch.on(seat_list[i], 'touchend', seatTap);
+	        touch.on(seat_list[i], 'tap', seatTap);
 	    }
 	}
 
