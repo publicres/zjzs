@@ -212,7 +212,7 @@ function show_action() {
 	});
 
 	touch.on('#square', 'drag', function(ev){
-		console.log("square:"+cx);
+		// console.log("square:"+cx);
 		cx = cx || 0;
 		var offx = cx + ev.x / 15;
 
