@@ -199,45 +199,33 @@ function setSize() {
 
 
 function show_action() {
-	var sq = document.getElementById('sq');
-	var floor1 = document.getElementById('floor1');
-	var square = document.getElementById('square');
-	var dx, dx1, dx2, scale = 3;
+	var sq = document.getElementById("sq");
+	var floor1 = document.getElementById("floor1");
+	var square = document.getElementById("square");
+	var cx, scale = 3;
 	var begin, end;
 	// var time_square = 0, time_sq = 0;
 
-	touch.on(square, 'touchstart', function(ev){
-	    ev.preventDefault();
+	touch.on('#square', 'touchstart', function(ev){
+		ev.preventDefault();
 	});
 
-	touch.on(square, 'drag', function(ev){
-	    dx = dx || 0;
-		// dy = dy || 0;
-		var offx = dx + ev.x + "px";
-		// var offy = dy + ev.y + "px";
-	});
+	touch.on('#square', 'drag', function(ev){
+		cx = cx || 0;
+		var offx = cx + ev.x;
 
-	touch.on(square, 'dragend', function(ev){
-		// clearTimeout(time_square);
-		// $('#square').fadeIn();
-		dx += ev.x;
-
-		dx = dx > 0 ? dx : 0;
-		dx = dx < ($('#sq').width()*2) ? dx : ($('#sq').width()*2);
+		offx = offx > 0 ? offx : 0;
+		offx = offx < ($('#sq').width()*2) ? offx : ($('#sq').width()*2);
 		// dy += ev.y;
 
-		dx1 = dx / scale;
-		dx2 = 0 - dx;
+		var offx1 = offx / scale;
+		var offx2 = 0 - offx;
+		square.style.webkitTransform = "translate3d(" + offx1 + "px, " + 0 + "px, 0)";
+		floor1.style.webkitTransform = "translate3d(" + offx2 + "px, " + 0 + "px, 0)";
+	});
 
-		// square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-	 //    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
-
-		square.style.webkitTransition = "all 0.4s ease 0s";
-		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-		setTimeout("square.style.webkitTransition = ''",400);
-		floor1.style.webkitTransition = "all 0.4s ease 0s";
-	    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
-	    setTimeout("floor1.style.webkitTransition = ''",400);
+	touch.on('#square', 'dragend', function(ev){
+		cx += ev.x;
 	});
 
 	touch.on(sq, 'tap', function(ev) {
@@ -246,76 +234,52 @@ function show_action() {
 		begin = mouse_x - $('#square').width() / 2;
 		end = mouse_x + $('#square').width() / 2;
 
-		dx = begin < 0 ? 0 : (end < ($('#sq').width()*2) ? (end < $('#sq').width() ? end : (end * 1.55)) : ($('#sq').width()*2));
-		dx1 = dx / scale;
-		dx2 = 0 - dx;
+		cx = begin < 0 ? 0 : (end < ($('#sq').width()*2) ? (end < $('#sq').width() ? end : (end * 1.55)) : ($('#sq').width()*2));
+		cx1 = cx / scale;
+		cx2 = 0 - cx;
 
-		// square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-	 //    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
+		// square.style.webkitTransform = "translate3d(" + cx1 + "px, " + 0 + "px, 0)";
+	 //    floor1.style.webkitTransform = "translate3d(" + cx2 + "px, " + 0 + "px, 0)";
 
 		square.style.webkitTransition = "all 0.4s ease 0s";
-		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
+		square.style.webkitTransform = "translate3d(" + cx1 + "px, " + 0 + "px, 0)";
 		setTimeout("square.style.webkitTransition = ''",400);
 		floor1.style.webkitTransition = "all 0.4s ease 0s";
-	    floor1.style.webkitTransform = "translate3d(" + dx2 + "px, " + 0 + "px, 0)";
+	    floor1.style.webkitTransform = "translate3d(" + cx2 + "px, " + 0 + "px, 0)";
 	    setTimeout("floor1.style.webkitTransition = ''",400);
 	});
-
-	// touch.on(sq, 'touchend', function(ev) {
-	// 	time_sq = setTimeout(function() {
-	// 		$('#square').fadeOut(2000);
-	// 	}, 3000);
-	// });
-
-	// touch.on(square, 'touchend', function(ev) {
-	// 	time_square = setTimeout(function() {
-	// 		$('#square').fadeOut(2000);
-	// 	}, 3000);
-	// });
 }
 
 function action() {
-	var floor1 = document.getElementById('floor1');
-	var square = document.getElementById('square');
-	var dx, dy;
+	var floor1 = document.getElementById("floor1");
+	var square = document.getElementById("square");
+	var dx, scale = 3;
 	// var time = 0;
 
-	touch.on(floor1, 'touchstart', function(ev){
-	    ev.preventDefault();
+	touch.on(floor1, 'touchstart', function(ev) {
+		ev.preventDefault();
 	});
 
-	touch.on(floor1, 'drag', function(ev){
-	    dx = dx || 0;
-		// dy = dy || 0;
-		var offx = dx + ev.x + "px";
-		// var offy = dy + ev.y + "px";
-	});
+	touch.on('#floor1', 'drag', function(ev){
+		dx = dx || 0;
+		//dy = dy || 0;
+		var movx = dx + ev.x;
+		//var offy = dy + ev.y + "px";
 
-	touch.on(floor1, 'dragend', function(ev){
-		// clearTimeout(time);
-		// $('#square').fadeIn();
-		// time = 3000;
-
-		dx += ev.x;
-
-		dx = dx > 0 ? 0 : dx;
-		dx = dx < (0-$('#tb_Container').width()*2) ? (0-$('#tb_Container').width()*2) : dx;
+		movx = movx > 0 ? 0 : movx;
+		movx = movx < (0-$('#tb_Container').width()*2) ? (0-$('#tb_Container').width()*2) : movx;
 		// dy += ev.y;
 
-		scale = 3.05;
-		dx1 = (0 - dx) / scale;
-
-		// square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-	 //    floor1.style.webkitTransform = "translate3d(" + dx + "px, " + 0 + "px, 0)";
-
-		square.style.webkitTransition = "all 0.4s ease 0s";
-		square.style.webkitTransform = "translate3d(" + dx1 + "px, " + 0 + "px, 0)";
-		setTimeout("square.style.webkitTransition = ''",400);
-		floor1.style.webkitTransition = "all 0.4s ease 0s";
-	    floor1.style.webkitTransform = "translate3d(" + dx + "px, " + 0 + "px, 0)";
-	    setTimeout("floor1.style.webkitTransition = ''",400);
+		var movx1 = (0 - movx) / scale;
+		
+		floor1.style.webkitTransform = "translate3d(" + movx + "px, " + 0 + "px, 0)";
+		square.style.webkitTransform = "translate3d(" + movx1 + "px, " + 0 + "px, 0)";
 	});
 
+	touch.on('#floor1', 'dragend', function(ev){
+		dx += ev.x;
+		//dy += ev.y;
+	});
 
 	var seatTap = function(evt) {
 		if (this.parentElement.id.indexOf("_show") != -1)
@@ -353,17 +317,11 @@ function action() {
 	function bind_tap(){
 	    var seat_list = $('[class^=seat]');
 	    for (var i = 0; i < seat_list.length; i++) {
-	        touch.on(seat_list[i], 'tap', seatTap);
+	        touch.on(seat_list[i], 'touchend', seatTap);
 	    }
 	}
 
 	bind_tap();
-
-	// touch.on(floor1, 'touchend', function(ev) {
-	// 	time = setTimeout(function() {
-	// 		$('#square').fadeOut(2000);
-	// 	}, 3000);
-	// });
 }
 
 function message_and_submit() {
@@ -379,7 +337,7 @@ function message_and_submit() {
 		case 1: $("#alertInfo").html("你选择的区域已满<br>请重新选座");
 				break;
 		default:
-			$("#alertInfo").html("请拖动黄色线框并在下面选座。");
+			$("#alertInfo").html("请点击缩略图黄色线框外的部分或拖动黄色线框切换区域，并在下面选座。");
 	}
 
 
