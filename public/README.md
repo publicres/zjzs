@@ -13,7 +13,7 @@ File struct:
 Contact us:
 
     #### Excalibur group ####
-    Group member: Yanzhe Yang
+    Group member: Yanzhe Yang    yangyanzhe@126.com
                   Ziru Xu
                   Cong Lin
                   Bowei Zhou
