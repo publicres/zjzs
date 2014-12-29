@@ -58,10 +58,21 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
             ]
         },
         {
-            "name": "抽奖",
-            "type": "click",
-            "key": WEIXIN_EVENT_KEYS['ticket_lottery'],
-            "sub_button": []
+            "name": "新年晚会",
+            "sub_button": [
+                {
+                    "type": "click",
+                    "name": "节目单",
+                    "key": "IN_THE_AIR_LIST",
+                    "sub_button": []
+                },
+                {
+                    "type": "click",
+                    "name": "评我喜欢",
+                    "key": "IN_THE_AIR_VOTE",
+                    "sub_button": []
+                }
+            ]
         },
         {
             "name": "个人中心",
