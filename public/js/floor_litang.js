@@ -349,7 +349,7 @@ function message_and_submit() {
 		case 1: $("#alertInfo").html("你选择的区域已满<br>请重新选座");
 				break;
 		default:
-			$("#alertInfo").html("请点击缩略图黄色线框外的部分或拖动黄色线框切换区域，并在下面选座。");
+			$("#alertInfo").html("请拖动线框并在下面选座");
 	}
 
 
