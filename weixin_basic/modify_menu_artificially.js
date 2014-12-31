@@ -61,6 +61,11 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
             "name": "新年晚会",
             "sub_button": [
                 {
+                    "type": "view",
+                    "name": "我要上墙",
+                    "url":  "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2545ef150be8096&redirect_uri=http://wall.igeek.asia/u/loading&response_type=code&scope=snsapi_base&state=0#wechat_redirect"
+                },
+                {
                     "type": "click",
                     "name": "节目单",
                     "key": "IN_THE_AIR_LIST",
