@@ -1,6 +1,7 @@
 ﻿var width, height;
 var seat_width;
 var mouse_x;
+var cx, dx;
 
 $(document).ready(function() {
 	document.onmousemove = function(e) {
@@ -202,7 +203,7 @@ function show_action() {
 	var sq = document.getElementById("sq");
 	var floor1 = document.getElementById("floor1");
 	var square = document.getElementById("square");
-	var cx, scale = 3;
+	var scale = 3;
 	var begin, end;
 	// var time_square = 0, time_sq = 0;
 
@@ -211,8 +212,9 @@ function show_action() {
 	});
 
 	touch.on('#square', 'drag', function(ev){
+		// console.log("square:"+cx);
 		cx = cx || 0;
-		var offx = cx + ev.x;
+		var offx = cx + ev.x / 15;
 
 		offx = offx > 0 ? offx : 0;
 		offx = offx < ($('#sq').width()*2) ? offx : ($('#sq').width()*2);
@@ -222,10 +224,13 @@ function show_action() {
 		var offx2 = 0 - offx;
 		square.style.webkitTransform = "translate3d(" + offx1 + "px, " + 0 + "px, 0)";
 		floor1.style.webkitTransform = "translate3d(" + offx2 + "px, " + 0 + "px, 0)";
+
+		cx = offx;
+		dx = offx2;
 	});
 
 	touch.on('#square', 'dragend', function(ev){
-		cx += ev.x;
+		cx += ev.x / 15;
 	});
 
 	touch.on(sq, 'tap', function(ev) {
@@ -234,9 +239,9 @@ function show_action() {
 		begin = mouse_x - $('#square').width() / 2;
 		end = mouse_x + $('#square').width() / 2;
 
-		cx = begin < 0 ? 0 : (end < ($('#sq').width()*2) ? (end < $('#sq').width() ? end : (end * 1.55)) : ($('#sq').width()*2));
-		cx1 = cx / scale;
-		cx2 = 0 - cx;
+		var offx = begin < 0 ? 0 : (end < ($('#sq').width()*2) ? (end < $('#sq').width() ? end : (end * 1.55)) : ($('#sq').width()*2));
+		cx1 = offx / 3;
+		cx2 = 0 - offx;
 
 		// square.style.webkitTransform = "translate3d(" + cx1 + "px, " + 0 + "px, 0)";
 	 //    floor1.style.webkitTransform = "translate3d(" + cx2 + "px, " + 0 + "px, 0)";
@@ -247,13 +252,16 @@ function show_action() {
 		floor1.style.webkitTransition = "all 0.4s ease 0s";
 	    floor1.style.webkitTransform = "translate3d(" + cx2 + "px, " + 0 + "px, 0)";
 	    setTimeout("floor1.style.webkitTransition = ''",400);
+
+	    cx = offx;
+	    dx = cx2;
 	});
 }
 
 function action() {
 	var floor1 = document.getElementById("floor1");
 	var square = document.getElementById("square");
-	var dx, scale = 3;
+	var scale = 3;
 	// var time = 0;
 
 	touch.on(floor1, 'touchstart', function(ev) {
@@ -261,9 +269,10 @@ function action() {
 	});
 
 	touch.on('#floor1', 'drag', function(ev){
+		// console("floor1:"+dx);
 		dx = dx || 0;
 		//dy = dy || 0;
-		var movx = dx + ev.x;
+		var movx = dx + ev.x / 15;
 		//var offy = dy + ev.y + "px";
 
 		movx = movx > 0 ? 0 : movx;
@@ -274,10 +283,13 @@ function action() {
 		
 		floor1.style.webkitTransform = "translate3d(" + movx + "px, " + 0 + "px, 0)";
 		square.style.webkitTransform = "translate3d(" + movx1 + "px, " + 0 + "px, 0)";
+
+		cx = movx * (-1);
+		dx = movx;
 	});
 
 	touch.on('#floor1', 'dragend', function(ev){
-		dx += ev.x;
+		dx += ev.x / 15;
 		//dy += ev.y;
 	});
 
@@ -317,7 +329,7 @@ function action() {
 	function bind_tap(){
 	    var seat_list = $('[class^=seat]');
 	    for (var i = 0; i < seat_list.length; i++) {
-	        touch.on(seat_list[i], 'touchend', seatTap);
+	        touch.on(seat_list[i], 'tap', seatTap);
 	    }
 	}
 
@@ -337,7 +349,7 @@ function message_and_submit() {
 		case 1: $("#alertInfo").html("你选择的区域已满<br>请重新选座");
 				break;
 		default:
-			$("#alertInfo").html("请点击缩略图黄色线框外的部分或拖动黄色线框切换区域，并在下面选座。");
+			$("#alertInfo").html("请拖动线框并在下面选座");
 	}
 
 
