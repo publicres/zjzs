@@ -151,16 +151,16 @@
 
 #finger{
 	opacity: 1;
-	background: url(../img/finger.gif) no-repeat;
+	background: url(../img/finger.png) no-repeat;
 }
 
 #finger{
 	position: absolute;
-	bottom: -3em;
+	bottom: -1.5em;
 	right: 0;
 	background-size: contain;
-	width: 5em;
-	height: 5em;
+	width: 4.5em;
+	height: 4.5em;
 }
 #thanksInfo{
 	opacity: 0;
