@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #content {
+            padding-top: 80px;
+        }
+    </style>
+    <link href="/lib/bs/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/activity_list.css"/>
+    <link rel="stylesheet" href="/stylesheets/activity_detail.css"/>
+    <link rel="stylesheet" href="/stylesheets/css3_specified.css"/>
+    <link rel="stylesheet" href="/stylesheets/seat_litang.css"/>
+    <title><%= activity.name %>- 紫荆之声票务管理系统</title>
+</head>
+<body>
+    <header class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="cursor:default">“紫荆之声”票务管理系统</a>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                        <li >
+                            <a class="btn-link" href="/users/manage/list">活动列表</a>
+                        </li>
+                         <li class="active">
+                            <a href="<% if (activity.id) { %>
+                                /users/manage/detail?actid=<%= activity.id %>
+                                <% } else { %>
+                                /users/manage/detail
+                                <% } %>">
+                                <%= activity.name %>
+                            </a>
+                        </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/logout">登出</a>
+                        </li>
+                </ul>
+            </div>
+
+        </div>
+    </header>
+
+    <div id="content">
+    <div class="container" id="detail-noscript">
+        <noscript>请开启JavaScript后重试。</noscript>
+    </div>
+    <div class="container" id="detail-form" style="display: none;">
+        <form class="form-horizontal" role="form" method="post" action="/users/manage/detail"  id="activity-form">
+            <div class="form-group">
+                <label for="input-name" class="col-sm-2 control-label" id="label-input-name">活动名称</label>
+                <div class="col-sm-10">
+                    <input type="text" maxlength="26" name="name" class="form-control" id="input-name" placeholder="活动名称，如 马兰花开" autofocus>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="input-key" class="col-sm-2 control-label">活动代称</label>
+                <div class="col-sm-10">
+                    <input type="text" maxlength="12" name="key" class="form-control" id="input-key" placeholder="用户用于订票的活动代称，推荐使用中文(少于7个字)，如 马兰花开">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="input-place" class="col-sm-2 control-label">活动地点</label>
+                <div class="col-sm-10">
+                    <input type="text" name="place" class="form-control" id="input-place" placeholder="活动地点，如 大礼堂">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="input-description" class="col-sm-2 control-label" wrap="hard">活动简介</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="description" rows="3" id="input-description" placeholder="描述，如 好看的舞台剧" row="3" style="resize: none;"></textarea>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="input-pic_url" class="col-sm-2 control-label" min="0">活动配图</label>
+                <div class="col-sm-10">
+                    <input type="url" name="pic_url" class="form-control" style = "width:80%;display:inline;" id="input-pic_url" min="0" placeholder="请填入图片链接 为获得最佳视觉效果请尽可能保证图片宽高比2:3(竖)">
+                    <button type="button" class="btn btn-info" style = "width:17%;float:right;" id="input-uploadPic">从本地上传图片</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="input-start-year" class="col-sm-2 control-label">活动开始</label>
+                <div class="form-inline col-sm-10" id="input-start_time">
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="4" type="number" id="input-start-year" value=""
+                               date-part="year" placeholder="年，>=2014" min="2014" max="2100" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-start-year">年</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-start-month" value="" date-part="month"
+                               placeholder="月，1-12" min="1" max="12" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-start-month">月</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-start-day" value="" date-part="day"
+                               placeholder="日，1-31" min="1" max="31" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-start-day">日</label>
+                    </div>
+                    <div class="form-group date-offset">
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-start-hour" value="" date-part="hour"
+                               placeholder="小时，0-23" min="0" max="23" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-start-hour">时</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-start-minute" value="" date-part="minute"
+                               placeholder="分钟，0-59"min="0" max="59" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-start-minute">分</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-end-year" class="col-sm-2 control-label">活动结束</label>
+                <div class="form-inline col-sm-10" id="input-end_time">
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="4" type="number" id="input-end-year" value=""
+                               date-part="year" placeholder="年，>=2014" min="2014" max="2100" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-end-year">年</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-end-month" value="" date-part="month"
+                               placeholder="月，1-12" min="1" max="12" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-end-month">月</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-end-day" value="" date-part="day"
+                               placeholder="日，1-31" min="1" max="31" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-end-day">日</label>
+                    </div>
+                    <div class="form-group date-offset">
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-end-hour" value="" date-part="hour"
+                               placeholder="小时，0-23" min="0" max="23" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-end-hour">时</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-end-minute" value="" date-part="minute"
+                               placeholder="分钟，0-59"min="0" max="59" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-end-minute">分</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="input-book-start-year" class="col-sm-2 control-label">订票开始</label>
+                <div class="form-inline col-sm-10" id="input-book_start">
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="4" type="number" id="input-book-start-year" value=""
+                               date-part="year" placeholder="年，>=2014" min="2014" max="2100" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-start-year">年</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-book-start-month" value="" date-part="month"
+                               placeholder="月，1-12" min="1" max="12" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-start-month">月</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-book-start-day" value="" date-part="day"
+                               placeholder="日，1-31" min="1" max="31" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-start-day">日</label>
+                    </div>
+                    <div class="form-group date-offset">
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-book-start-hour" value="" date-part="hour"
+                               placeholder="小时，0-23" min="0" max="23" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-start-hour">时</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-book-start-minute" value="" date-part="minute"
+                               placeholder="分钟，0-59"min="0" max="59" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-start-minute">分</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-book-end-year" class="col-sm-2 control-label">订票结束</label>
+                <div class="form-inline col-sm-10" id="input-book_end">
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="4" type="number" id="input-book-end-year" value=""
+                               date-part="year" placeholder="年，>=2014" min="2014" max="2100" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-end-year">年</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-book-end-month" value="" date-part="month"
+                               placeholder="月，1-12" min="1" max="12" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-end-month">月</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-book-end-day" value="" date-part="day"
+                               placeholder="日，1-31" min="1" max="31" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-end-day">日</label>
+                    </div>
+                    <div class="form-group date-offset">
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-book-end-hour" value="" date-part="hour"
+                               placeholder="小时，0-23" min="0" max="23" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-end-hour">时</label>
+                    </div>
+                    <div class="form-group date-input">
+                        <input class="form-control" maxlength="2" type="number" id="input-book-end-minute" value="" date-part="minute"
+                               placeholder="分钟，0-59"min="0" max="59" step="1">
+                    </div>
+                    <div class="form-group date-label">
+                        <label class="control-label" for="input-book-end-minute">分</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="progress-tickets">
+                <label class="col-sm-2 control-label">订票与入场情况</label>
+                <div class="col-sm-10">
+                    <div class="progress progress-in-form">
+                      <div class="progress-bar progress-bar-success" id="tickets-checked" style="width: 0%">
+                      </div>
+                      <div class="progress-bar progress-bar-warning" id="tickets-ordered" style="width: 0%">
+                      </div>
+                      <div class="progress-bar progress-bar-danger" id="tickets-remain" style="width: 0%">
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">座位分配设置</label>
+                <div class="col-sm-10">
+                    <select name="need_seat" id="input-need_seat" onchange="inputNeedSeatChange();" class="form-control" required>
+                        <option value="0">不分配座位</option>
+                        <option value="1">综体：分配A, B, C, D, E的票数</option>
+                        <option value="2">新清华学堂，分配座位(选择可以让学生选的区域，蓝色为启用，灰色为禁用)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" style="display: none;" id="div-total_tickets">
+                <label for="input-total_tickets" class="col-sm-2 control-label">总票数</label>
+                <div class="col-sm-10">
+                    <input type="number" name="total_tickets" class="form-control" id="input-total_tickets" min="1" placeholder="此次活动通过“紫荆之声”的发票总数，如 1000">
+                </div>
+            </div>
+
+            <div class="form-group" id="div-area_arrange" style="display: none;">
+                <label for="input-area_arrange" class="col-sm-2 control-label">分配情况</label>
+                <div class="form-inline col-sm-10" id="input-area_arrange">
+                    <div class="form-group area-label">
+                        <label class="control-label" for="input-A_area">A区</label>
+                    </div>
+                    <div class="form-group area-input">
+                        <input class="form-control" type="number" id="input-A_area" value=""
+                               placeholder="A区票数" min="0" step="1" area-part="a">
+                    </div>
+                    <div class="form-group area-offset">
+                    </div>
+                    <div class="form-group area-label">
+                        <label class="control-label" for="input-B_area">B区</label>
+                    </div>
+                    <div class="form-group area-input">
+                        <input class="form-control" type="number" id="input-B_area" value=""
+                               placeholder="B区票数" min="0" step="1" area-part="b">
+                    </div>
+                    <div class="form-group area-offset">
+                    </div>
+                    <div class="form-group area-label">
+                        <label class="control-label" for="input-C_area">C区</label>
+                    </div>
+                    <div class="form-group area-input">
+                        <input class="form-control" type="number" id="input-C_area" value=""
+                               placeholder="C区票数" min="0" step="1" area-part="c">
+                    </div>
+                    <div class="form-group area-offset">
+                    </div>
+                    <div class="form-group area-label">
+                        <label class="control-label" for="input-D_area">D区</label>
+                    </div>
+                    <div class="form-group area-input">
+                        <input class="form-control" type="number" id="input-D_area" value=""
+                               placeholder="D区票数" min="0" step="1" area-part="d">
+                    </div>
+                    <div class="form-group area-offset">
+                    </div>
+                    <div class="form-group area-label">
+                        <label class="control-label" for="input-E_area">E区</label>
+                    </div>
+                    <div class="form-group area-input">
+                        <input class="form-control" type="number" id="input-E_area" value=""
+                               placeholder="E区票数"min="0"  step="1" area-part="e">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group" id="div-price" style="display: none;">
+                <label for="input-price" class="col-sm-2 control-label" id="label-input-price">票价</label>
+                <div class="col-sm-10">
+                    <input type="number" min="0" name="price" class="form-control" id="input-price" placeholder="请输入票价RMB">
+                </div>
+            </div>
+
+
+            <div id = "div-seat_arrange" class="form-group" style="display: none;">
+                <label for="input-seat_arrange" class="col-sm-2 control-label">分配座位</label>
+                <div id = "input-seat_arrange" class="form-inline col-sm-10">
+                    <table id = "tb_Seat">
+                        <tr id = "A">
+                            <td class = "seat_Cannot 0 00"></td>
+                            <td class = "seat_Cannot 0 01"></td>
+                            <td class = "seat_Cannot 0 02"></td>
+                            <td class = "seat_Cannot 0 03"></td>
+                            <td class = "seat_Cannot 0 04"></td>
+                            <td class = "seat_Cannot 0 05"></td>
+                            <td class = "seat_Cannot 0 06"></td>
+                            <td class = "seat_Cannot 0 07"></td>
+                            <td class = "seat_Cannot 0 08"></td>
+                            <td class = "seat_Cannot 0 09"></td>
+                            <td class = "seat_Cannot 0 10"></td>
+                            <td class = "seat_Cannot 0 11"></td>
+                            <td class = "seat_Cannot 0 12"></td>
+                            <td class = "seat_Cannot 0 13"></td>
+                            <td class = "seat_Cannot 0 14"></td>
+                            <td class = "seat_Cannot 0 15"></td>
+                            <td class = "seat_Cannot 0 16"></td>
+                            <td class = "seat_Cannot 0 17"></td>
+                            <td class = "seat_Cannot 0 18"></td>
+                            <td class = "seat_Cannot 0 19"></td>
+                            <td class = "seat_Cannot 0 20"></td>
+                            <td class = "seat_Cannot 0 21"></td>
+                            <td class = "seat_Cannot 0 22"></td>
+                            <td class = "seat_Cannot 0 23"></td>
+                            <td class = "seat_Cannot 0 24"></td>
+                            <td class = "seat_Cannot 0 25"></td>
+                            <td class = "seat_Cannot 0 26"></td>
+                            <td class = "seat_Cannot 0 27"></td>
+                            <td class = "seat_Cannot 0 28"></td>
+                            <td class = "seat_Cannot 0 29"></td>
+                            <td class = "seat_Cannot 0 30"></td>
+                            <td class = "seat_Cannot 0 31"></td>
+                            <td class = "seat_Cannot 0 32"></td>
+                            <td class = "seat_Cannot 0 33"></td>
+                            <td class = "seat_Cannot 0 34"></td>
+                            <td class = "seat_Cannot 0 35"></td>
+                            <td class = "seat_Cannot 0 36"></td>
+                            <td class = "seat_Cannot 0 37"></td>
+                            <td class = "seat_Cannot 0 38"></td>
+                            <td class = "seat_Cannot 0 39"></td>
+                        </tr>
+                        <tr id = "B">
+                            <td class = "seat_Cannot 1 00"></td>
+                            <td class = "seat_Cannot 1 01"></td>
+                            <td class = "seat_Cannot 1 02"></td>
+                            <td class = "seat_Cannot 1 03"></td>
+                            <td class = "seat_Cannot 1 04"></td>
+                            <td class = "seat_Cannot 1 05"></td>
+                            <td class = "seat_Cannot 1 06"></td>
+                            <td class = "seat_Cannot 1 07"></td>
+                            <td class = "seat_Cannot 1 08"></td>
+                            <td class = "seat_Cannot 1 09"></td>
+                            <td class = "seat_Cannot 1 10"></td>
+                            <td class = "seat_Cannot 1 11"></td>
+                            <td class = "seat_Cannot 1 12"></td>
+                            <td class = "seat_Cannot 1 13"></td>
+                            <td class = "seat_Cannot 1 14"></td>
+                            <td class = "seat_Cannot 1 15"></td>
+                            <td class = "seat_Cannot 1 16"></td>
+                            <td class = "seat_Cannot 1 17"></td>
+                            <td class = "seat_Cannot 1 18"></td>
+                            <td class = "seat_Cannot 1 19"></td>
+                            <td class = "seat_Cannot 1 20"></td>
+                            <td class = "seat_Cannot 1 21"></td>
+                            <td class = "seat_Cannot 1 22"></td>
+                            <td class = "seat_Cannot 1 23"></td>
+                            <td class = "seat_Cannot 1 24"></td>
+                            <td class = "seat_Cannot 1 25"></td>
+                            <td class = "seat_Cannot 1 26"></td>
+                            <td class = "seat_Cannot 1 27"></td>
+                            <td class = "seat_Cannot 1 28"></td>
+                            <td class = "seat_Cannot 1 29"></td>
+                            <td class = "seat_Cannot 1 30"></td>
+                            <td class = "seat_Cannot 1 31"></td>
+                            <td class = "seat_Cannot 1 32"></td>
+                            <td class = "seat_Cannot 1 33"></td>
+                            <td class = "seat_Cannot 1 34"></td>
+                            <td class = "seat_Cannot 1 35"></td>
+                            <td class = "seat_Cannot 1 36"></td>
+                            <td class = "seat_Cannot 1 37"></td>
+                            <td class = "seat_Cannot 1 38"></td>
+                            <td class = "seat_Cannot 1 39"></td>
+                        </tr>
+                        <tr id = "C">
+                            <td class = "seat_Cannot 2 00"></td>
+                            <td class = "seat_Cannot 2 01"></td>
+                            <td class = "seat_Cannot 2 02"></td>
+                            <td class = "seat_Cannot 2 03"></td>
+                            <td class = "seat_Cannot 2 04"></td>
+                            <td class = "seat_Cannot 2 05"></td>
+                            <td class = "seat_Cannot 2 06"></td>
+                            <td class = "seat_Cannot 2 07"></td>
+                            <td class = "seat_Cannot 2 08"></td>
+                            <td class = "seat_Cannot 2 09"></td>
+                            <td class = "seat_Cannot 2 10"></td>
+                            <td class = "seat_Cannot 2 11"></td>
+                            <td class = "seat_Cannot 2 12"></td>
+                            <td class = "seat_Cannot 2 13"></td>
+                            <td class = "seat_Cannot 2 14"></td>
+                            <td class = "seat_Cannot 2 15"></td>
+                            <td class = "seat_Cannot 2 16"></td>
+                            <td class = "seat_Cannot 2 17"></td>
+                            <td class = "seat_Cannot 2 18"></td>
+                            <td class = "seat_Cannot 2 19"></td>
+                            <td class = "seat_Cannot 2 20"></td>
+                            <td class = "seat_Cannot 2 21"></td>
+                            <td class = "seat_Cannot 2 22"></td>
+                            <td class = "seat_Cannot 2 23"></td>
+                            <td class = "seat_Cannot 2 24"></td>
+                            <td class = "seat_Cannot 2 25"></td>
+                            <td class = "seat_Cannot 2 26"></td>
+                            <td class = "seat_Cannot 2 27"></td>
+                            <td class = "seat_Cannot 2 28"></td>
+                            <td class = "seat_Cannot 2 29"></td>
+                            <td class = "seat_Cannot 2 30"></td>
+                            <td class = "seat_Cannot 2 31"></td>
+                            <td class = "seat_Cannot 2 32"></td>
+                            <td class = "seat_Cannot 2 33"></td>
+                            <td class = "seat_Cannot 2 34"></td>
+                            <td class = "seat_Cannot 2 35"></td>
+                            <td class = "seat_Cannot 2 36"></td>
+                            <td class = "seat_Cannot 2 37"></td>
+                            <td class = "seat_Cannot 2 38"></td>
+                            <td class = "seat_Cannot 2 39"></td>
+                        </tr>
+                        <tr id = "D">
+                            <td class = "seat_Cannot 3 00"></td>
+                            <td class = "seat_Cannot 3 01"></td>
+                            <td class = "seat_Cannot 3 02"></td>
+                            <td class = "seat_Cannot 3 03"></td>
+                            <td class = "seat_Cannot 3 04"></td>
+                            <td class = "seat_Cannot 3 05"></td>
+                            <td class = "seat_Cannot 3 06"></td>
+                            <td class = "seat_Cannot 3 07"></td>
+                            <td class = "seat_Cannot 3 08"></td>
+                            <td class = "seat_Cannot 3 09"></td>
+                            <td class = "seat_Cannot 3 10"></td>
+                            <td class = "seat_Cannot 3 11"></td>
+                            <td class = "seat_Cannot 3 12"></td>
+                            <td class = "seat_Cannot 3 13"></td>
+                            <td class = "seat_Cannot 3 14"></td>
+                            <td class = "seat_Cannot 3 15"></td>
+                            <td class = "seat_Cannot 3 16"></td>
+                            <td class = "seat_Cannot 3 17"></td>
+                            <td class = "seat_Cannot 3 18"></td>
+                            <td class = "seat_Cannot 3 19"></td>
+                            <td class = "seat_Cannot 3 20"></td>
+                            <td class = "seat_Cannot 3 21"></td>
+                            <td class = "seat_Cannot 3 22"></td>
+                            <td class = "seat_Cannot 3 23"></td>
+                            <td class = "seat_Cannot 3 24"></td>
+                            <td class = "seat_Cannot 3 25"></td>
+                            <td class = "seat_Cannot 3 26"></td>
+                            <td class = "seat_Cannot 3 27"></td>
+                            <td class = "seat_Cannot 3 28"></td>
+                            <td class = "seat_Cannot 3 29"></td>
+                            <td class = "seat_Cannot 3 30"></td>
+                            <td class = "seat_Cannot 3 31"></td>
+                            <td class = "seat_Cannot 3 32"></td>
+                            <td class = "seat_Cannot 3 33"></td>
+                            <td class = "seat_Cannot 3 34"></td>
+                            <td class = "seat_Cannot 3 35"></td>
+                            <td class = "seat_Cannot 3 36"></td>
+                            <td class = "seat_Cannot 3 37"></td>
+                            <td class = "seat_Cannot 3 38"></td>
+                            <td class = "seat_Cannot 3 39"></td>
+                        </tr>
+                        <tr id = "E">
+                            <td class = "seat_Cannot 4 00"></td>
+                            <td class = "seat_Cannot 4 01"></td>
+                            <td class = "seat_Cannot 4 02"></td>
+                            <td class = "seat_Cannot 4 03"></td>
+                            <td class = "seat_Cannot 4 04"></td>
+                            <td class = "seat_Cannot 4 05"></td>
+                            <td class = "seat_Cannot 4 06"></td>
+                            <td class = "seat_Cannot 4 07"></td>
+                            <td class = "seat_Cannot 4 08"></td>
+                            <td class = "seat_Cannot 4 09"></td>
+                            <td class = "seat_Cannot 4 10"></td>
+                            <td class = "seat_Cannot 4 11"></td>
+                            <td class = "seat_Cannot 4 12"></td>
+                            <td class = "seat_Cannot 4 13"></td>
+                            <td class = "seat_Cannot 4 14"></td>
+                            <td class = "seat_Cannot 4 15"></td>
+                            <td class = "seat_Cannot 4 16"></td>
+                            <td class = "seat_Cannot 4 17"></td>
+                            <td class = "seat_Cannot 4 18"></td>
+                            <td class = "seat_Cannot 4 19"></td>
+                            <td class = "seat_Cannot 4 20"></td>
+                            <td class = "seat_Cannot 4 21"></td>
+                            <td class = "seat_Cannot 4 22"></td>
+                            <td class = "seat_Cannot 4 23"></td>
+                            <td class = "seat_Cannot 4 24"></td>
+                            <td class = "seat_Cannot 4 25"></td>
+                            <td class = "seat_Cannot 4 26"></td>
+                            <td class = "seat_Cannot 4 27"></td>
+                            <td class = "seat_Cannot 4 28"></td>
+                            <td class = "seat_Cannot 4 29"></td>
+                            <td class = "seat_Cannot 4 30"></td>
+                            <td class = "seat_Cannot 4 31"></td>
+                            <td class = "seat_Cannot 4 32"></td>
+                            <td class = "seat_Cannot 4 33"></td>
+                            <td class = "seat_Cannot 4 34"></td>
+                            <td class = "seat_Cannot 4 35"></td>
+                            <td class = "seat_Cannot 4 36"></td>
+                            <td class = "seat_Cannot 4 37"></td>
+                            <td class = "seat_Cannot 4 38"></td>
+                            <td class = "seat_Cannot 4 39"></td>
+                        </tr>
+                        <tr id = "F">
+                            <td class = "seat_Cannot 5 00"></td>
+                            <td class = "seat_Cannot 5 01"></td>
+                            <td class = "seat_Cannot 5 02"></td>
+                            <td class = "seat_Cannot 5 03"></td>
+                            <td class = "seat_Cannot 5 04"></td>
+                            <td class = "seat_Cannot 5 05"></td>
+                            <td class = "seat_Cannot 5 06"></td>
+                            <td class = "seat_Cannot 5 07"></td>
+                            <td class = "seat_Cannot 5 08"></td>
+                            <td class = "seat_Cannot 5 09"></td>
+                            <td class = "seat_Cannot 5 10"></td>
+                            <td class = "seat_Cannot 5 11"></td>
+                            <td class = "seat_Cannot 5 12"></td>
+                            <td class = "seat_Cannot 5 13"></td>
+                            <td class = "seat_Cannot 5 14"></td>
+                            <td class = "seat_Cannot 5 15"></td>
+                            <td class = "seat_Cannot 5 16"></td>
+                            <td class = "seat_Cannot 5 17"></td>
+                            <td class = "seat_Cannot 5 18"></td>
+                            <td class = "seat_Cannot 5 19"></td>
+                            <td class = "seat_Cannot 5 20"></td>
+                            <td class = "seat_Cannot 5 21"></td>
+                            <td class = "seat_Cannot 5 22"></td>
+                            <td class = "seat_Cannot 5 23"></td>
+                            <td class = "seat_Cannot 5 24"></td>
+                            <td class = "seat_Cannot 5 25"></td>
+                            <td class = "seat_Cannot 5 26"></td>
+                            <td class = "seat_Cannot 5 27"></td>
+                            <td class = "seat_Cannot 5 28"></td>
+                            <td class = "seat_Cannot 5 29"></td>
+                            <td class = "seat_Cannot 5 30"></td>
+                            <td class = "seat_Cannot 5 31"></td>
+                            <td class = "seat_Cannot 5 32"></td>
+                            <td class = "seat_Cannot 5 33"></td>
+                            <td class = "seat_Cannot 5 34"></td>
+                            <td class = "seat_Cannot 5 35"></td>
+                            <td class = "seat_Cannot 5 36"></td>
+                            <td class = "seat_Cannot 5 37"></td>
+                            <td class = "seat_Cannot 5 38"></td>
+                            <td class = "seat_Cannot 5 39"></td>
+                        </tr>
+                        <tr id = "G">
+                            <td class = "seat_Cannot 6 00"></td>
+                            <td class = "seat_Cannot 6 01"></td>
+                            <td class = "seat_Cannot 6 02"></td>
+                            <td class = "seat_Cannot 6 03"></td>
+                            <td class = "seat_Cannot 6 04"></td>
+                            <td class = "seat_Cannot 6 05"></td>
+                            <td class = "seat_Cannot 6 06"></td>
+                            <td class = "seat_Cannot 6 07"></td>
+                            <td class = "seat_Cannot 6 08"></td>
+                            <td class = "seat_Cannot 6 09"></td>
+                            <td class = "seat_Cannot 6 10"></td>
+                            <td class = "seat_Cannot 6 11"></td>
+                            <td class = "seat_Cannot 6 12"></td>
+                            <td class = "seat_Cannot 6 13"></td>
+                            <td class = "seat_Cannot 6 14"></td>
+                            <td class = "seat_Cannot 6 15"></td>
+                            <td class = "seat_Cannot 6 16"></td>
+                            <td class = "seat_Cannot 6 17"></td>
+                            <td class = "seat_Cannot 6 18"></td>
+                            <td class = "seat_Cannot 6 19"></td>
+                            <td class = "seat_Cannot 6 20"></td>
+                            <td class = "seat_Cannot 6 21"></td>
+                            <td class = "seat_Cannot 6 22"></td>
+                            <td class = "seat_Cannot 6 23"></td>
+                            <td class = "seat_Cannot 6 24"></td>
+                            <td class = "seat_Cannot 6 25"></td>
+                            <td class = "seat_Cannot 6 26"></td>
+                            <td class = "seat_Cannot 6 27"></td>
+                            <td class = "seat_Cannot 6 28"></td>
+                            <td class = "seat_Cannot 6 29"></td>
+                            <td class = "seat_Cannot 6 30"></td>
+                            <td class = "seat_Cannot 6 31"></td>
+                            <td class = "seat_Cannot 6 32"></td>
+                            <td class = "seat_Cannot 6 33"></td>
+                            <td class = "seat_Cannot 6 34"></td>
+                            <td class = "seat_Cannot 6 35"></td>
+                            <td class = "seat_Cannot 6 36"></td>
+                            <td class = "seat_Cannot 6 37"></td>
+                            <td class = "seat_Cannot 6 38"></td>
+                            <td class = "seat_Cannot 6 39"></td>
+                        </tr>
+                        <tr id = "H">
+                            <td class = "seat_Cannot 7 00"></td>
+                            <td class = "seat_Cannot 7 01"></td>
+                            <td class = "seat_Cannot 7 02"></td>
+                            <td class = "seat_Cannot 7 03"></td>
+                            <td class = "seat_Cannot 7 04"></td>
+                            <td class = "seat_Cannot 7 05"></td>
+                            <td class = "seat_Cannot 7 06"></td>
+                            <td class = "seat_Cannot 7 07"></td>
+                            <td class = "seat_Cannot 7 08"></td>
+                            <td class = "seat_Cannot 7 09"></td>
+                            <td class = "seat_Cannot 7 10"></td>
+                            <td class = "seat_Cannot 7 11"></td>
+                            <td class = "seat_Cannot 7 12"></td>
+                            <td class = "seat_Cannot 7 13"></td>
+                            <td class = "seat_Cannot 7 14"></td>
+                            <td class = "seat_Cannot 7 15"></td>
+                            <td class = "seat_Cannot 7 16"></td>
+                            <td class = "seat_Cannot 7 17"></td>
+                            <td class = "seat_Cannot 7 18"></td>
+                            <td class = "seat_Cannot 7 19"></td>
+                            <td class = "seat_Cannot 7 20"></td>
+                            <td class = "seat_Cannot 7 21"></td>
+                            <td class = "seat_Cannot 7 22"></td>
+                            <td class = "seat_Cannot 7 23"></td>
+                            <td class = "seat_Cannot 7 24"></td>
+                            <td class = "seat_Cannot 7 25"></td>
+                            <td class = "seat_Cannot 7 26"></td>
+                            <td class = "seat_Cannot 7 27"></td>
+                            <td class = "seat_Cannot 7 28"></td>
+                            <td class = "seat_Cannot 7 29"></td>
+                            <td class = "seat_Cannot 7 30"></td>
+                            <td class = "seat_Cannot 7 31"></td>
+                            <td class = "seat_Cannot 7 32"></td>
+                            <td class = "seat_Cannot 7 33"></td>
+                            <td class = "seat_Cannot 7 34"></td>
+                            <td class = "seat_Cannot 7 35"></td>
+                            <td class = "seat_Cannot 7 36"></td>
+                            <td class = "seat_Cannot 7 37"></td>
+                            <td class = "seat_Cannot 7 38"></td>
+                            <td class = "seat_Cannot 7 39"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" onclick="publishActivity();" class="btn btn-primary" id="publishBtn">发布</button>
+                    <button type="submit" class="btn btn-default" id="saveBtn">暂存</button>
+                    <button type="reset" class="btn btn-warning" id="resetBtn">重置</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="container" id="detail-processing" style="display: none;">
+        <img src="/img/loading.gif">
+        正在执行，请稍候……
+    </div>
+
+    <div class="container" id="detail-result" style="display: none;">
+        <h1>处理结果</h1>
+        <pre id="resultHolder"></pre>
+        <div class="col-sm-offset-2">
+            <button class="btn btn-info" id="continueBtn">继续修改</button>
+            <a class="btn btn-success" href="/users/manage/list">返回列表</a>
+        </div>
+    </div>
+    </div>
+
+    <div id="globalCover" style="position:fixed;width:100%;height:100%;left:0px;top:0px;z-index:100;visibility:hidden;">
+        <div id="alphaCover" class="transformer" style="position:absolute;width:100%;height:100%;left:0px;top:0px;background-color:black;opacity:0.3">
+        </div>
+        <div id="windowCover" class="transformer shadowBlue" style="position:relative;width:500px;height:200px;margin:0 auto;top:10%;background-color:white;border-radius:3px">
+            <form action="/users/upload" method="post" id="fileUploader" enctype="multipart/form-data">
+                <div style="position:absolute;top:40px;left:60px;color:#FF4411;width:370px;">
+                    请保证图片文件小于1MB，上传后活动配图将被自动填写，如需保留请勿改动。
+                </div>
+                <input type="file" name="upfile" id="upfile" style="position:absolute;top:100px;left:60px" />
+                <button type="submit" class="btn btn-default" style="position:absolute;width:80px;height:40px;bottom:20px;right:60px">上传</button>
+                <div id="errCosntent" style="position:absolute;align:right;height:40px;top:149px;right:155px;color:#FF0000">
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bs-footer" role="contentinfo">
+        <hr>
+        <div class="container">
+            <p style="text-align: right">清华紫荆之声 &copy; 2014</p>
+        </div>
+    </footer>
+    <script src="/lib/jq/jquery-1.10.2.min.js"></script>
+    <script src="/lib/bs/js/bootstrap.min.js"></script>
+    <script src="/lib/jq/form/jquery.form.min.js"></script>
+    <script src="/javascripts/uploader.js"></script>
+
+    <script>
+        var activity = {
+            'name': '<%= activity.name %>'<% if (activity.id) { %>,
+            'id': '<%= activity.id %>',
+            'key': '<%= activity.key %>',
+            'description': '<%- activity.description %>',
+            'pic_url': '<%= activity.pic_url %>',
+            'need_seat': <%= activity.need_seat %>,
+            'start_time': {
+                'year': <%= activity.start_time.year %>,
+                'month': <%= activity.start_time.month %>,
+                'day': <%= activity.start_time.day %>,
+                'hour': <%= activity.start_time.hour %>,
+                'minute': <%= activity.start_time.minute %>
+            },
+            'end_time': {
+                'year': <%= activity.end_time.year %>,
+                'month': <%= activity.end_time.month %>,
+                'day': <%= activity.end_time.day %>,
+                'hour': <%= activity.end_time.hour %>,
+                'minute': <%= activity.end_time.minute %>
+            },
+            'place': '<%= activity.place %>',
+            'book_start': {
+                'year': <%= activity.book_start.year %>,
+                'month': <%= activity.book_start.month %>,
+                'day': <%= activity.book_start.day %>,
+                'hour': <%= activity.book_start.hour %>,
+                'minute': <%= activity.book_start.minute %>
+            },
+            'book_end': {
+                'year': <%= activity.book_end.year %>,
+                'month': <%= activity.book_end.month %>,
+                'day': <%= activity.book_end.day %>,
+                'hour': <%= activity.book_end.hour %>,
+                'minute': <%= activity.book_end.minute %>
+            },
+            'total_tickets': <%= activity.total_tickets %>,
+            'status': <%= activity.status %><% } else { %>,
+            'status': 0<% } %><% if (activity.tickets_ready) { %>,
+            'checked_tickets': <%= activity.checked_tickets %>,
+            'ordered_tickets': <%= activity.ordered_tickets %><% } %>
+            <% if (activity.need_seat == 1) { %>
+                ,'area_arrange': {
+                    'a': <%= activity.area_arrange.a %>,
+                    'b': <%= activity.area_arrange.b %>,
+                    'c': <%= activity.area_arrange.c %>,
+                    'd': <%= activity.area_arrange.d %>,
+                    'e': <%= activity.area_arrange.e %>
+                }
+            <% } %>
+            <% if (activity.need_seat == 2) { %>
+                , 'seat_map': JSON.parse('<%- activity.seat_map %>')
+                , 'price': <%= activity.price %>
+            <% } %>
+        }
+        console.log(activity.seat_map[0][3]);
+
+    </script>
+
+    <script src="/javascripts/arrange_seat.js"></script>
+    <script src="/javascripts/activity_detail.js"></script>
+</body>
+</html>
