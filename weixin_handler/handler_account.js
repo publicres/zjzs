@@ -136,6 +136,7 @@ exports.faire_get_help=function(msg,res)
 //============================================
 exports.check_apply_exp=function(msg)
 {
+    return false;
     if (msg.MsgType[0]==="text")
         if (msg.Content[0]==="获取实验账号")
             return true;
