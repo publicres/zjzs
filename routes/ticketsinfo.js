@@ -137,15 +137,19 @@ router.get('/', function(req, res) {
                         }
                         else
                         {
-                            var tres=translateSeatNum(tiSeat[0], tiSeat.substr(1));
-                            if (tres.c<10) tres.c="0"+tres.c;
-                            tiSeat=tres.r + "排" + tres.c + "座";
+                            
                         }    
                     }
                     else
                     {
                         if (docs1[0].need_seat==1)
                             tiSeat=tiSeat[0]+"区";
+                        if (docs1[0].need_seat==2)
+                        {
+                            var tres=translateSeatNum(tiSeat[0], tiSeat.substr(1));
+                            if (tres.c<10) tres.c="0"+tres.c;
+                            tiSeat=tres.r + "排" + tres.c + "座";
+                        }
                     }
                     var be=new Date(docs1[0].book_end);
                     res.render('checkTicket', {
