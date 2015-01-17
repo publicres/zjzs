@@ -39,9 +39,9 @@ router.post('/', function(req, res) {
     var tmp = req.body.secret;
     var openid = req.body.openid;
     var post_option = {
-        host: "115.28.212.177:9003",
+        host: "115.28.212.177",
         path: "/v1",
-        port: 80,
+        port: 9003,
         method: "POST",
         headers:{
             'Content-Type' : 'application/x-www-form-urlencoded'
