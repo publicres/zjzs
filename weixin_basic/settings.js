@@ -10,7 +10,7 @@ var WEIXIN_EVENT_KEYS = {
 	'info_news': 'V1001_SCHOOL_NEWS',
 	'info_organization': 'V1001_OGNIZATION',
 	'info_job': 'V1001_JOB',
-	'info_vote': 'TSINGHUA_VOTE',
+	'info_vote': 'IN_THE_AIR_VOTE',
     'ticket_book_what': 'TSINGHUA_BOOK_WHAT',
     'ticket_get': 'TSINGHUA_TICKET',
     'account_bind': 'TSINGHUA_BIND',
