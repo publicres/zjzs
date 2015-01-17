@@ -9,6 +9,56 @@ var ACTIVITY_DB = model.activities;
 var SEAT_DB = model.seats;
 var db = model.db;
 
+function translateSeatNum(row, col)
+{
+    var total;
+    var result = new Object();
+    switch (row)
+    {
+    case "A":
+        result.r = 1;
+        total = 33;
+        break;
+    case "B":
+        result.r = 2;
+        total = 35;
+        break;
+    case "C":
+        result.r = 3;
+        total = 37;
+        break;
+    case "D":
+        result.r = 4;
+        total = 39;
+        break;
+    case "E":
+        result.r = 5;
+        total = 41;
+        break;
+    case "F":
+        result.r = 6;
+        total = 41;
+        break;
+    case "G":
+        result.r = 7;
+        total = 41;
+        break;
+    case "H":
+        result.r = 8;
+        total = 41;
+        break;
+    default:
+        result.r = -1;
+        result.c = -1;
+        return result;
+    }
+
+    result.c = total - parseInt(col) * 2;
+    if (result.c < 0)
+        result.c = -result.c + 1;
+
+    return result;
+}
 function checkValidity(req, res, callback)
 {
     if (req.query.ticketid == null)
