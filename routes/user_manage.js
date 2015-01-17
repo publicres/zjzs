@@ -328,7 +328,7 @@ router.get("/detail", function(req, res)
 								colNum = 1;
 								for (j = 0; j < seat_col_2; j++)
 								{
-									if (j == 8 || j == 31)
+									if (j == 8 || j == 31 || (j == 30 && i % 2 == 0))
 										seatArray[i][j] = 0;
 									else if (i == 0 && (j < 3 || j > 36))
 										seatArray[i][j] = 0;
@@ -1183,3 +1183,54 @@ router.post("/detail", function(req, res)
 });
 
 module.exports = router;
+
+function translateSeatNum(row, col)
+{
+	var total;
+	var result = new Object();
+	switch (row)
+	{
+	case "A":
+		result.r = 1;
+		total = 33;
+		break;
+	case "B":
+		result.r = 2;
+		total = 35;
+		break;
+	case "C":
+		result.r = 3;
+		total = 37;
+		break;
+	case "D":
+		result.r = 4;
+		total = 39;
+		break;
+	case "E":
+		result.r = 5;
+		total = 41;
+		break;
+	case "F":
+		result.r = 6;
+		total = 41;
+		break;
+	case "G":
+		result.r = 7;
+		total = 41;
+		break;
+	case "H":
+		result.r = 8;
+		total = 41;
+		break;
+	default:
+		result.r = -1;
+		result.c = -1;
+		return result;
+	}
+
+	result.c = total - parseInt(col) * 2;
+	if (result.c < 0)
+		result.c = -result.c + 1;
+
+	return result;
+} 
