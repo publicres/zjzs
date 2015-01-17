@@ -33,9 +33,11 @@ function checkValidity(req, res, callback)
             }
             if (docs[0].seat!="")
             {
+                var tres=translateSeatNum(docs[0].seat[0], docs[0].seat.substr(1));
+                if (tres.c<10) tres="0"+tres.c;
                 res.render("alert",
                 {
-                    errorinfo:  "已经选过座位啦！座位是"+docs[0].seat,
+                    errorinfo:  "已经选过座位啦！座位是"+tres.r + "排" + tres.c + "座",
                     backadd:    urls.ticketInfo+"?ticketid="+req.query.ticketid
                 });
                 return;

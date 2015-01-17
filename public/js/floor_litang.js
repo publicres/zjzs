@@ -2,6 +2,58 @@
 var seat_width;
 var mouse_x;
 var cx, dx;
+var SEATINFO;
+
+function translateSeatNum(row, col)
+{
+    var total;
+    var result = new Object();
+    switch (row)
+    {
+    case "A":
+        result.r = 1;
+        total = 33;
+        break;
+    case "B":
+        result.r = 2;
+        total = 35;
+        break;
+    case "C":
+        result.r = 3;
+        total = 37;
+        break;
+    case "D":
+        result.r = 4;
+        total = 39;
+        break;
+    case "E":
+        result.r = 5;
+        total = 41;
+        break;
+    case "F":
+        result.r = 6;
+        total = 41;
+        break;
+    case "G":
+        result.r = 7;
+        total = 41;
+        break;
+    case "H":
+        result.r = 8;
+        total = 41;
+        break;
+    default:
+        result.r = -1;
+        result.c = -1;
+        return result;
+    }
+
+    result.c = total - parseInt(col) * 2;
+    if (result.c < 0)
+        result.c = -result.c + 1;
+
+    return result;
+}
 
 $(document).ready(function() {
 	document.onmousemove = function(e) {
@@ -314,7 +366,12 @@ function action() {
 				type = "学生特惠票";
 			else type = "普通票";
 			pos = this.className.indexOf(" ")+1;
-			$("#seat_info").html(type + " " + this.parentElement.id + "排" + this.className.substring(pos) + "座");
+			//$("#seat_info").html(type + " " + this.parentElement.id + "排" + this.className.substring(pos) + "座");
+            var tres=translateSeatNum(this.parentElement.id, this.className.substring(pos));
+            if (tres.c<10) tres="0"+tres.c;
+            $("#seat_info").html(type + " " + tres.r + "排" + tres.c + "座");
+
+            SEATINFO=type + " " + this.parentElement.id + "排" + this.className.substring(pos) + "座";
 		}
 		else {
 			var seat_num = $(this).attr("class").split(' ')[1];
@@ -322,6 +379,7 @@ function action() {
 			var id = $(this.parentNode).attr('id');
 			$("#"+id+"_show"+" ."+seat_num).attr("class", "seat_Stu"+" "+seat_num);
 			$("#seat_info").html("暂未选座");
+            SEATINFO="暂未选座";
 		}
 	}
 
@@ -372,9 +430,10 @@ function message_and_submit() {
 	//提交表单选项
 	$("#buttom_frame").click(function(){
 		var url = window.location.href;
-		if ($("#seat_info").html() != "暂未选座"){
+		if (SEATINFO != "暂未选座"){
 			//submitString
-			var s_info = $("#seat_info").html().split(' ')[1];
+			var s_info = SEATINFO.split(' ')[1];
+            
 			var row = s_info.slice(0, 1);
 			var num = s_info.slice(2, 4);
 
