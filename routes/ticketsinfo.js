@@ -138,7 +138,7 @@ router.get('/', function(req, res) {
                         else
                         {
                             var tres=translateSeatNum(tiSeat[0], tiSeat.substr(1));
-                            if (tres.c<10) tres="0"+tres.c;
+                            if (tres.c<10) tres.c="0"+tres.c;
                             tiSeat=tres.r + "排" + tres.c + "座";
                         }    
                     }

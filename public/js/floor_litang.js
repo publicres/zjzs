@@ -368,7 +368,7 @@ function action() {
 			pos = this.className.indexOf(" ")+1;
 			//$("#seat_info").html(type + " " + this.parentElement.id + "排" + this.className.substring(pos) + "座");
             var tres=translateSeatNum(this.parentElement.id, this.className.substring(pos));
-            if (tres.c<10) tres="0"+tres.c;
+            if (tres.c<10) tres.c="0"+tres.c;
             $("#seat_info").html(type + " " + tres.r + "排" + tres.c + "座");
 
             SEATINFO=type + " " + this.parentElement.id + "排" + this.className.substring(pos) + "座";
