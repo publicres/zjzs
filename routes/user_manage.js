@@ -864,7 +864,7 @@ router.post("/detail", function(req, res)
 						lock.release(ACTIVITY_DB);
 						return;
 					}
-					if (!(activity["place"] && activity["description"] &&
+					if (!(activity["place"] && activity["description"] && activity["name"] &&
 						activity["pic_url"] && activity["start_time"] &&
 						activity["end_time"] && activity["book_end"]))
 					{
@@ -873,12 +873,6 @@ router.post("/detail", function(req, res)
 						return;
 					}
 
-					if (activity["name"])
-					{
-						res.send("404#已发布的活动不允许修改活动名称!");
-						lock.release(ACTIVITY_DB);
-						return;
-					}
 					if (activity["key"])
 					{
 						res.send("404#已发布的活动不允许修改活动代称!");
@@ -1181,3 +1175,5 @@ router.post("/detail", function(req, res)
 	}
 
 });
+
+module.exports = router;
