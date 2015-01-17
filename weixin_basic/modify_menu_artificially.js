@@ -75,7 +75,7 @@ var WEIXIN_COSTUM_MENU_TEMPLATE = {
                 {
                     "type": "view",
                     "name": "我要上墙",
-                    "url":  "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2545ef150be8096&redirect_uri=http://wall.igeek.asia/u/loading&response_type=code&scope=snsapi_base&state=0#wechat_redirect"
+                    "url":  "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb2545ef150be8096&redirect_uri=http://115.28.212.177:4601/u/loading&response_type=code&scope=snsapi_base&state=0#wechat_redirect"
                 }
             ]
         },
