@@ -229,7 +229,7 @@ exports.faire_get_ticket=function(msg,res)
                     if (rem_cache[actName]==0)
                     {
                         usr_lock[stuID]=null;
-                        res.send(template.getPlainTextTemplate(msg,"对不起，票已抢完...\n(╯‵□′)╯︵┻━┻。如果你已经抢到票，请使用查票功能查看抢到票的信息。"));
+                        res.send(template.getPlainTextTemplate(msg,"对不起，票已抢完...\n(╯‵□′)╯︵┻━┻。"));
                         return;
                     }
                     rem_cache[actName]--;
