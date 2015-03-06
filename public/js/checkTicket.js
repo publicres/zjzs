@@ -116,7 +116,7 @@ function setValue(){
     $("#ticket_order").html("票号："+ ticketIdTransferd);
     if(ticket.needseat == 2 && ticket.status == 2){
         $("#ticketPrice").html("票价："+ticket.price+"元");
-        $("#bookHall").html("换票地点："+ticket.hall);
+        $("#bookHall").html("请到活动指定地点领票");
     }
 }
 
