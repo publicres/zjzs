@@ -47,7 +47,7 @@ function initETicket(){
     }
     //如果是新清演出票的话
     if(ticket.needseat == 2 && ticket.status == 2 && !ticket.isPaid){
-        alertInfo("请您于两天内及时换票");
+        alertInfo("请关注紫荆之声票务信息，及时换票");
         $("#ticketPayInfo").css("display", "");
     }
 
