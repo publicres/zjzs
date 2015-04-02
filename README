@@ -24,3 +24,4 @@ what to modify?
     To modify databases:    models/models.js
     To modify weixin keys:  weixin_basic/settings.js
     #REMEMBER TO ENSURE INDEX IN MONGODB, s'il vous plaît!
+    #For TICKET, ensure that activity is also an index.
