@@ -155,7 +155,6 @@ function fetchRemainTicket(key,callback)
                 lock.release("rem_tik_fetcher");
                 return;
             }
-            rem_cache[key]=docs[0].remain_tickets;
             if (tik_cache[key]==null)
             {
                 tik_cache[key]={};
@@ -174,6 +173,7 @@ function fetchRemainTicket(key,callback)
                         if (docs2[i].status!=0)
                             tik_cache[key].usrMap[docs2[i].stu_id]=true;
                     }
+                    rem_cache[key]=docs[0].remain_tickets;
                     lock.release("rem_tik_fetcher");
                     callback();
                     return;
@@ -181,6 +181,7 @@ function fetchRemainTicket(key,callback)
             }
             else
             {
+                rem_cache[key]=docs[0].remain_tickets;
                 lock.release("rem_tik_fetcher");
                 callback();
                 return;
