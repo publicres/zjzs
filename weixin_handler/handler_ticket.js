@@ -104,7 +104,7 @@ function getRandomString()
 {
     var ret="";
 
-    for (var i=0;i<7;i++)
+    for (var i=0;i<13;i++)
         ret+=alphabet[Math.floor(Math.random()*alphabet.length)];
     return ret;
 }
@@ -292,6 +292,7 @@ exports.faire_get_ticket=function(msg,res)
                             res.send(template.getPlainTextTemplate(msg,"(╯‵□′)╯︵┻━┻"));
                             return;
                         }
+                        var ss=actID.toString();
                         generateUniqueCode(function(tiCode)
                         {
                             tik_cache[actName].tikMap[tiCode]=true;
@@ -310,7 +311,7 @@ exports.faire_get_ticket=function(msg,res)
                                 presentTicket(msg,res,{unique_id:tiCode},staticACT);
                                 return;
                             });
-                        },actID.toString(),actName);
+                        },ss.substr(0,8)+ss.substr(14),actName);
                     });
                 }
             });
