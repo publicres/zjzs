@@ -108,7 +108,7 @@ function autoClearOldMenus(activities){
         var index = activities.indexOf(earliestAct);
         activities.splice(index,1);
     }
-
+    console.log("Updated: "+activities.length);
     for (i = 0; i < activities.length; i++) {
         Obj["type"] = "click";
         if(Buffer.byteLength(activities[i].key) > 40){
