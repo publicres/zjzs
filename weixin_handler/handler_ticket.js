@@ -196,7 +196,7 @@ exports.faire_get_ticket=function(msg,res)
     verifyStudent(openID,function()
     {
         //WARNING: may change to direct user to bind
-        res.send(needValidateMsg());
+        res.send(needValidateMsg(msg));
     },function(stuID)
     {
         if (usr_lock[stuID]!=null)
@@ -300,7 +300,7 @@ exports.faire_reinburse_ticket=function(msg,res)
     verifyStudent(openID,function()
     {
         //WARNING: may change to direct user to bind
-        res.send(needValidateMsg());
+        res.send(needValidateMsg(msg));
     },function(stuID)
     {
         verifyActivities(actName,function()
@@ -384,7 +384,7 @@ exports.faire_list_ticket=function(msg,res)
     verifyStudent(openID,function()
     {
         //WARNING: may change to direct user to bind
-        res.send(needValidateMsg());
+        res.send(needValidateMsg(msg));
     },function(stuID)
     {
         db[TICKET_DB].find(
