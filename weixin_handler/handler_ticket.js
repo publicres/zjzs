@@ -158,6 +158,10 @@ function getTimeFormat(timeInMS)
     return (hou>0?hou+"小时":"")+(min>0?min+"分":"")+(sec>0?sec+"秒":"");
 }
 
+function needValidateMsg(msg) {
+  return template.getPlainTextTemplate(msg,'<a href="' + urls.validateAddress + '">请先点我绑定学号。</a>');
+}
+
 exports.check_get_ticket=function(msg)
 {
     if (checker.checkMenuClick(msg).substr(0,basicInfo.WEIXIN_BOOK_HEADER.length)===basicInfo.WEIXIN_BOOK_HEADER)
@@ -192,7 +196,7 @@ exports.faire_get_ticket=function(msg,res)
     verifyStudent(openID,function()
     {
         //WARNING: may change to direct user to bind
-        res.send(template.getPlainTextTemplate(msg,"请先绑定学号。"));
+        res.send(needValidateMsg());
     },function(stuID)
     {
         if (usr_lock[stuID]!=null)
@@ -296,7 +300,7 @@ exports.faire_reinburse_ticket=function(msg,res)
     verifyStudent(openID,function()
     {
         //WARNING: may change to direct user to bind
-        res.send(template.getPlainTextTemplate(msg,"请先绑定学号。"));
+        res.send(needValidateMsg());
     },function(stuID)
     {
         verifyActivities(actName,function()
@@ -380,7 +384,7 @@ exports.faire_list_ticket=function(msg,res)
     verifyStudent(openID,function()
     {
         //WARNING: may change to direct user to bind
-        res.send(template.getPlainTextTemplate(msg,"请先绑定学号。"));
+        res.send(needValidateMsg());
     },function(stuID)
     {
         db[TICKET_DB].find(
