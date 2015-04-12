@@ -159,7 +159,8 @@ function getTimeFormat(timeInMS)
 }
 
 function needValidateMsg(msg) {
-  return template.getPlainTextTemplate(msg,'<a href="' + urls.validateAddress + '">请先点我绑定学号。</a>');
+  return template.getPlainTextTemplate(msg,'<a href="' + urls.validateAddress
+    + '?openid=' + msg.FromUserName +  '">请先点我绑定学号。</a>');
 }
 
 exports.check_get_ticket=function(msg)
