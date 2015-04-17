@@ -5,6 +5,7 @@ way to deployment:
         sudo npm install
         nmp start
     use your nginx to listen 80 and forward it to 4600 port
+	bin/www:7 please remove "\"0.0.0.0\", " for more safety
 
 file struct:
 
