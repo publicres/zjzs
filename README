@@ -1,3 +1,5 @@
+#About Zijingzhisheng#
+
 way to deployment:
 
     cd into the dir
@@ -21,8 +23,12 @@ file struct:
 
 what to modify?
 
-    To modify host ip:      address_configure.js
+    To modify host ip & open auto_refresh menu:      address_configure.js
     To modify databases:    models/models.js
-    To modify weixin keys:  weixin_basic/settings.js
-    #REMEMBER TO ENSURE INDEX IN MONGODB, s'il vous plaît!
+    To modify weixin appid & token & appsecret:  weixin_basic/settings.js
+    #REMEMBER TO ENSURE INDEX IN MONGODB:
+        ensure ticket with index: stu_id & activity
+        ensure student with index: weixin_id
+        ensure seat with index: activity
+
     #For TICKET, ensure that activity is also an index.
