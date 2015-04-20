@@ -21,5 +21,5 @@ exports.getIDClass=function(idValue)
 }
 
 exports.authIP = "127.0.0.1";
-exports.authPort = 5375;
+exports.authPort = 9003;
 exports.authPrefix = "/v1";
