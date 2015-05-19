@@ -1,0 +1,2 @@
+1. modify the commit of selecting seat/area asynchronisedly by ajax.
+2. cdn the images used by activities in order to cut down on throughput requirment.
